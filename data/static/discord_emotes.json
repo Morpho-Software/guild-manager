@@ -1,0 +1,56 @@
+{
+    "emotes":{
+        "alphabet":{
+            "A":":A_:",
+            "B":":B_:",
+            "C":":C_:",
+            "D":":D_:",
+            "E":":E_:",
+            "F":":F_:",
+            "G":":G_:",
+            "H":":H_:",
+            "I":":I_:",
+            "J":":J_:",
+            "K":":K_:",
+            "L":":L_:",
+            "M":":M_:",
+            "N":":N_:",
+            "O":":O_:",
+            "P":":P_:",
+            "Q":":Q_:",
+            "R":":R_:",
+            "S":":S_:",
+            "T":":T_:",
+            "U":":U_:",
+            "V":":V_:",
+            "W":":W_:",
+            "X":":X_:",
+            "Y":":Y_:",
+            "Z":":Z_:"
+        },
+        "classes":{
+            ":Warrior:":"Warrior",
+            ":Shaman:":"Shaman",
+            ":Warlock:":"Warlock",
+            ":Hunter:":"Hunter",
+            ":Priest:":"Priest",
+            ":Rogue:":"Rogue",
+            ":Druid:":"Druid",
+            ":Paladin:":"Paladin",
+            ":Mage:":"Mage"
+        },
+        "specs":{
+            ":1_:":["Fire","Feral Bear","Beast Master","Protection","Shadow","Combat","Enhancement","Demonology"],
+            ":2_:":["Arcane","Restoration","Survivalist","Holy","Subtley","Affliction","Fury"],
+            ":3_:":["Frost","Balance","Marksmanship","Retribution","Assassination","Elemental","Destruction","Arms"],
+            ":4_":["Feral Cat","Holy DPS","Destruction Fire"]
+        },
+        "misc":{
+            "Checkmark":":Done:",
+            "Guest":":Guest:",
+            "SunwellSociety":":SunwellSociety:",
+            "ThunderhoofTribe":":ThunderhoofTribe:",
+            "SunHoof":":SunHoof:"
+        }
+    }
+}
