@@ -12,10 +12,32 @@ class mongodb():
         self.client = MongoClient(MONGODB_HOST,MONGODB_PORT)
         
         self.db = self.client[self.DB_NAME]
-        self.collection = self.collection[self.COLLECTION_NAME]
+        self.collection = self.db[self.COLLECTION_NAME]
         
-    def insert_one_into_collection(self, item):
-        self.collection.insert_one(item)
+    # def insert_one_into_collection(self, item):
+    #     self.collection.insert_one(item)
         
         
+    #########
+    # Raids #
+    #########
+    
+    def update_raid(self, raid_id, raid):
+        query = {"raidId":raid_id}
+        self.collection.update(query,raid)
+    
+    def insert_new_raid(self, raid):
+        self.set_collection(self,'raids')
+        self.collection.insert_one(raid)
+    
+    def find_raid_by_raid_id(self, raid_id):
+        self.set_collection(self,'raids')
+        self.collection.find_one({"raidId":raid_id})
         
+    ################
+    #   Setters    #
+    ################
+    
+    def set_collection(self, COLLECTION_NAME):
+        self.COLLECTION_NAME = COLLECTION_NAME
+        self.collection = self.db[self.COLLECTION_NAME]
