@@ -116,6 +116,16 @@ async def on_raw_reaction_add(payload):
     message_id = payload.message_id
     print(message_id)
     pprint.pprint(payload)
+    
+    #Bot Closet
+    if payload.channel_id == 933481167565488128:
+        print('here')
+        
+        if mongo.find
+            
+        
+        
+    
     if message_id == 948051241525719051:
         print("I saw it")
         guild_id = payload.guild_id

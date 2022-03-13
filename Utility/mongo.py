@@ -32,7 +32,11 @@ class Mongodb():
     
     def find_raid_by_raid_id(self, raid_id):
         self.set_collection('raids')
-        self.collection.find_one({"raidId":raid_id})
+        return self.collection.find_one({"raid_id":raid_id})
+        
+    def find_raid_by_confirmation_message_id(self, confirm_msg_id):
+        self.set_collection('raids')
+        return self.collection.find_one({"raid_disc_confirm_message":confirm_msg_id})
         
     def get_raid_count(self):
         self.set_collection('raids')
