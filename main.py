@@ -5,12 +5,15 @@ from Models.raid import raid
 from cEmbeds.raid import raid as raid_embed
 from Utility.helper import open_raids, write_raids
 import json
+from Utility.mongo import Mongodb
 
 load_dotenv()
 
 client = discord.Client()
 
 command_keyword = 'sh/'
+
+mongo = Mongodb('raids')
 
 @client.event
 async def on_ready():
@@ -54,14 +57,22 @@ async def on_message(message):
                         
                         newRaid = raid(inc_message_split, message)
                             
-                        raids = open_raids()  
-                        raids.append(newRaid.__dict__)
+                        #raids = open_raids()  
+                        #raids.append(newRaid.__dict__)
+                        
+                        
                         
                         embed = raid_embed(newRaid)
                         
-                        write_raids(raids)
+                        #write_raids(raids)
                         
-                        await message.channel.send(embed=embed.embed)
+                        print(mongo.get_raid_count())
+                        
+                        sent_message = await message.channel.send(embed=embed.embed)
+                        
+                        newRaid.set_message_id(sent_message.id)
+                        
+                        mongo.insert_new_raid(newRaid.to_dict())
                         
                         
                     except Exception as e:
@@ -69,6 +80,7 @@ async def on_message(message):
                         #await message.channel.send(f"unrecognized command given: {inc_message_split}")
                         await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
                         return
+                    
                 elif command == commands[1]: #help
                     emoji_string = 'help'
                     embed = discord.Embed(
