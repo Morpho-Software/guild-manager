@@ -121,7 +121,11 @@ async def on_raw_reaction_add(payload):
     if payload.channel_id == 933481167565488128:
         print('here')
         
-        if mongo.find
+        if mongo.find_raid_by_confirmation_message_id(payload.message_id):
+            raid = mongo.find_raid_by_confirmation_message_id(payload.message_id)
+            if payload.emoji.name == 'Done':
+                raid['raid_confirmed'][0] == True
+                mongo.confirm_raid(raid['raid_id'])
             
         
         

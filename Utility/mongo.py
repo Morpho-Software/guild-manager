@@ -24,7 +24,18 @@ class Mongodb():
     
     def update_raid(self, raid_id, raid):
         query = {"raidId":raid_id}
-        self.collection.update(query,raid)
+        self.collection.update_one(query,raid)
+        
+    def confirm_raid(self,raid_id):
+        self.set_collection('raids')
+        query={"raid_id":raid_id}
+        update = {
+            "$set": {
+                "raid_confirmed":True
+            }
+        }
+        self.collection.update_one(query,update)
+        
     
     def insert_new_raid(self, raid):
         self.set_collection('raids')
@@ -36,7 +47,8 @@ class Mongodb():
         
     def find_raid_by_confirmation_message_id(self, confirm_msg_id):
         self.set_collection('raids')
-        return self.collection.find_one({"raid_disc_confirm_message":confirm_msg_id})
+        return self.collection.find_one({"raid_disc_confirm_message":str(confirm_msg_id)})
+        
         
     def get_raid_count(self):
         self.set_collection('raids')
