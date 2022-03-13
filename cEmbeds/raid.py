@@ -14,7 +14,7 @@ class raid():
         
         self.embed = discord.Embed(
             title = raid.raid_name,
-            description=f"Raid ID: {raid.id}\n**{raid.datetime}** | **{raid.datetime}\n*{raid.note}",
+            description=f"Raid ID: {raid.raid_id}\n**{raid.datetime}** | **{raid.datetime}\n*{raid.note}**",
             color=discord.Color.gold()
         )
         
