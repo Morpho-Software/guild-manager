@@ -70,7 +70,7 @@ async def on_message(message):
                         
                         sent_message = await message.channel.send(embed=embed.embed)
                         
-                        newRaid.set_message_id(sent_message.id)
+                        newRaid.set_confirm_message_id(sent_message.id)
                         
                         mongo.insert_new_raid(newRaid.to_dict())
                         

@@ -5,7 +5,7 @@ from Utility.helper import open_discord_emotes, open_raid_data
 class raid():
     
     
-    def __init__(self, raid):
+    def __init__(self, raid, bConfirmationVersion=True):
         
         rd = open_raid_data()
         emotes = open_discord_emotes()
@@ -41,6 +41,12 @@ class raid():
         self.embed.set_image(
             url=rd[raid.raid_name]['image']
         )
+        
+        if (bConfirmationVersion):
+            self.embed.add_field(
+                name="`Raid Confirmation`",
+                value=f"This is a preview of the raid. Please respond with <:Done:948280499049201744> to confirm the raid or <:Cancel:948777741094895687> to delete the raid."
+            )
         
         # embed.set_thumbnail(
         #   url="https://bnetcmsus-a.akamaihd.net/cms/content_folder_media/18I0YAIMVR0J1407540721349.jpg"
