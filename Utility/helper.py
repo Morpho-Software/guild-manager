@@ -13,16 +13,16 @@ def open_json_file(file):
     return data
 
 def open_discord_emotes():
-    return open_json_file(r'C:\Users\hellw\Desktop\PythonPrograms\DiscordRaidManager2\data\static\discord_emotes.json')
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/discord_emotes.json')
     
 def open_raid_data():
-    return open_json_file(r'C:\Users\hellw\Desktop\PythonPrograms\DiscordRaidManager2\data\static\raid_data.json')
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/raid_data.json')
     
 def open_raids():
-    return open_json_file(r'C:\Users\hellw\Desktop\PythonPrograms\DiscordRaidManager2\data\db\raids.json')
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/db/raids.json')
 
 def write_raids(raids):
-    write_dict_to_json(raids,r'C:\Users\hellw\Desktop\PythonPrograms\DiscordRaidManager2\data\db\raids.json')
+    write_dict_to_json(raids,r'/home/chris/Documents/pyapps/guild-manager/data/db/raids.json')
     
 
     
