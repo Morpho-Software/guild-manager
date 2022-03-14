@@ -1,6 +1,7 @@
 {
     "instance_name": {
         "name": "instance_name",
+        "game": "NA",
         "alt_names": [],
         "size":25,
         "composition":{
@@ -53,6 +54,7 @@
     },
     "World Bosses": {
         "name": "World Bosses",
+        "game": "classic",
         "alt_names": [],
         "size":40,
         "composition":{
@@ -1440,6 +1442,7 @@
     },
     "Zul'Aman": {
         "name": "Zul'Aman",
+        "game": "tbc",
         "alt_names": ["Zul Aman"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/9/9a/Zul%27Aman_old_loading_screen.jpg",
         "tier": 2,
@@ -1944,6 +1947,7 @@
     },
     "Black Temple": {
         "name": "Black Temple",
+        "game": "tbc",
         "alt_names": ["BT"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/9/93/Black_Temple_loading_screen.jpg",
         "tier":8,
@@ -2876,6 +2880,7 @@
     },
     "Hyjal Summit": {
         "name": "Hyjal Summit",
+        "game": "tbc",
         "alt_names": ["Mount Hyjal","Hyjal"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/4/48/Mount_Hyjal_loading_screen.jpg",
         "tier":7,
@@ -3459,6 +3464,7 @@
     },
     "Tempest Keep": {
         "name": "Tempest Keep",
+        "game": "tbc",
         "alt_names": ["TK"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/b/b2/Tempest_Keep_loading_screen.jpg",
         "tier":6,
@@ -3977,6 +3983,7 @@
     },
     "Serpentshrine Cavern": {
         "name": "Serpentshrine Cavern",
+        "game": "tbc",
         "alt_names": ["SSC","SC"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/7/74/Coilfang_Reservoir_loading_screen.jpg",
         "tier":5,
@@ -4680,6 +4687,7 @@
     },
     "Magtheridon's Lair": {
         "name": "Magtheridon's Lair",
+        "game": "tbc",
         "alt_names": ["Mag"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/7/78/Magtheridon%27s_Lair_loading_screen.jpg",
         "tier": 3,
@@ -4815,6 +4823,7 @@
     },
     "Gruul's Lair": {
         "name": "Gruul's Lair",
+        "game": "tbc",
         "alt_names": ["Gruul"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/a/a6/Gruul%27s_Lair_loading_screen.jpg",
         "tier":4,
@@ -5018,6 +5027,7 @@
     },
     "Karazhan": {
         "name": "Karazhan",
+        "game": "tbc",
         "alt_names": ["Kara"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/d/da/Karazhan_loading_screen.jpg",
         "size": "10",
@@ -6112,6 +6122,7 @@
     },
     "Naxxramas": {
         "name": "Naxxramas",
+        "game": "classic",
         "alt_names": ["Naxx"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/1/1f/Naxxramas_loading_screen.jpg",
         "size":40,
@@ -7237,6 +7248,7 @@
     },
     "Temple of Ahn'Qiraj": {
         "name": "Temple of Ahn'Qiraj",
+        "game": "classic",
         "alt_names": ["AQ40"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/6/6a/Temple_of_Ahn%27Qiraj_loading_screen.jpg",
         "size":40,
@@ -8188,6 +8200,7 @@
     },
     "Ruins of Ahn'Qiraj": {
         "name": "Ruins of Ahn'Qiraj",
+        "game": "tbc",
         "alt_names": ["AQ20"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/5/5e/Ruins_of_Ahn%27Qiraj_loading_screen.jpg",
         "size":20,
@@ -8704,6 +8717,7 @@
     },
     "Zul'Gurub": {
         "name": "Zul'Gurub",
+        "game": "classic",
         "alt_names": ["ZG","Zul Gurub"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/1/12/Zul%27Gurub_loading_screen.jpg",
         "size":20,
@@ -9492,6 +9506,7 @@
     },
     "Blackwing Lair": {
         "name": "Blackwing Lair",
+        "game": "classic",
         "alt_names": ["BWL","Blackwing"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/0/09/Blackwing_Lair_loading_screen.jpg",
         "size":40,
@@ -10373,6 +10388,7 @@
     },
     "Onyxia's Lair": {
         "name": "Onyxia's Lair",
+        "classic": "classic",
         "alt_names": ["Ony","Onyxia","Onyxias Lair"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/4/46/Onyxia%27s_Lair_loading_screen.jpg",
         "size":40,
@@ -10525,6 +10541,7 @@
     },
     "Molten Core": {
         "name": "Molten Core",
+        "game": "classic",
         "alt_names": ["MC"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/2/20/Molten_Core_loading_screen.jpg",
         "size":40,
