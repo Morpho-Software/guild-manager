@@ -60,8 +60,6 @@ async def on_message(message):
                         #raids = open_raids()  
                         #raids.append(newRaid.__dict__)
                         
-                        
-                        
                         embed = raid_embed(newRaid)
                         
                         #write_raids(raids)
@@ -69,6 +67,9 @@ async def on_message(message):
                         print(mongo.get_raid_count())
                         
                         sent_message = await message.channel.send(embed=embed.embed)
+                        
+                        await sent_message.add_reaction('<:Done:948280499049201744>')
+                        await sent_message.add_reaction('<:Cancel:948777741094895687>')
                         
                         newRaid.set_confirm_message_id(sent_message.id)
                         
@@ -116,13 +117,19 @@ async def on_raw_reaction_add(payload):
     message_id = payload.message_id
     print(message_id)
     pprint.pprint(payload)
+    if payload.user_id == 933865497689198603:
+        return
     
     #Bot Closet
     if payload.channel_id == 933481167565488128:
-        print('here')
+        channel = client.get_channel(payload.channel_id)
         
         if mongo.find_raid_by_confirmation_message_id(payload.message_id):
             raid = mongo.find_raid_by_confirmation_message_id(payload.message_id)
+            raid_confirm_msg = await channel.fetch_message(payload.message_id)
+            
+            if payload.emoji.name == 'Cancel':
+                delete = await raid_confirm_msg.delete()
             if payload.emoji.name == 'Done':
                 raid['raid_confirmed'][0] == True
                 mongo.confirm_raid(raid['raid_id'])
@@ -130,15 +137,15 @@ async def on_raw_reaction_add(payload):
         
         
     
-    if message_id == 948051241525719051:
+    if message_id == 952839052921565194:
         print("I saw it")
         guild_id = payload.guild_id
         #guild = discord.utils.find(lambda g : g.id == guild_id, client.guilds)
         #message = discord.utils.find(948051241525719051)
         #message.channel.send("I saw it")
         channel = client.get_channel(payload.channel_id)
-        message = channel.fetch_message()
-        await message.add_reaction(':SunHoof:')
+        message = await channel.fetch_message(payload.message_id)
+        #await message.add_reaction(':SunHoof:')
         
 
         if payload.emoji.name == 'SunHoof':
