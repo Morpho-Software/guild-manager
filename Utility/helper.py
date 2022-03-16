@@ -34,3 +34,50 @@ def make_emoji_str(string):
         else:
             emoji_string += f':{char.upper()}_:'
     return emoji_string
+
+async def add_raid_emojis(message):
+    
+    emojis = [
+        '<:1_:948050511502925944>','<:2_:948050511641333791>',
+        '<:3_:948050511628734525>','<:4_:948050511578411128>',
+        '<:Priest:948050245537890314>','<:Druid:948050245659557978>',
+        '<:Hunter:948050245340774442>','<:Shaman:948050245554688010>',
+        '<:Warrior:948050245491752961>','<:Mage:948050245391118337>',
+        '<:Rogue:948050245193986059>','<:Paladin:948050245500141578>',
+        '<:Warlock:948050245672108093>','<:Done:948280499049201744>',
+        '<:Cancel:948777741094895687>'
+    ]
+    for emoji in emojis:
+        await message.add_reaction(emoji)
+        
+async def get_message_reactions_by_member_id(msg,member_id):
+        """
+        This function returns a dictionary with values of which reactions a 
+        """
+        reactions = []
+        for reaction in msg.reactions:
+            async for user in reaction.users():
+                if user.id == member_id:
+                    reactions.append(reaction.emoji.id)
+        return reactions
+    
+def check_for_valid_reactions(reactions):
+    dismoji = open_discord_emotes()
+    validDone = False
+    className =''
+    specNum = ''
+    for reaction in reactions:
+        if str(reaction) in dismoji['emotes']['class_emoji_ids']:
+            className = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+        if str(reaction) in dismoji['emotes']['spec_emoji_ids']:
+            specNum = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+        if str(reaction) in dismoji['emotes']['done_emoji']:
+            validDone = True
+    
+    if specNum in dismoji['emotes']['class_spec'][className] and validDone:
+        print(f"{dismoji['emotes']['class_spec'][className][specNum]} {className}")
+        return True
+    
+    
+    # if validClass and validSpec and validDone:
+    #     return True

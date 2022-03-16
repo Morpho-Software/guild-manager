@@ -4,7 +4,7 @@ sys.path.append('..')
 from Utility.helper import open_raid_data, open_raids
 from Utility.mongo import Mongodb
 
-class raid():
+class newraid():
     
     def __init__(self, split_incoming_message, inc_msg):
         
@@ -14,6 +14,7 @@ class raid():
         
         
         self.raid_name = self.validate_raid_name(rd,split_incoming_message[2])
+        self.game = rd[self.raid_name]['game']
         mdb = Mongodb('raids')
         self.raid_id = f'{rd[self.raid_name]["name"]}#{(mdb.get_raid_count())+1}'
         
@@ -85,6 +86,7 @@ class raid():
             "raid_confirmed":self.confirmed,
             "raid_scheduler":self.scheduler,
             "raid_raiders":self.raiders,
-            "raid_disc_confirm_message":str(self.confirm_message_id)
+            "raid_disc_confirm_message":str(self.confirm_message_id),
+            "raid_game":self.game
         }
         return raid_dict

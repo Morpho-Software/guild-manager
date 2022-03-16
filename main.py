@@ -1,9 +1,10 @@
 import discord, pprint, os, shlex, sys
 from dotenv import load_dotenv
 sys.path.append('..')
-from Models.raid import raid
+from Models.raid import newraid
+from Models.raider import newraider as new_raider
 from cEmbeds.raid import raid as raid_embed
-from Utility.helper import open_raids, write_raids
+from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions
 import json
 from Utility.mongo import Mongodb
 
@@ -55,16 +56,9 @@ async def on_message(message):
                         if len(inc_message_split) > 8:
                             raise Exception("Malformed Command -- Too many Arguments")
                         
-                        newRaid = raid(inc_message_split, message)
-                            
-                        #raids = open_raids()  
-                        #raids.append(newRaid.__dict__)
+                        newRaid = newraid(inc_message_split, message)
                         
                         embed = raid_embed(newRaid)
-                        
-                        #write_raids(raids)
-                        
-                        print(mongo.get_raid_count())
                         
                         sent_message = await message.channel.send(embed=embed.embed)
                         
@@ -75,10 +69,7 @@ async def on_message(message):
                         
                         mongo.insert_new_raid(newRaid.to_dict())
                         
-                        
                     except Exception as e:
-                        #print(f"unrecognized command given: {user_message}")
-                        #await message.channel.send(f"unrecognized command given: {inc_message_split}")
                         await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
                         return
                     
@@ -117,10 +108,12 @@ async def on_raw_reaction_add(payload):
     message_id = payload.message_id
     print(message_id)
     pprint.pprint(payload)
+    
+    #This stops the bot from running operations when it reacts to messages
     if payload.user_id == 933865497689198603:
         return
     
-    #Bot Closet
+    #bot-closet
     if payload.channel_id == 933481167565488128:
         channel = client.get_channel(payload.channel_id)
         
@@ -133,7 +126,47 @@ async def on_raw_reaction_add(payload):
             if payload.emoji.name == 'Done':
                 raid['raid_confirmed'][0] == True
                 mongo.confirm_raid(raid['raid_id'])
-            
+                
+                #azeroth-raids
+                if raid['raid_game'] == 'classic':
+                    channel = client.get_channel(933527657373663252)
+                    embed = raid_embed(raid, False)
+                    raid_public_post = await channel.send(embed=embed.embed)
+                    mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+                    await add_raid_emojis(raid_public_post)
+                    
+                    
+                #outland-raids
+                elif raid['raid_game'] == 'tbc':
+                    channel = client.get_channel(933472914840387644)
+                    embed = raid_embed(raid, False)
+                    raid_public_post = await channel.send(embed=embed.embed)
+                    mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+                    await add_raid_emojis(raid_public_post)
+                    
+
+    #This code handles people reacting to the raid channels specifically
+    elif payload.channel_id in [933527657373663252,933472914840387644]:
+        channel = client.get_channel(payload.channel_id)
+        raid_msg = await channel.fetch_message(payload.message_id)
+        raid = mongo.find_raid_by_posting_message_id(raid_msg.id)
+        
+        
+        if payload.emoji.name == 'Done':
+            reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
+            dismoji = open_discord_emotes()
+            if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
+                
+                #This is where character handling will happen
+                print(reactor_reactions)
+                
+                
+                
+            else:
+                #The user has failed to correctly fill out the reactions on a raid
+                dm = await payload.member.create_dm()
+                message = await dm.send(f"[Beeping and Whirring]\nGreetings! This is SQ-Bot 300X, programmed for your optimized battling experience by the Great Lord Gildu Soulbeam, now also an engineer.\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but it is **incomplete**.\n\n*Please make sure you select: your **class** icon, your **class number** icon representing your specialization (found in #faq), and the **done** icon.\nIf you wish to cancel your sign-up, please select the cancel icon.*")
+                await message.add_reaction('🤖')
         
         
     
