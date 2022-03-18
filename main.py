@@ -159,19 +159,18 @@ async def on_raw_reaction_add(payload):
             dismoji = open_discord_emotes()
             if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
                 #Check if reactor is in the database
+                if mongo.find_raider_by_discord_member_id(payload.member.id):
+                    #raider exist
+                    print('I exist')
+                else:
+                    #This code runs if no account have ever been created with the raider
+                    newraider = new_raider(payload)
+                    newcharacter = new_character(payload, reactor_reactions)
+                    mongo.insert_new_raider(newraider.to_dictionary())
+                    mongo.insert_new_character(newcharacter.to_dictionary())
+                    mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
+                    print('Added a raider and a character.')
                 
-                #This is where character handling will happen
-                print(reactor_reactions)
-                
-                newraider = new_raider(payload)
-                newcharacter = new_character(payload, reactor_reactions)
-                print(newraider.to_dictionary())
-                mongo.insert_new_raider(newraider.to_dictionary())
-                mongo.insert_new_character(newcharacter.to_dictionary())
-                print(newcharacter.to_dictionary())
-                
-                mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
-                print('finish')
                 
                 
             else:
