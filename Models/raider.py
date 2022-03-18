@@ -1,19 +1,20 @@
 import datetime, sys, os
 from tokenize import String
 sys.path.append('..')
-from Utility.helper import open_raid_data, open_raids, write_dict_to_json
+from Utility.helper import open_discord_emotes, open_raid_data, open_raids, write_dict_to_json
 from Utility.mongo import Mongodb
-
-
+import uuid
 class newraider():
     
-    
-    def __init__(self, inc_msg, payload, reactors):
+    def __init__(self, payload):
         
-        rd = open_raid_data()
-        print(rd)
+        self.rd = open_raid_data()
         
+        self.discord_member_id = str(payload.user_id)
+        self.characters = []
         
-        
-        
-    
+    def to_dictionary(self) -> dict:
+        return {
+            "discord_member_id":self.discord_member_id,
+            "characters":self.characters
+        }
