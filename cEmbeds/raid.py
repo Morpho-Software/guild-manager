@@ -16,13 +16,13 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id}\n**{raid.datetime}** | **{raid.datetime}\n*{raid.note}**",
+                description=f"Raid ID: {raid.raid_id}\n**{raid.datetime}** | **{raid.datetime}\n**{raid.note}**",
                 color=discord.Color.gold()
             )
             
             self.embed.set_author(
                 name="Soulbeam's Quartermaster - Bot 300X",
-                icon_url="https://cdn.discordapp.com/attachments/933481167565488128/947801465903267890/WoWScrnShot_090521_044754_-_Copy.jpg"
+                icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
             )
             
             self.embed.add_field(
