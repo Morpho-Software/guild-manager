@@ -75,8 +75,8 @@ def check_for_valid_reactions(reactions):
             validDone = True
     
     if specNum in dismoji['emotes']['class_spec'][className] and validDone:
-        print(f"{dismoji['emotes']['class_spec'][className][specNum]} {className}")
-        return True
+        return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
+    return False
     
     
     # if validClass and validSpec and validDone:
