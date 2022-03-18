@@ -68,6 +68,53 @@ class Mongodb():
         self.set_collection('raids')
         count = list(self.collection.find({}))
         return len(count)
+    
+    ###########
+    # Raiders #
+    ###########
+    
+    def insert_new_raider(self, raider):
+        self.set_collection('raiders')
+        self.collection.insert_one(raider)
+        
+    def find_raider_by_discord_member_id(self, discord_member_id):
+        self.set_collection('raiders')
+        return self.collection.find_one({"discord_member_id":str(discord_member_id)})
+    
+    def get_raider_count(self):
+        self.set_collection('raiders')
+        count = list(self.collection.find({}))
+        return len(count)
+    
+    def add_character_to_raider(self, discord_member_id, character_id):
+        raider = self.find_raider_by_discord_member_id(discord_member_id)
+        raider['characters'].append(character_id)
+        self.set_collection('raiders')
+        query = {"discord_member_id":str(discord_member_id)}
+        update = {
+            "$set":{
+                "characters":raider['characters']
+            }
+        }
+        self.collection.update_one(query,update)
+        
+    ###################
+    #   Characters    #
+    ###################
+    
+    def insert_new_character(self, character):
+        self.set_collection('characters')
+        self.collection.insert_one(character)
+        
+    def find_character_by_character_id(self, character_id):
+        self.set_collection('characters')
+        return self.collection.find_one({"character_id":str(character_id)})
+    
+    def get_character_count(self):
+        self.set_collection('characters')
+        count = list(self.collection.find({}))
+        return len(count)
+        
         
     ################
     #   Setters    #
