@@ -1,8 +1,10 @@
 import discord, pprint, os, shlex, sys
 from dotenv import load_dotenv
+from Models.character import newcharacter
 sys.path.append('..')
 from Models.raid import newraid
 from Models.raider import newraider as new_raider
+from Models.character import newcharacter as new_character
 from cEmbeds.raid import raid as raid_embed
 from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions
 import json
@@ -156,10 +158,20 @@ async def on_raw_reaction_add(payload):
             reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
             dismoji = open_discord_emotes()
             if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
+                #Check if reactor is in the database
                 
                 #This is where character handling will happen
                 print(reactor_reactions)
                 
+                newraider = new_raider(payload)
+                newcharacter = new_character(payload, reactor_reactions)
+                print(newraider.to_dictionary())
+                mongo.insert_new_raider(newraider.to_dictionary())
+                mongo.insert_new_character(newcharacter.to_dictionary())
+                print(newcharacter.to_dictionary())
+                
+                mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
+                print('finish')
                 
                 
             else:
