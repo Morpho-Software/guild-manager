@@ -13,8 +13,6 @@ load_dotenv()
 
 bot = discord.Client()
 
-
-
 mongo = Mongodb('raids')
 
 @bot.event
