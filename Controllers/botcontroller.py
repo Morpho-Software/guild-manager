@@ -48,7 +48,9 @@ async def process_raid_signup(payload,mongo,bot):
                 #raider exist
                 #Check if character is in the database
                 if mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions)):
-                    print('Character exist too!')
+                    #Now we can register this raider and character in the raid they reacted to.
+                    
+                    print('O K')
             else:
                 #raider does not exist
                 await process_new_raider(mongo, payload, reactor_reactions, raid)

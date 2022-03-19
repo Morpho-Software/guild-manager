@@ -15,7 +15,7 @@ class Mongodb():
         self.collection = self.db[self.COLLECTION_NAME]
         
     # def insert_one_into_collection(self, item):
-    #     self.collection.insert_one(item)
+    #       self.collection.insert_one(item)
         
         
     #########
@@ -35,6 +35,9 @@ class Mongodb():
             }
         }
         self.collection.update_one(query,update)
+        
+    def add_character_to_raid_signup(self, character, raid_id):
+        
         
     def confirm_raid(self,raid_id):
         self.set_collection('raids')

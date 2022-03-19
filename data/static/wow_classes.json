@@ -4,15 +4,15 @@
         "specs":{
             "assassination":{
                 "name":"assassination",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "combat":{
                 "name":"combat",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "subtlety":{
                 "name":"combat",
-                "roles":["damage"]
+                "roles":"damage"
             }
         }
     },
@@ -21,15 +21,15 @@
         "specs":{
             "beast-mastery":{
                 "name":"beast-mastery",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "marksmanship":{
                 "name":"marksmanship",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "survival":{
                 "name":"survival",
-                "roles":["damage"]
+                "roles":"damage"
             }
         }
     },
@@ -38,15 +38,15 @@
         "specs":{
             "arcane":{
                 "name":"arcane",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "fire":{
                 "name":"fire",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "frost":{
                 "name":"frost",
-                "roles":["damage"]
+                "roles":"damage"
             }
         }
     },
@@ -55,19 +55,19 @@
         "specs":{
             "affliction":{
                 "name":"affliction",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "demonology":{
                 "name":"demonology",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "destruction":{
                 "name":"destruction",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "destruction-fire":{
-                "name":"descturction",
-                "roles":["damage"]
+                "name":"destruction",
+                "roles":"damage"
             }
         }
     },
@@ -76,15 +76,19 @@
         "specs":{
             "protection":{
                 "name":"protection",
-                "roles":["tank","damage"]
+                "roles":"tank"
             },
             "holy":{
                 "name":"holy",
-                "roles":["healer","damage"]
+                "roles":"healer"
             },
             "retribution":{
                 "name":"retribution",
-                "roles":["damage"]
+                "roles":"damage"
+            },
+            "holy dps":{
+                "name":"holy dps",
+                "roles":"damage"
             }
         }
     },
@@ -93,15 +97,15 @@
         "specs":{
             "elemental":{
                 "name":"elemental",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "enhancement":{
                 "name":"enhancement",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "restoration":{
                 "name":"restoration",
-                "roles":["healer"]
+                "roles":"healer"
             }
         }
     },
@@ -110,15 +114,15 @@
         "specs":{
             "protection":{
                 "name":"protection",
-                "roles":["tank","damage"]
+                "roles":"tank"
             },
             "fury":{
                 "name":"fury",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "arms":{
                 "name":"arms",
-                "roles":["damage"]
+                "roles":"damage"
             }
         }
     },
@@ -127,20 +131,20 @@
         "specs":{
             "balance":{
                 "name":"balance",
-                "roles":["damage"]
+                "roles":"damage"
             },
             "feral-tank":{
                 "name":"feral-tank",
-                "roles":["tank"]
+                "roles":"tank"
             },
             "feral-dps":{
                 "name":"feral-dps",
-                "roles":["damage"]
+                "roles":"damage"
 
             },
             "restoration":{
                 "name":"restoration",
-                "roles":["healer"]
+                "roles":"healer"
             }
         }
     }
