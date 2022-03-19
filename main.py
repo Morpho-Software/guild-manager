@@ -7,7 +7,7 @@ from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from cEmbeds.raid import raid as raid_embed
 from cEmbeds.raid_characters import raid_characters as new_character_embed
-from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions
+from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, pick_random_bot_status
 import json
 from Utility.mongo import Mongodb
 
@@ -33,6 +33,7 @@ async def on_message(message):
     
     #Takes place in a discord
     if message.channel.type.name != 'private':
+        await pick_random_bot_status(client)
         channel = str(message.channel.name)
         print(f'{inc_username}: {user_message} ({channel})')
         if message.channel.name == 'bot-closet':

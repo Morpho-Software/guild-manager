@@ -1,4 +1,4 @@
-import json
+import json,discord,random
 
 def write_dict_to_json(dictionary,file):
     j = json.dumps(dictionary, indent=4)
@@ -23,6 +23,9 @@ def open_raids():
 
 def write_raids(raids):
     write_dict_to_json(raids,r'/home/chris/Documents/pyapps/guild-manager/data/db/raids.json')
+    
+def open_bot_status():
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/bot_status.json')
     
 
     
@@ -78,6 +81,20 @@ def check_for_valid_reactions(reactions):
         return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
     return False
     
-    
     # if validClass and validSpec and validDone:
     #     return True
+    
+async def set_bot_status(bot, status_activity, name):
+    if status_activity == 'playing':
+        await bot.change_presence(activity=discord.Game(name=name))
+    elif status_activity == 'listening':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=name))
+    elif status_activity == 'watching':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=name))
+
+async def pick_random_bot_status(bot):
+    status = open_bot_status()
+    rannum = random.randint(0,len(status))
+    await set_bot_status(bot,status[rannum]['activity_status'],status[rannum]['activity_text'])
+    
+    

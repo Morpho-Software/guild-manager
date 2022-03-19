@@ -1,0 +1,22 @@
+[
+    {
+        "activity_status":"playing",
+        "activity_text":"a game of oats and ladders."
+    },
+    {
+        "activity_status":"listening",
+        "activity_text":"to the Lord talk about himself."
+    },
+    {
+        "activity_status":"watching",
+        "activity_text":"the Lord preen his hair."
+    },
+    {
+        "activity_status":"playing",
+        "activity_text":"a game of dice with the Society's gold."
+    },
+    {
+        "activity_status":"playing",
+        "activity_text":"with the Lady's hair."
+    }
+]
