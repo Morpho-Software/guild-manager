@@ -8,7 +8,7 @@ class raid_reminder():
     To notify when a raid is coming up.
     
     Displayed:
-    In #raid-notifications.
+    In #raid-notices.
     Sent in private messages to those who signed up for raids.
     
     Output:
