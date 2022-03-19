@@ -2,6 +2,8 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
+from bot_constants import *
+
 class donations():
     """
     Function:
@@ -23,7 +25,7 @@ class donations():
         
         self.embed.set_author(
             name="Soulbeam's Quartermaster - Bot 300X",
-            icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
+            icon_url=SOULBEAM_IMG
         )
 
         self.embed.add_field(
