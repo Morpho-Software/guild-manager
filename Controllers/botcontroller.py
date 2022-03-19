@@ -1,10 +1,27 @@
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
+from Models.raid import newraid
 from cEmbeds.raid_characters import raid_characters as new_character_embed
 from cEmbeds.raid import raid as raid_embed
-from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions
+from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
 
 
+def get_class_spec(reactions) -> str:
+    dismoji = open_discord_emotes()
+    validDone = False
+    className =''
+    specNum =''
+    for reaction in reactions:
+        if str(reaction) in dismoji['emotes']['class_emoji_ids']:
+            className = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+        if str(reaction) in dismoji['emotes']['spec_emoji_ids']:
+            specNum = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+        if str(reaction) in dismoji['emotes']['done_emoji']:
+            validDone = True
+        
+    if specNum in dismoji['emotes']['class_spec'][className] and validDone:
+        return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
+    
 
 async def process_new_raider(mongo,payload,reactor_reactions,raid):
     #This code runs if no account have ever been created with the raider
@@ -29,10 +46,13 @@ async def process_raid_signup(payload,mongo,bot):
             #Check if reactor is in the database
             if mongo.find_raider_by_discord_member_id(payload.member.id):
                 #raider exist
-                print('I exist')
+                #Check if character is in the database
+                if mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions)):
+                    print('Character exist too!')
             else:
+                #raider does not exist
                 await process_new_raider(mongo, payload, reactor_reactions, raid)
-                print('Added a raider and a character.')
+                
         else:
             #The user has failed to correctly fill out the reactions on a raid
             dm = await payload.member.create_dm()
@@ -68,3 +88,17 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             await add_raid_emojis(raid_public_post)
+            
+async def process_schedule_raid(message,mongo):
+    newRaid = newraid(inc_message_split, message)
+                            
+    embed = raid_embed(newRaid)
+                            
+    sent_message = await message.channel.send(embed=embed.embed)
+                            
+    await sent_message.add_reaction('<:Done:948280499049201744>')
+    await sent_message.add_reaction('<:Cancel:948777741094895687>')
+                            
+    newRaid.set_confirm_message_id(sent_message.id)
+                            
+    mongo.insert_new_raid(newRaid.to_dict())

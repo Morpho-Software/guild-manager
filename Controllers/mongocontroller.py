@@ -102,6 +102,10 @@ class Mongodb():
     #   Characters    #
     ###################
     
+    def find_character_by_raider_and_class_spec(self, discord_member_id, class_specialization):
+        self.set_collection('characters')
+        return self.collection.find_one({"discord_member_id":str(discord_member_id),"class_specialization":class_specialization})
+    
     def insert_new_character(self, character):
         self.set_collection('characters')
         self.collection.insert_one(character)
