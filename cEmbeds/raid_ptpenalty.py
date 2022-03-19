@@ -1,7 +1,5 @@
 import discord
 
-from Utility.helper import open_discord_emotes, open_raid_data
-
 class raid_ptpenalty():
     """
     Function:

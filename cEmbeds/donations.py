@@ -1,8 +1,6 @@
 import discord
 
-from Utility.helper import open_discord_emotes, open_raid_data
-
-from bot_constants import *
+from Utility.bot_constants import *
 
 class donations():
     """
