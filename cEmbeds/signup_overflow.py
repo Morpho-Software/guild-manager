@@ -16,7 +16,7 @@ class signup_overflow():
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Loud Beep]",
+            title = "[Repeated Boops]",
             description=f"Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.\n\nIn The Sun-Hoof Coalition, a '{raid.raid_name}' has been created if you are still interested.",
             color=discord.Color.gold()
         )

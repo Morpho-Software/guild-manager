@@ -16,7 +16,7 @@ class gearvault_reminder():
     def __init__(self):
         
         self.embed = discord.Embed(
-            title = "Gear Suggestions",
+            title = "```fix \nReminder \n```",
             description=f"Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.",
             color=discord.Color.gold()
         )
@@ -27,6 +27,6 @@ class gearvault_reminder():
         )
 
         self.embed.add_field(
-            name="```fix \nReminder \n```",
+            name="```fix \nReminder! \n```",
             value=f"Raids need consumables and gold for repairs! Please donate what you can to guild vaults. \n\n*For the Sunwell, The Earthmother, and The Horde!*"
         )
