@@ -23,3 +23,8 @@
         "activity_status":"listening",
         "activity_text":"to the Lady gossip."
     },
+    {
+        "activity_status":"watching",
+        "activity_text":"Chieftain Bramin graze."
+    }
+]
