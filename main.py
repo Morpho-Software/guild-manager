@@ -39,9 +39,6 @@ async def on_message(message):
         channel = str(message.channel.name)
         print(f'{inc_username}: {user_message} ({channel})')
         if message.channel.name == 'bot-closet':
-            print(user_message)
-            print(message.author)
-            
             if message.content.startswith(command_keyword):
                 
                 inc_message_split = shlex.split(user_message)
@@ -85,47 +82,18 @@ async def on_message(message):
 
 @client.event
 async def on_raw_reaction_add(payload):
-    message_id = payload.message_id
-    print(message_id)
-    pprint.pprint(payload)
     
     #This stops the bot from running operations when it reacts to messages
     if payload.user_id == 933865497689198603:
         return
     
-    #bot-closet
+    #This code handles people reacting to items in the raid closet
     if payload.channel_id == 933481167565488128:
-        channel = client.get_channel(payload.channel_id)
-        
-        if mongo.find_raid_by_confirmation_message_id(payload.message_id):
-            raid = mongo.find_raid_by_confirmation_message_id(payload.message_id)
-            raid_confirm_msg = await channel.fetch_message(payload.message_id)
-            
-            if payload.emoji.name == 'Cancel':
-                delete = await raid_confirm_msg.delete()
-            if payload.emoji.name == 'Done':
-                raid['raid_confirmed'][0] == True
-                mongo.confirm_raid(raid['raid_id'])
-                
-                #azeroth-raids
-                if raid['raid_game'] == 'classic':
-                    channel = client.get_channel(933527657373663252)
-                    embed = raid_embed(raid, False)
-                    raid_public_post = await channel.send(embed=embed.embed)
-                    mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
-                    await add_raid_emojis(raid_public_post)
-                    
-                    
-                #outland-raids
-                elif raid['raid_game'] == 'tbc':
-                    channel = client.get_channel(933472914840387644)
-                    embed = raid_embed(raid, False)
-                    raid_public_post = await channel.send(embed=embed.embed)
-                    mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
-                    await add_raid_emojis(raid_public_post)
+        await botcontroller.process_bot_closet_reactions(payload,mongo,client)
                     
     #This code handles people reacting to the raid channels specifically
     elif payload.channel_id in [933527657373663252,933472914840387644]:
+        #This code is executed when someone reacts to one of the raid signups
         await botcontroller.process_raid_signup(payload,mongo,client)
 
 @client.event
