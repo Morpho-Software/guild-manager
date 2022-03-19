@@ -6,6 +6,7 @@ from Models.raid import newraid
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from cEmbeds.raid import raid as raid_embed
+from cEmbeds.raid_characters import raid_characters as new_character_embed
 from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions
 import json
 from Utility.mongo import Mongodb
@@ -140,6 +141,12 @@ async def on_raw_reaction_add(payload):
                     mongo.insert_new_raider(newraider.to_dictionary())
                     mongo.insert_new_character(newcharacter.to_dictionary())
                     mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
+                    dm = await payload.member.create_dm()
+                    embed=new_character_embed(raid,newcharacter,payload)
+                    message = await dm.send(embed=embed.embed)
+                    await message.add_reaction('🤖')
+                    
+                    
                     print('Added a raider and a character.')
             else:
                 #The user has failed to correctly fill out the reactions on a raid
