@@ -35,5 +35,5 @@ class help_leader():
         
         self.embed.add_field(
             name="**Marking Absences**",
-            value=f"`sh/ absent RaidID [name1,name2,name3]` \n*Example: sh/ absent Karazhan#1 [Gildu,Laelo,Bramin]*"
+            value=f"`sh/ absent RaidID [name1,name2,name3]` \n*Example: sh/ absent Karazhan#1 [Gildu,Laelo,Bramin]* \nYou must mark absences after each raid for players to recieve points."
         )

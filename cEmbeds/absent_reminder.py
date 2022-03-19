@@ -5,10 +5,10 @@ from Utility.helper import open_discord_emotes, open_raid_data
 class gearvault_reminder():
     """
     Function:
-    To remind people to donate consumables to the guild vault.
+    To remind raid creator to mark absences.
     
     Displayed:
-    #raid-notices.
+    Private messages.
     
     Output:
     
@@ -16,7 +16,7 @@ class gearvault_reminder():
     def __init__(self):
         
         self.embed = discord.Embed(
-            title = "[Squeaking Gears]",
+            title = "[Loud Beep]",
             description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
             color=discord.Color.gold()
         )
@@ -28,7 +28,7 @@ class gearvault_reminder():
 
         self.embed.add_field(
             name="```fix \nReminder! \n```",
-            value=f"Raids need consumables and gold for repairs! Please donate what you can to guild vaults. \n\n*For The Sunwell, The Earthmother, and The Horde!*"
+            value=f"You were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank."
         )
 
         #this needs a timer, sent out weekly and deleted automatically once reposted
