@@ -26,5 +26,9 @@
     {
         "activity_status":"watching",
         "activity_text":"Chieftain Bramin graze."
+    },
+    {
+        "activity_status":"watching",
+        "activity_text":"Aovi soak in the pond."
     }
 ]
