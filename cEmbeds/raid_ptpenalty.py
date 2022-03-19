@@ -2,7 +2,7 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class raid_cancel():
+class raid_ptpenalty():
     """
     Function:
     To notify when a raider loses a raid point.

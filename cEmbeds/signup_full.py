@@ -2,7 +2,7 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class signup_full():
     """
     Function:
     To let players know the raid they tried to sign-up for is full.

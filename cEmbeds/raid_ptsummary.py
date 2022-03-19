@@ -2,7 +2,7 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class raid_ptsummary():
     """
     Function:
     To show players their raid point summaries for each character.

@@ -2,7 +2,7 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class signup_overflow():
     """
     Function:
     To let players know a duplicate raid has been created for the 10+ or 25+ who tried to sign up for that raid when it was full.

@@ -2,7 +2,7 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class signup_error():
     """
     Function:
     To notify a player of a failed sign-up.
