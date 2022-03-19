@@ -1,8 +1,7 @@
 import datetime, sys, os
 from tokenize import String
 sys.path.append('..')
-from Utility.helper import open_discord_emotes, open_raid_data, open_raids, write_dict_to_json
-from Utility.mongo import Mongodb
+from Utility.helper import open_raid_data
 import uuid
 class newraider():
     

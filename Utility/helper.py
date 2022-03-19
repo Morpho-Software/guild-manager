@@ -97,4 +97,4 @@ async def pick_random_bot_status(bot):
     rannum = random.randint(0,len(status))
     await set_bot_status(bot,status[rannum]['activity_status'],status[rannum]['activity_text'])
     
-    
+

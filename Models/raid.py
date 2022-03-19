@@ -2,7 +2,7 @@ import datetime, sys, os
 from tokenize import String
 sys.path.append('..')
 from Utility.helper import open_raid_data, open_raids
-from Utility.mongo import Mongodb
+from Controllers.mongocontroller import Mongodb
 
 class newraid():
     
@@ -11,7 +11,6 @@ class newraid():
         print(os.getcwd())
         rd = open_raid_data()
         #raids = open_raids()
-        
         
         self.raid_name = self.validate_raid_name(rd,split_incoming_message[2])
         self.game = rd[self.raid_name]['game']

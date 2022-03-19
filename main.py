@@ -1,3 +1,4 @@
+
 import discord, pprint, os, shlex, sys
 from dotenv import load_dotenv
 from Models.character import newcharacter
@@ -7,9 +8,10 @@ from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from cEmbeds.raid import raid as raid_embed
 from cEmbeds.raid_characters import raid_characters as new_character_embed
-from Utility.helper import open_raids, open_discord_emotes, add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, pick_random_bot_status
-import json
-from Utility.mongo import Mongodb
+from Utility.helper import add_raid_emojis, pick_random_bot_status
+
+from Controllers.mongocontroller import Mongodb
+import Controllers.botcontroller as botcontroller
 
 load_dotenv()
 
@@ -122,40 +124,9 @@ async def on_raw_reaction_add(payload):
                     mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
                     await add_raid_emojis(raid_public_post)
                     
-
     #This code handles people reacting to the raid channels specifically
     elif payload.channel_id in [933527657373663252,933472914840387644]:
-        channel = client.get_channel(payload.channel_id)
-        raid_msg = await channel.fetch_message(payload.message_id)
-        raid = mongo.find_raid_by_posting_message_id(raid_msg.id)
-        
-        if payload.emoji.name == 'Done':
-            reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
-            dismoji = open_discord_emotes()
-            if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
-                #Check if reactor is in the database
-                if mongo.find_raider_by_discord_member_id(payload.member.id):
-                    #raider exist
-                    print('I exist')
-                else:
-                    #This code runs if no account have ever been created with the raider
-                    newraider = new_raider(payload)
-                    newcharacter = new_character(payload, reactor_reactions)
-                    mongo.insert_new_raider(newraider.to_dictionary())
-                    mongo.insert_new_character(newcharacter.to_dictionary())
-                    mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
-                    dm = await payload.member.create_dm()
-                    embed=new_character_embed(raid,newcharacter,payload)
-                    message = await dm.send(embed=embed.embed)
-                    await message.add_reaction('🤖')
-                    
-                    
-                    print('Added a raider and a character.')
-            else:
-                #The user has failed to correctly fill out the reactions on a raid
-                dm = await payload.member.create_dm()
-                message = await dm.send(f"[Beeping and Whirring]\nGreetings! This is SQ-Bot 300X, programmed for your optimized battling experience by the Great Lord Gildu Soulbeam, now also an engineer.\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but it is **incomplete**.\n\n*Please make sure you select: your **class** icon, your **class number** icon representing your specialization (found in #faq), and the **done** icon.\nIf you wish to cancel your sign-up, please select the cancel icon.*")
-                await message.add_reaction('🤖')
+        await botcontroller.process_raid_signup(payload,mongo,client)
 
 @client.event
 async def on_raw_reaction_remove(payload):
