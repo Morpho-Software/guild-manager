@@ -15,27 +15,27 @@ import Controllers.botcontroller as botcontroller
 
 load_dotenv()
 
-client = discord.Client()
+bot = discord.Client()
 
 command_keyword = 'sh/'
 
 mongo = Mongodb('raids')
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'We have logged in as {client.user}')
+    print(f'We have logged in as {bot.user}')
 
-@client.event
+@bot.event
 async def on_message(message):
     #If the bot is the author of the message, return nothing to avoid an infinite loop
-    if message.author == client.user:
+    if message.author == bot.user:
         return
     inc_username = str(message.author).split('#')[0]
     user_message = str(message.content)
     
     #Takes place in a discord
     if message.channel.type.name != 'private':
-        await pick_random_bot_status(client)
+        await pick_random_bot_status(bot)
         channel = str(message.channel.name)
         print(f'{inc_username}: {user_message} ({channel})')
         if message.channel.name == 'bot-closet':
@@ -80,7 +80,7 @@ async def on_message(message):
         print("I hear ya")
                     
 
-@client.event
+@bot.event
 async def on_raw_reaction_add(payload):
     
     #This stops the bot from running operations when it reacts to messages
@@ -89,15 +89,15 @@ async def on_raw_reaction_add(payload):
     
     #This code handles people reacting to items in the raid closet
     if payload.channel_id == 933481167565488128:
-        await botcontroller.process_bot_closet_reactions(payload,mongo,client)
+        await botcontroller.process_bot_closet_reactions(payload,mongo,bot)
                     
     #This code handles people reacting to the raid channels specifically
     elif payload.channel_id in [933527657373663252,933472914840387644]:
         #This code is executed when someone reacts to one of the raid signups
-        await botcontroller.process_raid_signup(payload,mongo,client)
+        await botcontroller.process_raid_signup(payload,mongo,bot)
 
-@client.event
+@bot.event
 async def on_raw_reaction_remove(payload):
     pass
 
-client.run(os.environ['TOKEN'])
+bot.run(os.environ['TOKEN'])
