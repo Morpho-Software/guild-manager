@@ -30,53 +30,55 @@ async def on_message(message):
         return
     inc_username = str(message.author).split('#')[0]
     user_message = str(message.content)
-    channel = str(message.channel.name)
-    print(f'{inc_username}: {user_message} ({channel})')
-
     
-
-    if message.channel.name == 'bot-closet':
-        print(user_message)
-        print(message.author)
-        
-        if message.content.startswith(command_keyword):
+    #Takes place in a discord
+    if message.channel.type.name != 'private':
+        channel = str(message.channel.name)
+        print(f'{inc_username}: {user_message} ({channel})')
+        if message.channel.name == 'bot-closet':
+            print(user_message)
+            print(message.author)
             
-            inc_message_split = shlex.split(user_message)
-            
-            #This is a list of approved commands
-            commands = [
-                "schedule",
-                "help"
-            ]
-            
-            #This is the command the user passed
-            command = inc_message_split[1]
-            
-            if command in commands:
-                if command == commands[0]: #Schedule
-                    try:
-                        
-                        if len(inc_message_split) > 8:
-                            raise Exception("Malformed Command -- Too many Arguments")
-                        
-                        newRaid = newraid(inc_message_split, message)
-                        
-                        embed = raid_embed(newRaid)
-                        
-                        sent_message = await message.channel.send(embed=embed.embed)
-                        
-                        await sent_message.add_reaction('<:Done:948280499049201744>')
-                        await sent_message.add_reaction('<:Cancel:948777741094895687>')
-                        
-                        newRaid.set_confirm_message_id(sent_message.id)
-                        
-                        mongo.insert_new_raid(newRaid.to_dict())
-                        
-                    except Exception as e:
-                        await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
-                        return
-                    
+            if message.content.startswith(command_keyword):
                 
+                inc_message_split = shlex.split(user_message)
+                
+                #This is a list of approved commands
+                commands = [
+                    "schedule",
+                    "help"
+                ]
+                
+                #This is the command the user passed
+                command = inc_message_split[1]
+                
+                if command in commands:
+                    if command == commands[0]: #Schedule
+                        try:
+                            
+                            if len(inc_message_split) > 8:
+                                raise Exception("Malformed Command -- Too many Arguments")
+                            
+                            newRaid = newraid(inc_message_split, message)
+                            
+                            embed = raid_embed(newRaid)
+                            
+                            sent_message = await message.channel.send(embed=embed.embed)
+                            
+                            await sent_message.add_reaction('<:Done:948280499049201744>')
+                            await sent_message.add_reaction('<:Cancel:948777741094895687>')
+                            
+                            newRaid.set_confirm_message_id(sent_message.id)
+                            
+                            mongo.insert_new_raid(newRaid.to_dict())
+                            
+                        except Exception as e:
+                            await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
+                            return
+    #Message coming from DM
+    else:
+        print("I hear ya")
+                    
 
 @client.event
 async def on_raw_reaction_add(payload):
