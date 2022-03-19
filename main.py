@@ -75,35 +75,7 @@ async def on_message(message):
                         await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
                         return
                     
-                elif command == commands[1]: #help
-                    emoji_string = 'help'
-                    embed = discord.Embed(
-                        title=emoji_string,
-                        description="__Commands__",
-                        color=discord.Color.gold()
-                    )
-                    embed.set_author(
-                        name="Soulbeams",
-                        icon_url="https://cdn.discordapp.com/attachments/933481167565488128/947780767310827550/WoWScrnShot_090521_044754.jpg"
-                    )
-                    
-                    embed.add_field(
-                        name="**sh/ schedule**",
-                        value=f">>> To schedule raids and to make them reoccurring.\n\nType: sh/ schedule Raid Name Date(00/00/0000) Time(0:00PM/AM) \"Notes\" Yes/No(Reoccurring)\n\n```sh/ schedule Karazhan 01/01/2022 5:00PM \"We will meet beforehand.\" Yes```\n\n",
-                        inline=False
-                    )
-                    embed.add_field(
-                        name="**sh/ edit**",
-                        value=f">>> To edit existing raids.\n\nType: sh/ edit Raid ID Raid Name Date(00/00/0000) Time(0:00PM/AM) \"Notes\" Yes/No(Reoccurring)\n\n",
-                        inline=False
-                    )
-                    embed.add_field(
-                        name="**sh/ absent**",
-                        value=f">>> To mark players that were absent for raids that had signed up.\n\nType: sh/ absent Raid ID @name @name @name\n\n```sh/ absent Karazhan-2 @Gildu @Laelo```\n\n",
-                        inline=False
-                    )
-                    #await message.channel.send(f'> {emoji_string}\n> The follow commands can be used: \n> **sh/** schedule\n> **sh/** help')
-                    await message.channel.send(embed=embed)
+                
 
 @client.event
 async def on_raw_reaction_add(payload):
@@ -153,7 +125,6 @@ async def on_raw_reaction_add(payload):
         raid_msg = await channel.fetch_message(payload.message_id)
         raid = mongo.find_raid_by_posting_message_id(raid_msg.id)
         
-        
         if payload.emoji.name == 'Done':
             reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
             dismoji = open_discord_emotes()
@@ -170,32 +141,11 @@ async def on_raw_reaction_add(payload):
                     mongo.insert_new_character(newcharacter.to_dictionary())
                     mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
                     print('Added a raider and a character.')
-                
-                
-                
             else:
                 #The user has failed to correctly fill out the reactions on a raid
                 dm = await payload.member.create_dm()
                 message = await dm.send(f"[Beeping and Whirring]\nGreetings! This is SQ-Bot 300X, programmed for your optimized battling experience by the Great Lord Gildu Soulbeam, now also an engineer.\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but it is **incomplete**.\n\n*Please make sure you select: your **class** icon, your **class number** icon representing your specialization (found in #faq), and the **done** icon.\nIf you wish to cancel your sign-up, please select the cancel icon.*")
                 await message.add_reaction('🤖')
-        
-        
-    
-    if message_id == 952839052921565194:
-        print("I saw it")
-        guild_id = payload.guild_id
-        #guild = discord.utils.find(lambda g : g.id == guild_id, client.guilds)
-        #message = discord.utils.find(948051241525719051)
-        #message.channel.send("I saw it")
-        channel = client.get_channel(payload.channel_id)
-        message = await channel.fetch_message(payload.message_id)
-        #await message.add_reaction(':SunHoof:')
-        
-
-        if payload.emoji.name == 'SunHoof':
-            print("Sun Hoofer")
-            dm = await payload.member.create_dm()
-            await dm.send("HE_LLO - I AM WAS CREATED BY LORD GILDU. I DO SPEAK THALASSIAN PERFECTLY")
 
 @client.event
 async def on_raw_reaction_remove(payload):
