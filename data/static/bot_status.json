@@ -18,5 +18,8 @@
     {
         "activity_status":"playing",
         "activity_text":"with the Lady's hair."
-    }
-]
+    },    
+    {
+        "activity_status":"listening",
+        "activity_text":"to the Lady gossip."
+    },
