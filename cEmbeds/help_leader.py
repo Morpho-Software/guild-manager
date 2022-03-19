@@ -2,13 +2,19 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class help_leader():
+    """
+    Function:
+    This is a direction manual to display leader commands regarding raid creation,editing
     
+    Displayed:
+    Displayed Always in Bot Operating Channel 'MESSAGENUMBER' Pinned, It's a static message.
+    """
     def __init__(self):
         
         self.embed = discord.Embed(
-            title = "Operating Terminal",
-            description="<:1_:948050511502925944> Recieve raid sign-up instructions.\n<:2_:948050511641333791> View your raid point summary.",
+            title = "Leadership Operating Terminal",
+            description="",
             color=discord.Color.gold()
         )
         
@@ -25,4 +31,9 @@ class help():
         self.embed.add_field(
             name="**Editing a Raid**",
             value=f"`sh/ edit RaidID Date(00/00/0000) Time(0:00PM/AM) \"Notes\"` \n*Example: sh/ edit Karazhan#1 01/01/2022 5:00PM \"We will not meet beforehand.\"*"
+        )
+        
+        self.embed.add_field(
+            name="**Marking Absences**",
+            value=f"`sh/ absent RaidID [name1,name2,name3]` \n*Example: sh/ absent Karazhan#1 [Gildu,Laelo,Bramin]*"
         )

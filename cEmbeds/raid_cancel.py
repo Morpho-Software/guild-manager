@@ -2,26 +2,24 @@ import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
 
-class help():
+class raid_cancel():
     """
     Function:
-    Raiders can react to this embed and receive a dm from the bot with requested instructions or summaries.
+    To notify when a raid is canceled.
     
     Displayed:
-    #faq
+    Edited message on canceled raid in azeroth-raids and outland-raids.
+    Sent in private messages to those who signed up for raids.
     
     Output:
-    Sends embeded dms to users after they select a valid reaction to the embed
+    Deletes the message after 12 hours.
     
-    Embeds sent:
-    'raid_join'
-    'raid_ptsummary'
     """
-    def __init__(self):
+    def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "Operating Terminal",
-            description="<:1_:948050511502925944> Recieve raid sign-up instructions.\n\n<:2_:948050511641333791> View your raid point summary.",
+            title = "[Mechanical Ticking]",
+            description=f"'{raid.raid_id}' on {raid.datetime} has been **canceled**. \nThis message will self destruct in 12 hours. \nAll participants have been notified.",
             color=discord.Color.gold()
         )
         
