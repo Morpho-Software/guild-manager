@@ -17,7 +17,7 @@ class raid_ptsummary():
         
         self.embed = discord.Embed(
             title = "[Soft Beeping]",
-            description=f"Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.",
+            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
             color=discord.Color.gold()
         )
         

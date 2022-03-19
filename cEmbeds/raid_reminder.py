@@ -19,7 +19,7 @@ class raid_reminder():
         
         self.embed = discord.Embed(
             title = "[Mechanical Ticking]",
-            description=f"'{raid.raid_id}' on {raid.datetime} is today. *Please cancel up to 3 hours before to not recieve a point penalty in the future.* \nThis message will self destruct once the raid begins. \nAll participants have been notified.",
+            description=f"'{raid.raid_id}' on {raid.datetime} is today! \nPlease cancel up to 3 hours before to not recieve a point penalty. \n\n*This message will self destruct once the raid begins.* \n*All participants have been notified.*",
             color=discord.Color.gold()
         )
         

@@ -17,7 +17,7 @@ class gear():
         
         self.embed = discord.Embed(
             title = "[Long Beeps]",
-            description=f"Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.\n\nIn The Sun-Hoof Coalition, you have successfully signed-up for '{raid.raid_id}' with {character name} as a {class and spec}! \n\n***If you have an item, or better please respond with it's name.** Gear suggestions are found on {bis site link}.*",
+            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have successfully signed-up for '{raid.raid_id}' with {character name} as a {class and spec}! \n\n***If you have an item, or better please respond with it's name.** Gear suggestions are found on {bis site link}.*",
             color=discord.Color.gold()
         )
         

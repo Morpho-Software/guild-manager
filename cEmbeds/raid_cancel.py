@@ -19,7 +19,7 @@ class raid_cancel():
         
         self.embed = discord.Embed(
             title = "[Mechanical Ticking]",
-            description=f"'{raid.raid_id}' on {raid.datetime} has been **canceled**. \nThis message will self destruct in 12 hours. \nAll participants have been notified.",
+            description=f"'{raid.raid_id}' on {raid.datetime} has been **canceled**. \n\n*This message will self destruct in 12 hours.* \n*All participants have been notified.*",
             color=discord.Color.gold()
         )
         
