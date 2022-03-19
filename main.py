@@ -1,15 +1,11 @@
 
-import discord, pprint, os, shlex, sys
+import discord, os, shlex, sys
 from dotenv import load_dotenv
-from Models.character import newcharacter
 sys.path.append('..')
 from Models.raid import newraid
-from Models.raider import newraider as new_raider
-from Models.character import newcharacter as new_character
 from cEmbeds.raid import raid as raid_embed
-from cEmbeds.raid_characters import raid_characters as new_character_embed
-from Utility.helper import add_raid_emojis, pick_random_bot_status
-
+from Utility.helper import pick_random_bot_status
+from Utility.bot_constants import *
 from Controllers.mongocontroller import Mongodb
 import Controllers.botcontroller as botcontroller
 
@@ -17,7 +13,7 @@ load_dotenv()
 
 bot = discord.Client()
 
-command_keyword = 'sh/'
+
 
 mongo = Mongodb('raids')
 
@@ -33,13 +29,13 @@ async def on_message(message):
     inc_username = str(message.author).split('#')[0]
     user_message = str(message.content)
     
-    #Takes place in a discord
+    #Takes place in a discord channel
     if message.channel.type.name != 'private':
         await pick_random_bot_status(bot)
         channel = str(message.channel.name)
         print(f'{inc_username}: {user_message} ({channel})')
         if message.channel.name == 'bot-closet':
-            if message.content.startswith(command_keyword):
+            if message.content.startswith(COMMAND_KEYWORD):
                 
                 inc_message_split = shlex.split(user_message)
                 
