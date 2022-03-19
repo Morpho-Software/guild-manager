@@ -5,7 +5,7 @@
     },
     {
         "activity_status":"listening",
-        "activity_text":"to the Lord talk about himself."
+        "activity_text":"the Lord talk about himself."
     },
     {
         "activity_status":"watching",
@@ -21,7 +21,7 @@
     },    
     {
         "activity_status":"listening",
-        "activity_text":"to the Lady gossip."
+        "activity_text":"the Lady gossip."
     },
     {
         "activity_status":"watching",
@@ -30,5 +30,13 @@
     {
         "activity_status":"watching",
         "activity_text":"Aovi soak in the pond."
+    },
+    {
+        "activity_status":"listening",
+        "activity_text":"the Cheese Monger's sales pitch!"
+    },
+    {
+        "activity_status":"listening",
+        "activity_text":"a peculiar hissing sssound..."
     }
 ]
