@@ -2,8 +2,6 @@
 import discord, os, shlex, sys
 from dotenv import load_dotenv
 sys.path.append('..')
-from Models.raid import newraid
-from cEmbeds.raid import raid as raid_embed
 from Utility.helper import pick_random_bot_status
 from Utility.bot_constants import *
 from Controllers.mongocontroller import Mongodb
@@ -53,18 +51,7 @@ async def on_message(message):
                             if len(inc_message_split) > 8:
                                 raise Exception("Malformed Command -- Too many Arguments")
                             
-                            newRaid = newraid(inc_message_split, message)
-                            
-                            embed = raid_embed(newRaid)
-                            
-                            sent_message = await message.channel.send(embed=embed.embed)
-                            
-                            await sent_message.add_reaction('<:Done:948280499049201744>')
-                            await sent_message.add_reaction('<:Cancel:948777741094895687>')
-                            
-                            newRaid.set_confirm_message_id(sent_message.id)
-                            
-                            mongo.insert_new_raid(newRaid.to_dict())
+                            botcontroller.process_schedule_raid(message,mongo)
                             
                         except Exception as e:
                             await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
