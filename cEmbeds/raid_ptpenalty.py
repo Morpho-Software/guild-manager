@@ -23,3 +23,5 @@ class raid_ptpenalty():
             name="Soulbeam's Quartermaster - Bot 300X",
             icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
         )
+
+        #eventually points out if they were doing something else
