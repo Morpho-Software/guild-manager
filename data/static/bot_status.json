@@ -42,5 +42,9 @@
     {
         "activity_status":"watching",
         "activity_text":"in concern, as Kazzimir trembles at the sight of a new piece of gear."
+    },
+    {
+        "activity_status":"watching",
+        "activity_text":"curiously as Hycine makes potions and elixirs."
     }
 ]
