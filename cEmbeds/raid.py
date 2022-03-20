@@ -33,18 +33,18 @@ class raid():
             )
             
             self.embed.add_field(
-                name=f"Reserves:{len(raid.raiders['tank']['reserves'])}\n`Tank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})`",
-                value=self.build_slots('tank')
+                name=f"`Tank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})`",
+                value=f"{self.build_slots('tank')}\n`Stand-ins:({len(raid.raiders['tank']['reserves'])})`"
             )
             
             self.embed.add_field(
-                name=f"Reserves:{len(raid.raiders['damage']['reserves'])}\n`Damage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})`",
-                value=self.build_slots('damage')
+                name=f"`Damage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})`",
+                value=f"{self.build_slots('damage')}\n`Stand-ins:({len(raid.raiders['damage']['reserves'])})`"
             )
             
             self.embed.add_field(
-                name=f"Reserves:{len(raid.raiders['healer']['reserves'])}\n`Healers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})`",
-                value=self.build_slots('healer')
+                name=f"`Healers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})`",
+                value=f"{self.build_slots('healer')}\n`Stand-ins:({len(raid.raiders['healer']['reserves'])})`"
             )
             
             self.embed.set_image(
@@ -71,18 +71,18 @@ class raid():
             )
             
             self.embed.add_field(
-                name=f"`Tanks ({len(raid['raid_raiders']['tank']['registered'])}/{raid['raid_raiders']['tank']['amount'][0]})`\n`Reserves:({len(raid['raid_raiders']['tank']['reserves'])})`",
-                value=self.build_slots('tank',False)
+                name=f"`Tanks ({len(raid['raid_raiders']['tank']['registered'])}/{raid['raid_raiders']['tank']['amount'][0]})`",
+                value=f"{self.build_slots('tank',False)}\n`Stand-ins:({len(raid['raid_raiders']['tank']['reserves'])})`"
             )
             
             self.embed.add_field(
-                name=f"`Damage ({len(raid['raid_raiders']['damage']['registered'])}/{raid['raid_raiders']['damage']['amount'][0]})`\n`Reserves:({len(raid['raid_raiders']['damage']['reserves'])})`",
-                value=self.build_slots('damage',False)
+                name=f"`Damage ({len(raid['raid_raiders']['damage']['registered'])}/{raid['raid_raiders']['damage']['amount'][0]})`",
+                value=f"{self.build_slots('damage',False)}\n`Stand-ins:({len(raid['raid_raiders']['damage']['reserves'])})`"
             )
             
             self.embed.add_field(
-                name=f"`Healers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})`\n`Reserves:({len(raid['raid_raiders']['healer']['reserves'])})`",
-                value=self.build_slots('healer',False)
+                name=f"`Healers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})`",
+                value=f"{self.build_slots('healer',False)}\n`Stand-ins:({len(raid['raid_raiders']['healer']['reserves'])})`"
             )
             
             self.embed.set_image(
