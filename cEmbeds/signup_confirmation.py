@@ -15,7 +15,7 @@ class signup_confirmation():
         
         self.embed = discord.Embed(
             title = "[Confirmation Ding]",
-            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have successfully signed up for `{raid['raid_id']}` on {raid['raid_time']} as the {character['class_specialization']}, {character['character_name']}! \n\n*Please cancel up to 3 hours before to not recieve a point penalty.* \n*If you meant to sign up as a different character of the same class and spec, type their name.*",
+            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have successfully signed up for `{raid['raid_id']}` on {raid['raid_time']} as the {character['class_specialization']}, {character['character_name']}! \n\n*Please cancel up to 3 hours before to not recieve a point penalty. If you meant to sign up as a different character of the same class and spec, type their name.*",
             color=discord.Color.gold()
         )
         

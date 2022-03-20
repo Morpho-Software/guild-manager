@@ -15,7 +15,7 @@ class signup_full():
         
         self.embed = discord.Embed(
             title = "[Loud Beep]",
-            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid.raid_id}`, but it is **full**. \n\n*If there are enough players interested in this raid, another will be automatically created to sign up for.*",
+            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid.raid_id}`, but it is **full**. \n\nYou will be put on the **stand-in** list in case someone cancels.",
             color=discord.Color.gold()
         )
         
