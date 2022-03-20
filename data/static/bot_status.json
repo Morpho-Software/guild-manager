@@ -38,5 +38,9 @@
     {
         "activity_status":"listening",
         "activity_text":"a peculiar hissing sssound..."
+    },
+    {
+        "activity_status":"watching",
+        "activity_text":"in concern, as Kazzimir trembles at the sight of a new piece of gear."
     }
 ]
