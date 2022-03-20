@@ -40,15 +40,18 @@ class newraid():
         self.raiders = {
             "tank":{
                 "amount":[],
-                "registered":[]
+                "registered":[],
+                "reserves":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[],
-                "registered":[]
+                "registered":[],
+                "reserves":[]
             },
-            "healers":{
+            "healer":{
                 "amount":[],
-                "registered":[]
+                "registered":[],
+                "reserves":[]
             }
         }
         self.set_raid_composition(rd)
@@ -57,8 +60,8 @@ class newraid():
         for raid in rd:
             if raid == self.raid_name:
                 self.raiders['tank']['amount'] = rd[raid]['composition']['tank']['amount']
-                self.raiders['dps']['amount'] = rd[raid]['composition']['dps']['amount']
-                self.raiders['healers']['amount'] = rd[raid]['composition']['dps']['amount']
+                self.raiders['damage']['amount'] = rd[raid]['composition']['damage']['amount']
+                self.raiders['healer']['amount'] = rd[raid]['composition']['damage']['amount']
                 break
         
     def validate_raid_name(self, rd, raid_name) -> String:

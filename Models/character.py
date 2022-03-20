@@ -17,10 +17,11 @@ class newcharacter():
         self.character_name = ''
         self.character_race = ''
         self.raid_points = []
-        self.signups = []
+        self.registered = []
         self.attended = []
-        self.excused = []
+        self.cancled = []
         self.noshows = []
+        self.reserves = []
         self.equipment = {
             "head":{
                 "name":"head",
@@ -115,10 +116,11 @@ class newcharacter():
             "character_name": self.character_name,
             "character_race": self.character_race,
             "raid_points": self.raid_points,
-            "signups": self.signups,
+            "registered": self.registered,
             "attended": self.attended,
-            "excused": self.excused,
+            "cancled": self.cancled,
             "noshows": self.noshows,
+            "reserves": self.reserves,
             "equipment": self.equipment
         }
         

@@ -5,7 +5,7 @@
         "alt_names": [],
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,8],
                 "suggestions":[]
             },
@@ -13,7 +13,7 @@
                 "amount":[3,3],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[16,18],
                 "suggestions":[
                     {
@@ -58,7 +58,7 @@
         "alt_names": [],
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[]
             },
@@ -66,7 +66,7 @@
                 "amount":[3,3],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[]
             }
@@ -1953,7 +1953,7 @@
         "tier":8,
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,8],
                 "suggestions":[]
             },
@@ -1961,7 +1961,7 @@
                 "amount":[3,3],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[16,18],
                 "suggestions":[
                     {
@@ -2886,7 +2886,7 @@
         "tier":7,
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,9],
                 "suggestions":[]
             },
@@ -2894,7 +2894,7 @@
                 "amount":[3,4],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[12,16],
                 "suggestions":[
                     {
@@ -3470,7 +3470,7 @@
         "tier":6,
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,9],
                 "suggestions":[]
             },
@@ -3478,7 +3478,7 @@
                 "amount":[4,5],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[11,15],
                 "suggestions":[
                     {
@@ -3989,7 +3989,7 @@
         "tier":5,
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[
                     {
@@ -4029,7 +4029,7 @@
                     }
                 ]
             },
-            "dps":{
+            "damage":{
                 "amount":[12,12],
                 "suggestions":[
                     {
@@ -4693,7 +4693,7 @@
         "tier": 3,
         "size": 25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[8,10],
                 "suggestions":[]
             },
@@ -4701,7 +4701,7 @@
                 "amount":[4,5],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[10,13],
                 "suggestions":[
                     {
@@ -4829,7 +4829,7 @@
         "tier":4,
         "size":25,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,8],
                 "suggestions":[]
             },
@@ -4837,7 +4837,7 @@
                 "amount":[3,3],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[16,18],
                 "suggestions":[
                     {
@@ -5033,7 +5033,7 @@
         "size": "10",
         "tier": 1,
         "composition":{
-                "healers":{
+                "healer":{
                     "amount":[3,4],
                     "suggestions":[
                     {
@@ -5046,7 +5046,7 @@
                     "amount":[2,2],
                     "suggestions":[]
                 },
-                "dps":{
+                "damage":{
                     "amount":[5,4],
                     "suggestions":[
                         {
@@ -6127,7 +6127,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/1/1f/Naxxramas_loading_screen.jpg",
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[8,8],
                 "suggestions":[]
             },
@@ -6135,7 +6135,7 @@
                 "amount":[4,4],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[
                     {
@@ -7253,7 +7253,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/6/6a/Temple_of_Ahn%27Qiraj_loading_screen.jpg",
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[]
             },
@@ -7261,7 +7261,7 @@
                 "amount":[4,4],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[
                     {
@@ -8205,7 +8205,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/5/5e/Ruins_of_Ahn%27Qiraj_loading_screen.jpg",
         "size":20,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[5,7],
                 "suggestions":[]
             },
@@ -8213,7 +8213,7 @@
                 "amount":[2,2],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[11,13],
                 "suggestions":[
                     {
@@ -8722,7 +8722,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/1/12/Zul%27Gurub_loading_screen.jpg",
         "size":20,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[6,7],
                 "suggestions":[]
             },
@@ -8730,7 +8730,7 @@
                 "amount":[3,3],
                 "suggestions":[]
             },
-            "dps":{
+            "damage":{
                 "amount":[10,11],
                 "suggestions":[
                     {
@@ -9511,7 +9511,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/0/09/Blackwing_Lair_loading_screen.jpg",
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[]
             },
@@ -9528,7 +9528,7 @@
                     }
                 ]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[
                     
@@ -10393,7 +10393,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/4/46/Onyxia%27s_Lair_loading_screen.jpg",
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[]
             },
@@ -10410,7 +10410,7 @@
                     }
                 ]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[
                     
@@ -10546,7 +10546,7 @@
         "image": "https://static.wikia.nocookie.net/wowpedia/images/2/20/Molten_Core_loading_screen.jpg",
         "size":40,
         "composition":{
-            "healers":{
+            "healer":{
                 "amount":[9,9],
                 "suggestions":[]
             },
@@ -10563,7 +10563,7 @@
                     }
                 ]
             },
-            "dps":{
+            "damage":{
                 "amount":[28,28],
                 "suggestions":[
                     {

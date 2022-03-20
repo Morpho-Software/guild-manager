@@ -1,8 +1,12 @@
+
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from Models.raid import newraid
-from cEmbeds.raid_characters import raid_characters as new_character_embed
+from cEmbeds.raid_newcharacter import raid_characters as new_character_embed
 from cEmbeds.raid import raid as raid_embed
+from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
+
+
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
 
 
@@ -33,7 +37,7 @@ async def process_new_raider(mongo,payload,reactor_reactions,raid):
     dm = await payload.member.create_dm()
     embed=new_character_embed(raid,newcharacter,payload)
     message = await dm.send(embed=embed.embed)
-    await message.add_reaction('🤖')
+    # await message.add_reaction('🤖')
     
 async def process_raid_signup(payload,mongo,bot):
     channel = bot.get_channel(payload.channel_id)
@@ -48,9 +52,20 @@ async def process_raid_signup(payload,mongo,bot):
                 #raider exist
                 #Check if character is in the database
                 if mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions)):
-                    #Now we can register this raider and character in the raid they reacted to.
+                    character = mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions))
                     
-                    print('O K')
+                    #Now we can register this raider and character in the raid they reacted to.
+                    mongo.add_character_to_raid_signup(character, raid, payload.member)
+                    
+                    
+                    #Send signup confirmation
+                    embed = signup_confirmation_embed(raid,character)
+                    dm = await payload.member.create_dm()
+                    message = await dm.send(embed=embed.embed)
+                    await message.add_reaction('🤖')
+                    embed = raid_embed(raid, False)
+                    await raid_msg.edit(embed=embed.embed)
+                    
             else:
                 #raider does not exist
                 await process_new_raider(mongo, payload, reactor_reactions, raid)
@@ -91,7 +106,7 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             await add_raid_emojis(raid_public_post)
             
-async def process_schedule_raid(message,mongo):
+async def process_schedule_raid(message,mongo,inc_message_split):
     newRaid = newraid(inc_message_split, message)
                             
     embed = raid_embed(newRaid)

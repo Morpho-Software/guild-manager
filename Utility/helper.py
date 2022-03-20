@@ -27,7 +27,8 @@ def write_raids(raids):
 def open_bot_status():
     return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/bot_status.json')
     
-
+def open_wow_class_information():
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/wow_classes.json')
     
 def make_emoji_str(string):
     emoji_string = ''
@@ -96,5 +97,6 @@ async def pick_random_bot_status(bot):
     status = open_bot_status()
     rannum = random.randint(0,len(status))
     await set_bot_status(bot,status[rannum]['activity_status'],status[rannum]['activity_text'])
-    
+
+
 

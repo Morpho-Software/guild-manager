@@ -1,5 +1,7 @@
-import pymongo
+import pymongo, sys
 from pymongo import MongoClient
+sys.path.append('..')
+from Utility.helper import open_wow_class_information
 
 class Mongodb():
     
@@ -22,11 +24,11 @@ class Mongodb():
     # Raids #
     #########
     
-    def update_raid(self, raid_id, raid):
+    def update_raid(self, raid_id, raid) -> None:
         query = {"raidId":raid_id}
         self.collection.update_one(query,raid)
         
-    def set_raid_posting_msg(self, raid_id, raid_posting_msg):
+    def set_raid_posting_msg(self, raid_id, raid_posting_msg) -> None:
         self.set_collection('raids')
         query = {"raid_id":raid_id}
         update = {
@@ -36,10 +38,47 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
-    def add_character_to_raid_signup(self, character, raid_id):
+    def add_character_to_raid_signup(self, character, raid, member) -> None:
+        #Add character Id to the raid first
+        class_info = open_wow_class_information()
+        role = class_info[character['class_name'].lower()]['specs'][character['specialization'].lower()]['roles']
         
+        ticket = 'reserves'
+        if len(raid['raid_raiders'][role]['registered'])<raid['raid_raiders'][role]['amount'][0]:
+            ticket = 'registered'
         
-    def confirm_raid(self,raid_id):
+        raid['raid_raiders'][role][ticket].append(
+            {
+                'character_id':character['character_id'],
+                'character_name':character['character_name'],
+                'discord_member_id':character['discord_member_id'],
+                'discord_member_display_name':f'@{member.display_name}#{member.discriminator}'
+            }
+        )
+        
+        self.set_collection('raids')
+        query = {"raid_id":raid['raid_id']}
+        update = {
+            "$set":{
+                "raid_raiders":raid['raid_raiders']
+            }
+        }
+        self.collection.update_one(query, update)
+        
+        #Add the raid Id to the character's signups
+        self.set_collection('characters')
+        query = {"character_id":character['character_id']}
+        
+        character[ticket].append(raid['raid_id'])
+        
+        update = {
+            "$set":{
+                ticket:character[ticket]
+            }
+        }
+        self.collection.update_one(query, update)
+        
+    def confirm_raid(self,raid_id) -> None:
         self.set_collection('raids')
         query={"raid_id":raid_id}
         update = {

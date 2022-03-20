@@ -51,7 +51,7 @@ async def on_message(message):
                             if len(inc_message_split) > 8:
                                 raise Exception("Malformed Command -- Too many Arguments")
                             
-                            botcontroller.process_schedule_raid(message,mongo)
+                            await botcontroller.process_schedule_raid(message,mongo,inc_message_split)
                             
                         except Exception as e:
                             await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
