@@ -33,8 +33,8 @@ class raid():
             )
             
             self.embed.add_field(
-                name=f".",
-                value=f"```fix\nTank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` \n{self.build_slots('tank')}\n`Stand-ins ({len(raid.raiders['tank']['reserves'])})`"
+                name=f"```fix\nTank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n```",
+                value=f"{self.build_slots('tank')}\n`Stand-ins ({len(raid.raiders['tank']['reserves'])})`"
             )
             
             self.embed.add_field(
