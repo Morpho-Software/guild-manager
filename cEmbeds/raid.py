@@ -34,17 +34,17 @@ class raid():
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"```yaml\nTanks ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['tank']['reserves'])})`\n{self.build_slots('tank')}"
+                value=f"```fix\nTanks ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['tank']['reserves'])})`\n{self.build_slots('tank')}"
             )
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"```yaml\nDamage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['damage']['reserves'])})`\n{self.build_slots('damage')}"
+                value=f"```fix\nDamage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['damage']['reserves'])})`\n{self.build_slots('damage')}"
             )
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"```yaml\nHealers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['healer']['reserves'])})`\n{self.build_slots('healer')}"
+                value=f"```fix\nHealers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['healer']['reserves'])})`\n{self.build_slots('healer')}"
             )
             
             self.embed.set_image(
