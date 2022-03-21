@@ -2,6 +2,7 @@ import pymongo, sys
 from pymongo import MongoClient
 sys.path.append('..')
 from Utility.helper import open_wow_class_information
+from cEmbeds.raid import raid as raid_embed
 
 class Mongodb():
     
@@ -38,9 +39,22 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
-    def mirror_raid_post(self, raid, channel_id) -> None:
+    async def add_mirror_raid_post(self, raid, mirrors,bot) -> None:
         self.set_collection('raids')
-        raid['message_mirrors'].append()
+        for mirror in mirrors:
+            raid['raid_mirrors'].append(mirror)
+            channel = await bot.fetch_channel(mirror['channel_id'])
+            embed = raid_embed(raid, False)
+            mirror_message = await channel.send(embed=embed.embed)
+            raid['raid_mirrors'][len(raid['raid_mirrors'])-1]['message_id'] = mirror_message.id
+        
+        query = {"raid_id":raid['raid_id']}
+        update = {
+            "$set":{
+                "raid_mirrors":raid['raid_mirrors']
+            }
+        }
+        self.collection.update_one(query, update)
         
         
     def add_character_to_raid_signup(self, character, raid, member) -> None:

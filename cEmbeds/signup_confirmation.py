@@ -11,7 +11,7 @@ class signup_confirmation():
     Output:
     
     """
-    def __init__(self, raid, character):
+    def __init__(self, raid, character,payload):
         
         self.embed = discord.Embed(
             title = "[Confirmation Ding]",

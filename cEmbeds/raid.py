@@ -26,8 +26,8 @@ class raid():
             self.raid = raid
             
             self.embed = discord.Embed(
-                title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id} | Raid Host: {raid.raid_scheduler[0]} \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
+                title = self.emoji_name,
+                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
                 color=discord.Color.gold()
             )
             
@@ -65,7 +65,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = self.emoji_name,
-                description=f"Raid ID: {raid['raid_id']} | Raid Host: {raid['raid_scheduler'][0]} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
+                description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}> \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
                 color=discord.Color.gold()
             )
             
@@ -113,13 +113,16 @@ class raid():
             else:
                 slots= ""
                 for count, raider in enumerate(self.raid['raid_raiders'][role]['registered']):
-                    slots += f'{count+1}. {raider["discord_member_display_name"]}\n'
+                    slots += f'{count+1}. <@{raider["discord_member_id"]}>\n'
                 return slots
             
     def build_emoji_name(self,raid_name):
         emoji_name = ""
         for char in raid_name:
-            emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]} "
+            if char.upper() in self.emotes['emotes']['alphabet_id']:
+                emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]} "
+            else:
+                emoji_name += f"   "
         return emoji_name
                 
     def get_embed(self):

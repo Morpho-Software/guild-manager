@@ -64,12 +64,20 @@ async def process_raid_signup(payload,mongo,bot):
                     
                     
                     #Send signup confirmation
-                    embed = signup_confirmation_embed(raid,character)
+                    embed = signup_confirmation_embed(raid,character,payload)
                     dm = await payload.member.create_dm()
                     message = await dm.send(embed=embed.embed)
                     await message.add_reaction('🤖')
+                    
+                    #Update Raid Signup Message After someone is signed up
                     embed = raid_embed(raid, False)
                     await raid_msg.edit(embed=embed.embed)
+                    
+                    #Update Raid Mirrors
+                    for mirror in raid['raid_mirrors']:
+                        channel = await bot.fetch_channel(mirror['channel_id'])
+                        mirror_msg = await channel.fetch_message(mirror['message_id'])
+                        await mirror_msg.edit(embed=embed.embed)
                     
             else:
                 #raider does not exist
@@ -100,9 +108,13 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             embed = raid_embed(raid, False)
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+            
             mirrors = [{
-                "discord_name":"Sunwell Society"
-                }]
+                "discord_name":"Sunwell Society",
+                "channel_id":"955234475661480006",
+                "message_id":""
+            }]
+            await mongo.add_mirror_raid_post(raid,mirrors,bot)
             
             await add_raid_emojis(raid_public_post)
                         
@@ -112,8 +124,15 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             channel = bot.get_channel(933472914840387644)
             embed = raid_embed(raid, False)
             raid_public_post = await channel.send(embed=embed.embed)
-            mirrors = []
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+            
+            mirrors = [{
+                "discord_name":"Sunwell Society",
+                "channel_id":"955234475661480006",
+                "message_id":""
+            }]
+            await mongo.add_mirror_raid_post(raid,mirrors,bot)
+            
             await add_raid_emojis(raid_public_post)
             
             

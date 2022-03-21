@@ -32,12 +32,12 @@ class newraid():
         )
         
         self.message_id = None
-        self.message_mirrors = []
+        self.mirrors = []
             
         self.note = split_incoming_message[5]
         self.reocurring = split_incoming_message[6],
         self.confirmed = False,
-        self.scheduler = str(inc_msg.author),
+        self.scheduler = str(inc_msg.author.id),
         self.raiders = {
             "tank":{
                 "amount":[],
@@ -90,6 +90,7 @@ class newraid():
             "raid_scheduler":self.scheduler,
             "raid_raiders":self.raiders,
             "raid_disc_confirm_message":str(self.confirm_message_id),
-            "raid_game":self.game
+            "raid_game":self.game,
+            "raid_mirrors":self.mirrors
         }
         return raid_dict
