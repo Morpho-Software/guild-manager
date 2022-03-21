@@ -10,8 +10,8 @@ from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmati
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
 
 async def leadership_chat(bot, msg):
-    #channel_id = '930981831308894288'
-    channel_id = '955234475661480006'
+    channel_id = '930981831308894288'
+    #channel_id = '955234475661480006'
     channel = await bot.fetch_channel(channel_id)
     await channel.send(msg)
 
