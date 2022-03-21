@@ -24,10 +24,14 @@ class raid_ptsummary():
             icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
         )
         
-        
-        #This repeats for each character. \n{raid.raid_name} {points} repeats for each raid under value.
-        
         self.embed.add_field(
-            name=f"**Character 1**",
+            name="\u200b",
+            value=f"```fix\nCharacter Raid Points\n```"
+        )
+
+         #This repeats for each character. \n{raid.raid_name} {points} repeats for each raid under value.
+
+        self.embed.add_field(
+            name=f"**{Character Name}**",
             value=f"`{class id}, {specs}` \n{raid.raid_name} {points}"
         )

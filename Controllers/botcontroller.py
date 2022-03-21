@@ -120,6 +120,7 @@ async def process_raid_signup(payload,mongo,bot):
                     for mirror in raid['raid_mirrors']:
                         channel = await bot.fetch_channel(mirror['channel_id'])
                         mirror_msg = await channel.fetch_message(mirror['message_id'])
+                        embed = raid_embed(raid, False, True)
                         await mirror_msg.edit(embed=embed.embed)
                     
             else:

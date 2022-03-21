@@ -28,7 +28,7 @@ class gearvault_reminder():
 
         self.embed.add_field(
             name="\u200b",
-            value=f"```fix \nReminder!\n``` Raids need consumables and gold for repairs. Please donate what you can to `guild vaults`. \n\n*For The Sunwell, The Earthmother, and The Horde!*"
+            value=f"```fix\nReminder!\n``` Raids need consumables and gold for repairs. Please donate what you can to `guild vaults`. \n\n*For The Sunwell, The Earthmother, and The Horde!*"
         )
 
         #this needs a timer, sent out weekly and deleted automatically once reposted

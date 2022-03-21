@@ -26,7 +26,7 @@ class gearvault_reminder():
 
         self.embed.add_field(
             name="\u200b",
-            value=f"```fix\nReminder!\n```You were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank."
+            value=f"```fix\nReminder!\n```You were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank.*"
         )
 
         #this needs a timer, sent out weekly and deleted automatically once reposted

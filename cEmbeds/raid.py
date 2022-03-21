@@ -12,7 +12,7 @@ class raid():
     
     """
     
-    def __init__(self, raid, bConfirmationVersion=True):
+    def __init__(self, raid, bConfirmationVersion=True,bMirrorRaid=False):
         
         rd = open_raid_data()
         self.emotes = open_discord_emotes()
@@ -88,6 +88,12 @@ class raid():
                 name=f"\u200b",
                 value=f"```fix\nHealers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})\n``` `Stand-ins ({len(raid['raid_raiders']['healer']['reserves'])})`\n{self.build_slots('healer',False)}"
             )
+
+            if bMirrorRaid:
+                self.embed.add_field(
+                    name=f"Sign-up for this raid on [The Sun-Hoof Coalition](https://discord.gg/83GkDSAq3E).",
+                    vaule=f""
+                )
             
             self.embed.set_image(
                 url=rd[raid['raid_name']]['image']
