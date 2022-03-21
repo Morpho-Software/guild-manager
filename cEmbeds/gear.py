@@ -15,13 +15,13 @@ class gear():
         
         self.embed = discord.Embed(
             title = "[Long Beeps]",
-            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have successfully signed-up for `{raid.raid_id}` with {character name} as a {class and spec}! \n\n***If you have an item, or better please respond with it's name.** Gear suggestions are found on {bis site link}.*",
+            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have successfully signed-up for `{raid.raid_id}` with {character name} as a {class and spec}! \n\n***If you have an item, or better please react with it's corresponding emoji.** Gear suggestions are found on {bis site link}.*",
             color=discord.Color.gold()
         )
         
         self.embed.add_field(
-            name="```fix \nGear Suggestions \n```",
-            value=f"{item name}"
+            name="\u200b",
+            value=f"```fix\nGear Suggestions\n``` \n\n{item name}"
         )
 
         self.embed.set_author(
@@ -36,5 +36,5 @@ class gear():
 
         self.embed.add_field(
             name="`Head Suggestion`",
-            value=f"{item name}"
+            value=f":A_: {item name}"
         )

@@ -15,7 +15,7 @@ class gearvault_reminder():
         
         self.embed = discord.Embed(
             title = "[Loud Beep]",
-            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
+            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
             color=discord.Color.gold()
         )
         
@@ -25,8 +25,8 @@ class gearvault_reminder():
         )
 
         self.embed.add_field(
-            name="```fix \nReminder! \n```",
-            value=f"You were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank."
+            name="\u200b",
+            value=f"```fix\nReminder!\n```You were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank."
         )
 
         #this needs a timer, sent out weekly and deleted automatically once reposted

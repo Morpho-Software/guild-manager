@@ -27,8 +27,8 @@ class donations():
         )
 
         self.embed.add_field(
-            name="```fix \nMaintainence Needed \n```",
-            value=f"My functioning is stalling. You can help with my repairs in two ways: \n\n{link to buy me a coffee} \n\n{link to boost server}"
+            name="\u200b",
+            value=f"```fix\nMaintenance Needed!\n``` My functioning is s-stalling. You-you can help with my repairs in two ways: \n\n{link to buy me a coffee} \n\n{link to boost server}"
         )
 
         #this needs a timer, sent out biweekly and deleted automatically once reposted

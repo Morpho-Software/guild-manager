@@ -19,7 +19,7 @@ class help():
         
         self.embed = discord.Embed(
             title = "Operating Terminal",
-            description="<:1_:948050511502925944> Recieve raid sign-up instructions.\n\n<:2_:948050511641333791> View your raid point summary.",
+            description="<:1_:948050511502925944> Recieve raid sign-up instructions. \n\n<:2_:948050511641333791> View your raid point summary.",
             color=discord.Color.gold()
         )
         

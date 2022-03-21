@@ -25,8 +25,8 @@ class raid_join():
         )
         
         self.embed.add_field(
-            name="```fix \nHow To Join a Raid \n```",
-            value=f"*React to each raid with your class icon and specialization number icon, for that raid. **Mark <:Done:948280499049201744> when done.** Mark <:Cancel:948777741094895687> to cancel your sign up.* \n\nIf you sign up to a full raid, you will become a stand in. If someone cancels, you will fill their role automatically and be notified. *If there are enough stand-ins, a duplicate raid will be created.*"
+            name="\u200b",
+            value=f"```fix\nHow To Join a Raid\n``` \nReact to each raid with your class icon and specialization number icon, for that raid. **Mark <:Done:948280499049201744> when done.** Mark <:Cancel:948777741094895687> to cancel your sign up. \n\nIf you sign up to a full raid, you will become a stand in. If someone cancels, you will fill their role automatically and be notified. *If there are enough stand-ins, a duplicate raid will be created.*"
         )
         
         self.embed.add_field(

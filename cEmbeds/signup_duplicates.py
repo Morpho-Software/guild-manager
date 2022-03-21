@@ -15,7 +15,7 @@ class signup_overflow():
         
         self.embed = discord.Embed(
             title = "[Repeated Boops]",
-            description=f"`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, a `{raid.raid_name}` has been created if you are interested.",
+            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, a `{raid.raid_name}` has been created if you are interested. *Be sure to remove yourself as any stand-ins if you sign-up.*",
             color=discord.Color.gold()
         )
         
