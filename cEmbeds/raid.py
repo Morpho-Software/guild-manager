@@ -23,7 +23,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id} \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
+                description=f"Raid ID: {raid.raid_id} \n**{raid.datetime}** | **{raid.datetime}** \n\n*{raid.note}*",
                 color=discord.Color.gold()
             )
             
@@ -34,7 +34,7 @@ class raid():
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"```fix\nTank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['tank']['reserves'])})`\n{self.build_slots('tank')}"
+                value=f"```fix\nTanks ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['tank']['reserves'])})`\n{self.build_slots('tank')}"
             )
             
             self.embed.add_field(
@@ -53,7 +53,7 @@ class raid():
             
             self.embed.add_field(
                 name="\u200b",
-                value=f"```fix\nRaidConfirmation\n``` This is a preview of the raid. Please respond with <:Done:948280499049201744> to confirm the raid or <:Cancel:948777741094895687> to delete the raid."
+                value=f"```fix\nRaid Confirmation\n``` This is a preview of the raid. Please respond with <:Done:948280499049201744> to confirm the raid or <:Cancel:948777741094895687> to delete the raid."
             )
             
         else:
@@ -61,7 +61,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid['raid_name'],
-                description=f"Raid ID: {raid['raid_id']} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n*{raid['raid_note']}*",
+                description=f"Raid ID: {raid['raid_id']} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
                 color=discord.Color.gold()
             )
             
@@ -71,18 +71,18 @@ class raid():
             )
             
             self.embed.add_field(
-                name=f"`Tanks ({len(raid['raid_raiders']['tank']['registered'])}/{raid['raid_raiders']['tank']['amount'][0]})`",
-                value=f"{self.build_slots('tank',False)}\n`Stand-ins ({len(raid['raid_raiders']['tank']['reserves'])})`"
+                name=f"\u200b",
+                value=f"```fix\nTanks ({len(raid['raid_raiders']['tank']['registered'])}/{raid['raid_raiders']['tank']['amount'][0]})\n``` `Stand-ins ({len(raid['raid_raiders']['tank']['reserves'])})`\n{self.build_slots('tank',False)}"
             )
             
             self.embed.add_field(
-                name=f"`Damage ({len(raid['raid_raiders']['damage']['registered'])}/{raid['raid_raiders']['damage']['amount'][0]})`",
-                value=f"{self.build_slots('damage',False)}\n`Stand-ins ({len(raid['raid_raiders']['damage']['reserves'])})`"
+                name=f"\u200b",
+                value=f"```fix\nDamage ({len(raid['raid_raiders']['damage']['registered'])}/{raid['raid_raiders']['damage']['amount'][0]})\n``` `Stand-ins ({len(raid['raid_raiders']['damage']['reserves'])})`\n{self.build_slots('damage',False)}"
             )
             
             self.embed.add_field(
-                name=f"`Healers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})`",
-                value=f"{self.build_slots('healer',False)}\n`Stand-ins ({len(raid['raid_raiders']['healer']['reserves'])})`"
+                name=f"\u200b",
+                value=f"```fix\nHealers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})\n``` `Stand-ins ({len(raid['raid_raiders']['healer']['reserves'])})`\n{self.build_slots('healer',False)}"
             )
             
             self.embed.set_image(
