@@ -26,8 +26,8 @@ class raid():
             self.raid = raid
             
             self.embed = discord.Embed(
-                title = self.emoji_name,
-                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
+                title = raid.raid_name,
+                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime}** | **{raid.datetime}** \n*Listen up, <@&933478722907029584>! {raid.note}*",
                 color=discord.Color.gold()
             )
             
@@ -64,8 +64,8 @@ class raid():
             self.raid = raid
             
             self.embed = discord.Embed(
-                title = self.emoji_name,
-                description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}> \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
+                title = raid['raid_name'],
+                description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}> \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n \n*Listen up, <@&933478722907029584>! {raid['raid_note']}*",
                 color=discord.Color.gold()
             )
             
@@ -122,7 +122,7 @@ class raid():
             if char.upper() in self.emotes['emotes']['alphabet_id']:
                 emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]} "
             else:
-                emoji_name += f"   "
+                emoji_name += f" "
         return emoji_name
                 
     def get_embed(self):

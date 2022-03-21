@@ -9,13 +9,24 @@ import Controllers.botcontroller as botcontroller
 
 load_dotenv()
 
-bot = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+bot = discord.Client(
+    intents=intents
+)
 
 mongo = Mongodb('raids')
 
 @bot.event
 async def on_ready():
     print(f'We have logged in as {bot.user}')
+    
+@bot.event
+async def on_member_join(member):
+    guild = bot.get_guild(933472737874313258)
+    channel = guild.get_channel(933473237428486154)
+    await channel.send(f"You made it!")
+    await member.send(f"Glad you're here!")
 
 @bot.event
 async def on_message(message):
@@ -71,6 +82,9 @@ async def on_raw_reaction_add(payload):
     if payload.user_id == 933865497689198603:
         return
     
+    #This code handles people joining the discord
+    if payload.channel_id == 933473675062161509:
+        await botcontroller.process_add_sunhoof_role_selection(payload,mongo,bot)
     #This code handles people reacting to items in the raid closet
     if payload.channel_id == 933481167565488128:
         await botcontroller.process_bot_closet_reactions(payload,mongo,bot)
@@ -82,6 +96,12 @@ async def on_raw_reaction_add(payload):
 
 @bot.event
 async def on_raw_reaction_remove(payload):
-    pass
+    if payload.channel_id == 933473675062161509:
+        await botcontroller.process_remove_sunhoof_role_selection(payload,mongo,bot)
+    
+
+    
+
+    
 
 bot.run(os.environ['TOKEN'])

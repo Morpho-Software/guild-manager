@@ -1,4 +1,4 @@
-
+import discord
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from Models.raid import newraid
@@ -43,6 +43,49 @@ async def process_new_raider(mongo,payload,reactor_reactions,raid):
     embed=new_character_embed(raid,newcharacter,payload)
     message = await dm.send(embed=embed.embed)
     # await message.add_reaction('🤖')
+
+async def process_add_sunhoof_role_selection(payload,mongo,bot):
+    message_id = payload.message_id
+    if message_id == 946989019236040714:
+        guild_id = payload.guild_id
+        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+        
+        if payload.emoji.name == 'Guest':
+            role = discord.utils.get(guild.roles, name='Guest')
+        elif payload.emoji.name in ['SunwellSociety','ThunderhoofTribe']:
+            role = discord.utils.get(guild.roles, name='Sun-Hoofer')
+            
+        if role is not None:
+            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
+            if member is not None:
+                await member.add_roles(role)
+                print("done")
+            else:
+                print("Member not found.")
+        else:
+            print("Role not found.")
+
+async def process_remove_sunhoof_role_selection(payload,mongo,bot):
+    message_id = payload.message_id
+    if message_id == 946989019236040714:
+        guild_id = payload.guild_id
+        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+        
+        if payload.emoji.name == 'Guest':
+            role = discord.utils.get(guild.roles, name='Guest')
+        elif payload.emoji.name in ['SunwellSociety','ThunderhoofTribe']:
+            role = discord.utils.get(guild.roles, name='Sun-Hoofer')
+            
+        if role is not None:
+            member = discord.utils.find(lambda m : m.id == payload.user_id, guild.members)
+            if member is not None:
+                await member.remove_roles(role)
+                print("done")
+            else:
+                print("Member not found.")
+        else:
+            print("Role not found.")
+
     
 async def process_raid_signup(payload,mongo,bot):
     channel = bot.get_channel(payload.channel_id)
@@ -123,6 +166,7 @@ async def process_bot_closet_reactions(payload,mongo,bot):
         elif raid['raid_game'] == 'tbc':
             channel = bot.get_channel(933472914840387644)
             embed = raid_embed(raid, False)
+            mention_raiders_msg = await channel.send('<@933478722907029584>')
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             
