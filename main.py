@@ -38,7 +38,8 @@ async def on_message(message):
                 #This is a list of approved commands
                 commands = [
                     "schedule",
-                    "help"
+                    "help",
+                    "lc"
                 ]
                 
                 #This is the command the user passed
@@ -56,6 +57,8 @@ async def on_message(message):
                         except Exception as e:
                             await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
                             return
+                    elif command == commands[2]: #lc (leadshipchat)
+                        await botcontroller.leadership_chat(bot,inc_message_split[2])
     #Message coming from DM
     else:
         print("I hear ya")

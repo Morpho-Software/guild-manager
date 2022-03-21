@@ -9,6 +9,11 @@ from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmati
 
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
 
+async def leadership_chat(bot, msg):
+    #channel_id = '930981831308894288'
+    channel_id = '955234475661480006'
+    channel = await bot.fetch_channel(channel_id)
+    await channel.send(msg)
 
 def get_class_spec(reactions) -> str:
     dismoji = open_discord_emotes()
@@ -95,6 +100,10 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             embed = raid_embed(raid, False)
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+            mirrors = [{
+                "discord_name":"Sunwell Society"
+                }]
+            
             await add_raid_emojis(raid_public_post)
                         
                         
@@ -103,8 +112,10 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             channel = bot.get_channel(933472914840387644)
             embed = raid_embed(raid, False)
             raid_public_post = await channel.send(embed=embed.embed)
+            mirrors = []
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             await add_raid_emojis(raid_public_post)
+            
             
 async def process_schedule_raid(message,mongo,inc_message_split):
     newRaid = newraid(inc_message_split, message)

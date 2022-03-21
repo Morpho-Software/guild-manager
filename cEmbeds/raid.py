@@ -15,7 +15,11 @@ class raid():
     def __init__(self, raid, bConfirmationVersion=True):
         
         rd = open_raid_data()
-        emotes = open_discord_emotes()
+        self.emotes = open_discord_emotes()
+        if bConfirmationVersion:
+            self.emoji_name = self.build_emoji_name(raid.raid_name)
+        else:
+            self.emoji_name = self.build_emoji_name(raid['raid_name'])
         
         if bConfirmationVersion:
         
@@ -60,7 +64,7 @@ class raid():
             self.raid = raid
             
             self.embed = discord.Embed(
-                title = raid['raid_name'],
+                title = self.emoji_name,
                 description=f"Raid ID: {raid['raid_id']} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
                 color=discord.Color.gold()
             )
@@ -111,6 +115,12 @@ class raid():
                 for count, raider in enumerate(self.raid['raid_raiders'][role]['registered']):
                     slots += f'{count+1}. {raider["discord_member_display_name"]}\n'
                 return slots
+            
+    def build_emoji_name(self,raid_name):
+        emoji_name = ""
+        for char in raid_name:
+            emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]} "
+        return emoji_name
                 
     def get_embed(self):
         return self.embed

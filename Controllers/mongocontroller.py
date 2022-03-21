@@ -38,6 +38,11 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
+    def mirror_raid_post(self, raid, channel_id) -> None:
+        self.set_collection('raids')
+        raid['message_mirrors'].append()
+        
+        
     def add_character_to_raid_signup(self, character, raid, member) -> None:
         #Add character Id to the raid first
         class_info = open_wow_class_information()
