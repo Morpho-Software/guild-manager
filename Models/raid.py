@@ -32,6 +32,7 @@ class newraid():
         )
         
         self.message_id = None
+        self.message_mirrors = []
             
         self.note = split_incoming_message[5]
         self.reocurring = split_incoming_message[6],
