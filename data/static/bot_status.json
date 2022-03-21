@@ -46,5 +46,14 @@
     {
         "activity_status":"watching",
         "activity_text":"curiously as Hycine makes potions and elixirs."
-    }
+    },
+    {
+        "activity_status":"watching",
+        "activity_text":"Aovi sew numerous bags."
+    },
+    {
+        "activity_status":"listening",
+        "activity_text":"the thumps of Gorge jumping and clapping excitedly in the distance."
+    },
+
 ]
