@@ -34,17 +34,17 @@ class raid():
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"```fix\nTank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` \n{self.build_slots('tank')}\n`Stand-ins ({len(raid.raiders['tank']['reserves'])})`"
+                value=f"```fix\nTank ({len(raid.raiders['tank']['registered'])}/{raid.raiders['tank']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['tank']['reserves'])})`\n{self.build_slots('tank')}"
             )
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"`Damage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})` \n{self.build_slots('damage')}\n`Stand-ins ({len(raid.raiders['damage']['reserves'])})`"
+                value=f"```fix\nDamage ({len(raid.raiders['damage']['registered'])}/{raid.raiders['damage']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['damage']['reserves'])})`\n{self.build_slots('damage')}"
             )
             
             self.embed.add_field(
                 name=f"\u200b",
-                value=f"`Healers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})` \n{self.build_slots('healer')}\n`Stand-ins ({len(raid.raiders['healer']['reserves'])})`"
+                value=f"```fix\nHealers ({len(raid.raiders['healer']['registered'])}/{raid.raiders['healer']['amount'][0]})\n``` `Stand-ins ({len(raid.raiders['healer']['reserves'])})`\n{self.build_slots('healer')}"
             )
             
             self.embed.set_image(
@@ -52,8 +52,8 @@ class raid():
             )
             
             self.embed.add_field(
-                name="`Raid Confirmation`",
-                value=f"This is a preview of the raid. Please respond with <:Done:948280499049201744> to confirm the raid or <:Cancel:948777741094895687> to delete the raid."
+                name="\u200b",
+                value=f"```fix\nRaidConfirmation\n``` This is a preview of the raid. Please respond with <:Done:948280499049201744> to confirm the raid or <:Cancel:948777741094895687> to delete the raid."
             )
             
         else:
