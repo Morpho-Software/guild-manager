@@ -27,7 +27,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id} \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
+                description=f"Raid ID: {raid.raid_id} | Raid Host: {raid.raid_scheduler[0]} \n**{raid.datetime}** | **{raid.datetime}** \n*{raid.note}*",
                 color=discord.Color.gold()
             )
             
@@ -65,7 +65,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = self.emoji_name,
-                description=f"Raid ID: {raid['raid_id']} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
+                description=f"Raid ID: {raid['raid_id']} | Raid Host: {raid['raid_scheduler'][0]} \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n*{raid['raid_note']}*",
                 color=discord.Color.gold()
             )
             
