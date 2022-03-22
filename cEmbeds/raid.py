@@ -91,8 +91,8 @@ class raid():
 
             if bMirrorRaid:
                 self.embed.add_field(
-                    name=f"Sign-up for this raid on [The Sun-Hoof Coalition](https://discord.gg/83GkDSAq3E).",
-                    vaule=f""
+                    name=f"\u200b",
+                    value=f"Sign-up for this raid on [The Sun-Hoof Coalition](https://discord.gg/83GkDSAq3E)"
                 )
             
             self.embed.set_image(

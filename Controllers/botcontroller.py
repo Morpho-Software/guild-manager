@@ -188,8 +188,8 @@ async def process_schedule_raid(message,mongo,inc_message_split):
                             
     sent_message = await message.channel.send(embed=embed.embed)
                             
-    await sent_message.add_reaction('<:Done:948280499049201744>')
-    await sent_message.add_reaction('<:Cancel:948777741094895687>')
+    await sent_message.add_reaction('<:Done:955361992883961896>')
+    await sent_message.add_reaction('<:Cancel:955362577267949598>')
                             
     newRaid.set_confirm_message_id(sent_message.id)
                             
