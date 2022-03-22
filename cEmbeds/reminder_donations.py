@@ -22,7 +22,7 @@ class donations():
         )
         
         self.embed.set_author(
-            name="Soulbeam's Quartermaster - Bot 300X",
+            name="Soulbeam's Quartermaster Robot V.300X",
             icon_url=SOULBEAM_IMG
         )
 

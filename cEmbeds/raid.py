@@ -70,7 +70,7 @@ class raid():
             )
             
             self.embed.set_author(
-                name="Soulbeam's Quartermaster - Bot 300X",
+                name="Soulbeam's Quartermaster Robot V.300X",
                 icon_url="https://cdn.discordapp.com/attachments/933481167565488128/947801465903267890/WoWScrnShot_090521_044754_-_Copy.jpg"
             )
             
