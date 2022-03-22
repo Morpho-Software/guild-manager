@@ -22,7 +22,7 @@ class gearvault_reminder():
         )
         
         self.embed.set_author(
-            name="Soulbeam's Quartermaster - Bot 300X",
+            name="Soulbeam's Quartermaster Robot V.300X",
             icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
         )
 
