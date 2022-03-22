@@ -14,8 +14,8 @@ class newcharacter():
         self.class_name = ''
         self.class_specialization = ''
         self.specialization = ''
-        self.character_name = ''
-        self.character_race = ''
+        self.character_name = None
+        self.character_race = None
         self.raid_points = []
         self.registered = []
         self.attended = []

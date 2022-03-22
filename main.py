@@ -72,7 +72,23 @@ async def on_message(message):
                         await botcontroller.leadership_chat(bot,inc_message_split[2])
     #Message coming from DM
     else:
-        print("I hear ya")
+        #handle naming characters
+        sunhoof_member = await botcontroller.get_guild_member_id_by_guild_id_user_id(message.author.id,933472737874313258,bot)
+        character = mongo.find_character_empty_name_by_discord_member_id(sunhoof_member.id)
+        if character:
+            raid = mongo.find_raid_by_character_id_from_temp(character['character_id'])
+            channel = await bot.fetch_channel(raid['raid_posting_channel'])
+            raid_msg = await channel.fetch_message(raid['raid_posting_msg'])
+            character = mongo.set_character_name(character['character_id'],str(message.content))
+            
+            mongo.add_character_to_raid_signup(character,raid,sunhoof_member)
+            
+            await botcontroller.send_raid_signup_confirm_from_dm(raid, character,sunhoof_member)
+            await botcontroller.update_raid_signup_message(raid,raid_msg)
+            await botcontroller.update_raid_signup_message_mirrors(raid,bot)
+        else:
+            print("nope")
+            
                     
 
 @bot.event

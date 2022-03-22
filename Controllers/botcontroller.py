@@ -32,16 +32,19 @@ def get_class_spec(reactions) -> str:
         return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
     
 
-async def process_new_raider(mongo,payload,reactor_reactions,raid):
-    #This code runs if no account have ever been created with the raider
-    newraider = new_raider(payload)
+async def process_new_character(mongo,payload,reactor_reactions,raid):
     newcharacter = new_character(payload, reactor_reactions)
-    mongo.insert_new_raider(newraider.to_dictionary())
     mongo.insert_new_character(newcharacter.to_dictionary())
     mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
+    mongo.temporary_signup_character(newcharacter.character_id,raid['raid_id'])
     dm = await payload.member.create_dm()
     embed=new_character_embed(raid,newcharacter,payload)
     message = await dm.send(embed=embed.embed)
+
+async def process_new_raider(mongo,payload,reactor_reactions,raid):
+    #This code runs if no account have ever been created with the raider
+    newraider = new_raider(payload)
+    mongo.insert_new_raider(newraider.to_dictionary())
     # await message.add_reaction('🤖')
 
 async def process_add_sunhoof_role_selection(payload,mongo,bot):
@@ -64,7 +67,12 @@ async def process_add_sunhoof_role_selection(payload,mongo,bot):
                 print("Member not found.")
         else:
             print("Role not found.")
-
+            
+async def get_guild_member_id_by_guild_id_user_id(user_id, guild_id,bot):
+    guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+    member = discord.utils.find(lambda m : m.id == user_id, guild.members)
+    return member
+    
 async def process_remove_sunhoof_role_selection(payload,mongo,bot):
     message_id = payload.message_id
     if message_id == 946989019236040714:
@@ -86,7 +94,32 @@ async def process_remove_sunhoof_role_selection(payload,mongo,bot):
         else:
             print("Role not found.")
 
+async def send_raid_signup_confirmation(raid,character,payload):
+    #Send signup confirmation
+    embed = signup_confirmation_embed(raid,character,payload)
+    dm = await payload.member.create_dm()
+    message = await dm.send(embed=embed.embed)
+    await message.add_reaction('🤖')
     
+async def send_raid_signup_confirm_from_dm(raid, character, member):
+    #Send signup confirmation used when adding from DM
+    embed = signup_confirmation_embed(raid,character,member.display_name)
+    dm = await member.create_dm()
+    message = await dm.send(embed=embed.embed)
+    
+async def update_raid_signup_message(raid, raid_msg):
+    #Update Raid Signup Message After someone is signed up
+    embed = raid_embed(raid, False)
+    await raid_msg.edit(embed=embed.embed)
+    
+async def update_raid_signup_message_mirrors(raid,bot):
+    #Update Raid Mirrors
+    for mirror in raid['raid_mirrors']:
+        channel = await bot.fetch_channel(mirror['channel_id'])
+        mirror_msg = await channel.fetch_message(mirror['message_id'])
+        embed = raid_embed(raid, False, True)
+        await mirror_msg.edit(embed=embed.embed)
+
 async def process_raid_signup(payload,mongo,bot):
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
@@ -105,27 +138,19 @@ async def process_raid_signup(payload,mongo,bot):
                     #Now we can register this raider and character in the raid they reacted to.
                     mongo.add_character_to_raid_signup(character, raid, payload.member)
                     
+                    await send_raid_signup_confirmation(raid, character, payload)
                     
-                    #Send signup confirmation
-                    embed = signup_confirmation_embed(raid,character,payload)
-                    dm = await payload.member.create_dm()
-                    message = await dm.send(embed=embed.embed)
-                    await message.add_reaction('🤖')
+                    await update_raid_signup_message(raid, raid_msg)
                     
-                    #Update Raid Signup Message After someone is signed up
-                    embed = raid_embed(raid, False)
-                    await raid_msg.edit(embed=embed.embed)
+                    await update_raid_signup_message_mirrors(raid, bot)
                     
-                    #Update Raid Mirrors
-                    for mirror in raid['raid_mirrors']:
-                        channel = await bot.fetch_channel(mirror['channel_id'])
-                        mirror_msg = await channel.fetch_message(mirror['message_id'])
-                        embed = raid_embed(raid, False, True)
-                        await mirror_msg.edit(embed=embed.embed)
-                    
+                else:
+                    await process_new_character(mongo,payload,reactor_reactions,raid)
             else:
-                #raider does not exist
+                #raider does not exist so no characters exist either
                 await process_new_raider(mongo, payload, reactor_reactions, raid)
+                await process_new_character(mongo, payload, reactor_reactions, raid)
+                
                 
         else:
             #The user has failed to correctly fill out the reactions on a raid
@@ -152,6 +177,7 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             embed = raid_embed(raid, False)
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+            mongo.set_raid_posting_channel(raid['raid_id'],raid_public_post)
             
             mirrors = [{
                 "discord_name":"Sunwell Society",
@@ -170,6 +196,7 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             mention_raiders_msg = await channel.send('<@933478722907029584>')
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
+            mongo.set_raid_posting_channel(raid['raid_id'],raid_public_post)
             
             mirrors = [{
                 "discord_name":"Sunwell Society",

@@ -39,6 +39,16 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
+    def set_raid_posting_channel(self, raid_id, raid_posting_msg):
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
+        update = {
+            "$set":{
+                "raid_posting_channel":str(raid_posting_msg.channel.id)
+            }
+        }
+        self.collection.update_one(query,update)
+        
     async def add_mirror_raid_post(self, raid, mirrors,bot) -> None:
         self.set_collection('raids')
         for mirror in mirrors:
@@ -96,6 +106,15 @@ class Mongodb():
             }
         }
         self.collection.update_one(query, update)
+    
+    def find_character_empty_name_by_discord_member_id(self, discord_member_id):
+        self.set_collection('characters')
+        query = {
+            "discord_member_id":str(discord_member_id),
+            "character_name": None
+        }
+        return self.collection.find_one(query)
+        
         
     def confirm_raid(self,raid_id) -> None:
         self.set_collection('raids')
@@ -129,6 +148,9 @@ class Mongodb():
         self.set_collection('raids')
         count = list(self.collection.find({}))
         return len(count)
+    
+    
+        
     
     ###########
     # Raiders #
@@ -180,6 +202,34 @@ class Mongodb():
         count = list(self.collection.find({}))
         return len(count)
         
+    def set_character_name(self,character_id,character_name):
+        self.set_collection('characters')
+        query = {"character_id":character_id}
+        update = {
+            "$set":{
+                "character_name":character_name
+            }
+        }
+        self.collection.update_one(query,update)
+        return self.collection.find_one(query)
+        
+    #####################
+    # Temporary Signups #
+    #####################
+        
+    def find_raid_by_character_id_from_temp(self, character_id):
+        self.set_collection('temp_signup')
+        query = {"character_id":character_id}
+        temp =  self.collection.find_one(query)
+        raid = self.find_raid_by_raid_id(temp['raid_id'])
+        return raid
+    
+    def temporary_signup_character(self,character_id,raid_id):
+        self.set_collection('temp_signup')
+        self.collection.insert_one({
+            "character_id":character_id,
+            "raid_id":raid_id
+        })
         
     ################
     #   Setters    #

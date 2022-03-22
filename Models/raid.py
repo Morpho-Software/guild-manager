@@ -17,8 +17,6 @@ class newraid():
         mdb = Mongodb('raids')
         self.raid_id = f'{rd[self.raid_name]["name"]}#{(mdb.get_raid_count())+1}'
         
-        print(os.getcwd())
-        
         split_year = split_incoming_message[3].split('/')
             
         year = int(split_year[2])
@@ -30,6 +28,8 @@ class newraid():
             month=month,
             day=day
         )
+        
+        self.raid_post_channel = None
         
         self.message_id = None
         self.mirrors = []
