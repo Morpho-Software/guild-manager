@@ -9,7 +9,8 @@ class signup_confirmation():
     Sent in private messages on day of raid.
     
     Output:
-    
+    sh/ raid info command
+
     """
     def __init__(self, raid, character,payload):
         
