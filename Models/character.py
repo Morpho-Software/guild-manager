@@ -16,7 +16,7 @@ class newcharacter():
         self.specialization = ''
         self.character_name = None
         self.character_race = None
-        self.raid_points = []
+        self.raid_points = {}
         self.registered = []
         self.attended = []
         self.cancled = []
@@ -146,4 +146,4 @@ class newcharacter():
     def populate_raid_points(self) -> None:
         for raid in self.rd:
             if raid not in ['instance_name','World Bosses']:
-                self.raid_points.append({"raid":raid,"points":0})
+                self.raid_points[raid] = {"raid_name":raid,"points":0}

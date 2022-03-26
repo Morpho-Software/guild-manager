@@ -84,17 +84,19 @@ async def on_message(message):
                             await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
                             return
                     elif command == commands[3]: #info
-                        try:
-                            if len(inc_message_split) > 3:
-                                raise Exception("[ZAP]")
-                            await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split)
-                        except Exception as e:
-                            await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
-                            await message.channel.send(f'3....')
-                            await message.channel.send(f'2....')
-                            await message.channel.send(f'1....')
-                            await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
-                            return
+                        await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split,message)
+                        # try:
+                        #     if len(inc_message_split) > 3:
+                        #         raise Exception("[ZAP]")
+                        #     await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split,message)
+                        # except Exception as e:
+                        #     await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
+                        #     await message.channel.send(f'3....')
+                        #     await message.channel.send(f'2....')
+                        #     await message.channel.send(f'1....')
+                        #     await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                        #     await message.channel.send(f'{e}')
+                        #     return
                     elif command == commands[4]: #edit
                         pass
                         #await botcontroller.mark_raid_attendance(bot, mongo, inc_message_split)

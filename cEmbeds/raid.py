@@ -27,7 +27,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime}** | **{raid.datetime}** \n*Listen up, <@&933478722907029584>! {raid.note}*",
+                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime.month}/{raid.datetime.day}/{raid.datetime.year}** | **{raid.datetime.strftime('%I:%M%p')}** \n*Listen up, <@&933478722907029584>! {raid.note}*",
                 color=discord.Color.gold()
             )
             
@@ -65,7 +65,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid['raid_name'],
-                description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}> \n**{raid['raid_time']}** | **{raid['raid_time']}** \n\n \n*Listen up, <@&933478722907029584>! {raid['raid_note']}*",
+                description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}> \n**{raid['raid_datetime'].month}/{raid['raid_datetime'].day}/{raid['raid_datetime'].year}** | **{raid['raid_datetime'].strftime('%I:%M%p')}** \n\n \n*Listen up, <@&933478722907029584>! {raid['raid_note']}*",
                 color=discord.Color.gold()
             )
             

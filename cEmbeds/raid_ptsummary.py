@@ -28,10 +28,23 @@ class raid_ptsummary():
             name="\u200b",
             value=f"```fix\nCharacter Raid Points\n```"
         )
+        self.embed.add_field(
+            name="\u200b",
+            value=f"\u200b",
+            inline=False
+        )
 
          #This repeats for each character. \n{raid.raid_name} {points} repeats for each raid under value.
 
-        self.embed.add_field(
-            name=f"**{character}**",
-            value=f"`{class id}, {specs}` \n{raid.raid_name} {points}"
-        )
+        for character in characters:
+            
+            
+            self.embed.add_field(
+                name=f'**{character["character_name"]}**',
+                value=f"{character['class_specialization']}\n{raid['raid_name']} Points: {character['raid_points'][raid['raid_name']]['points']}"
+            )
+
+        # self.embed.add_field(
+        #     name=f"**{character}**",
+        #     value=f"`{class id}, {specs}` \n{raid.raid_name} {points}"
+        # )

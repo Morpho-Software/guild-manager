@@ -216,8 +216,12 @@ class Mongodb():
     def get_characters_registered_for_raid_by_raid_id(self,raid_id) -> list:
         raid = self.find_raid_by_raid_id(raid_id)
         registered_characters = []
-        for character in raid['registered']:
-            self.find_character_by_character_id(character)
+        for character in raid['raid_raiders']['tank']['registered']:
+            registered_characters.append(self.find_character_by_character_id(character['character_id']))
+        for character in raid['raid_raiders']['damage']['registered']:
+            registered_characters.append(self.find_character_by_character_id(character['character_id']))
+        for character in raid['raid_raiders']['healer']['registered']:
+            registered_characters.append(self.find_character_by_character_id(character['character_id']))
         return registered_characters
         
     #####################
