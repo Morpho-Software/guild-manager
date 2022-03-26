@@ -5,6 +5,7 @@ from Models.raid import newraid
 from cEmbeds.raid_newcharacter import raid_characters as new_character_embed
 from cEmbeds.raid import raid as raid_embed
 from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
+#from cEmbeds.raid_ptsummary import raid_ptsummary as raid_ptsummary_embed
 
 
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
@@ -211,9 +212,12 @@ async def mark_raid_attendance(bot,mongo,inc_messag_split):
     #sh/ absent {raidId} ["Gildu"]
     pass
 
-async def send_raid_info_dm():
-    pass
-            
+async def send_raid_info_dm(bot,mongo,inc_message_split):
+    raid = mongo.find_raid_by_raid_id(inc_message_split[2])
+    characters = mongo.get_characters_registered_for_raid_by_raid_id(inc_message_split[2])
+    print(characters)
+    
+    
 async def process_schedule_raid(message,mongo,inc_message_split):
     newRaid = newraid(inc_message_split, message)
                             

@@ -212,6 +212,13 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         return self.collection.find_one(query)
+    
+    def get_characters_registered_for_raid_by_raid_id(self,raid_id) -> list:
+        raid = self.find_raid_by_raid_id(raid_id)
+        registered_characters = []
+        for character in raid['registered']:
+            self.find_character_by_character_id(character)
+        return registered_characters
         
     #####################
     # Temporary Signups #
