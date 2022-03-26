@@ -11,11 +11,11 @@ class raid_ptsummary():
     Output:
     
     """
-    def __init__(self, raid):
+    def __init__(self, raid, characters, message):
         
         self.embed = discord.Embed(
             title = "[Soft Beeping]",
-            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
+            description=f"`Greetings {message.author}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
             color=discord.Color.gold()
         )
         
@@ -32,6 +32,6 @@ class raid_ptsummary():
          #This repeats for each character. \n{raid.raid_name} {points} repeats for each raid under value.
 
         self.embed.add_field(
-            name=f"**{Character Name}**",
+            name=f"**{character}**",
             value=f"`{class id}, {specs}` \n{raid.raid_name} {points}"
         )

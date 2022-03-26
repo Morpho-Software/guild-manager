@@ -5,11 +5,12 @@ from Models.raid import newraid
 from cEmbeds.raid_newcharacter import raid_characters as new_character_embed
 from cEmbeds.raid import raid as raid_embed
 from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
+#from cEmbeds.raid_ptsummary import raid_ptsummary as raid_ptsummary_embed
 
 
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
 
-async def leadership_chat(bot, msg):
+async def leadership_chat(bot, msg) -> None:
     channel_id = '930981831308894288'
     #channel_id = '955234475661480006'
     channel = await bot.fetch_channel(channel_id)
@@ -30,9 +31,8 @@ def get_class_spec(reactions) -> str:
         
     if specNum in dismoji['emotes']['class_spec'][className] and validDone:
         return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
-    
 
-async def process_new_character(mongo,payload,reactor_reactions,raid):
+async def process_new_character(mongo,payload,reactor_reactions,raid) -> None:
     newcharacter = new_character(payload, reactor_reactions)
     mongo.insert_new_character(newcharacter.to_dictionary())
     mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
@@ -41,13 +41,12 @@ async def process_new_character(mongo,payload,reactor_reactions,raid):
     embed=new_character_embed(raid,newcharacter,payload)
     message = await dm.send(embed=embed.embed)
 
-async def process_new_raider(mongo,payload,reactor_reactions,raid):
+async def process_new_raider(mongo,payload,reactor_reactions,raid) -> None:
     #This code runs if no account have ever been created with the raider
     newraider = new_raider(payload)
     mongo.insert_new_raider(newraider.to_dictionary())
-    # await message.add_reaction('🤖')
 
-async def process_add_sunhoof_role_selection(payload,mongo,bot):
+async def process_add_sunhoof_role_selection(payload,mongo,bot) -> None:
     message_id = payload.message_id
     if message_id == 946989019236040714:
         guild_id = payload.guild_id
@@ -67,13 +66,15 @@ async def process_add_sunhoof_role_selection(payload,mongo,bot):
                 print("Member not found.")
         else:
             print("Role not found.")
-            
-async def get_guild_member_id_by_guild_id_user_id(user_id, guild_id,bot):
+    else:
+        pass
+
+async def get_guild_member_id_by_guild_id_user_id(user_id, guild_id,bot) -> discord.Member:
     guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
     member = discord.utils.find(lambda m : m.id == user_id, guild.members)
     return member
-    
-async def process_remove_sunhoof_role_selection(payload,mongo,bot):
+
+async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
     message_id = payload.message_id
     if message_id == 946989019236040714:
         guild_id = payload.guild_id
@@ -94,25 +95,25 @@ async def process_remove_sunhoof_role_selection(payload,mongo,bot):
         else:
             print("Role not found.")
 
-async def send_raid_signup_confirmation(raid,character,payload):
+async def send_raid_signup_confirmation(raid,character,payload) -> None:
     #Send signup confirmation
     embed = signup_confirmation_embed(raid,character,payload)
     dm = await payload.member.create_dm()
     message = await dm.send(embed=embed.embed)
     await message.add_reaction('🤖')
-    
-async def send_raid_signup_confirm_from_dm(raid, character, member):
+
+async def send_raid_signup_confirm_from_dm(raid, character, member) -> None:
     #Send signup confirmation used when adding from DM
     embed = signup_confirmation_embed(raid,character,member.display_name)
     dm = await member.create_dm()
     message = await dm.send(embed=embed.embed)
-    
-async def update_raid_signup_message(raid, raid_msg):
+
+async def update_raid_signup_message(raid, raid_msg) -> None:
     #Update Raid Signup Message After someone is signed up
     embed = raid_embed(raid, False)
     await raid_msg.edit(embed=embed.embed)
-    
-async def update_raid_signup_message_mirrors(raid,bot):
+
+async def update_raid_signup_message_mirrors(raid,bot) -> None:
     #Update Raid Mirrors
     for mirror in raid['raid_mirrors']:
         channel = await bot.fetch_channel(mirror['channel_id'])
@@ -120,7 +121,7 @@ async def update_raid_signup_message_mirrors(raid,bot):
         embed = raid_embed(raid, False, True)
         await mirror_msg.edit(embed=embed.embed)
 
-async def process_raid_signup(payload,mongo,bot):
+async def process_raid_signup(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
     raid = mongo.find_raid_by_posting_message_id(raid_msg.id)
@@ -157,8 +158,8 @@ async def process_raid_signup(payload,mongo,bot):
             dm = await payload.member.create_dm()
             message = await dm.send(f"[Beeping and Whirring]\nGreetings! This is SQ-Bot 300X, programmed for your optimized battling experience by the Great Lord Gildu Soulbeam, now also an engineer.\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but it is **incomplete**.\n\n*Please make sure you select: your **class** icon, your **class number** icon representing your specialization (found in #faq), and the **done** icon.\nIf you wish to cancel your sign-up, please select the cancel icon.*")
             await message.add_reaction('🤖')
-            
-async def process_bot_closet_reactions(payload,mongo,bot):
+
+async def process_bot_closet_reactions(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
         
     if mongo.find_raid_by_confirmation_message_id(payload.message_id):
@@ -206,8 +207,17 @@ async def process_bot_closet_reactions(payload,mongo,bot):
             await mongo.add_mirror_raid_post(raid,mirrors,bot)
             
             await add_raid_emojis(raid_public_post)
-            
-            
+
+async def mark_raid_attendance(bot,mongo,inc_messag_split):
+    #sh/ absent {raidId} ["Gildu"]
+    pass
+
+async def send_raid_info_dm(bot,mongo,inc_message_split):
+    raid = mongo.find_raid_by_raid_id(inc_message_split[2])
+    characters = mongo.get_characters_registered_for_raid_by_raid_id(inc_message_split[2])
+    print(characters)
+    
+    
 async def process_schedule_raid(message,mongo,inc_message_split):
     newRaid = newraid(inc_message_split, message)
                             

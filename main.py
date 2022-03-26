@@ -49,8 +49,10 @@ async def on_message(message):
                 #This is a list of approved commands
                 commands = [
                     "schedule",
-                    "help",
-                    "lc"
+                    "help", #remove obselete
+                    "absent",
+                    "info",
+                    "edit"
                 ]
                 
                 #This is the command the user passed
@@ -68,8 +70,34 @@ async def on_message(message):
                         except Exception as e:
                             await message.channel.send(f'Tell Lord Gildu I am upset about: {e}')
                             return
-                    elif command == commands[2]: #lc (leadshipchat)
-                        await botcontroller.leadership_chat(bot,inc_message_split[2])
+                    elif command == commands[2]: #absent
+                        try:
+                            
+                            if len(inc_message_split) > 4:
+                                raise Exception("[BOOOOOOP]")
+                            
+                            await botcontroller.mark_raid_attendance(bot,mongo,inc_message_split)
+                        except Exception as e:
+                            await message.channel.send(f'[ALERT][ALERT]Self-Destruct Sequence Engaged... 3...')
+                            await message.channel.send(f'2....')
+                            await message.channel.send(f'1....')
+                            await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                            return
+                    elif command == commands[3]: #info
+                        try:
+                            if len(inc_message_split) > 3:
+                                raise Exception("[ZAP]")
+                            await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split)
+                        except Exception as e:
+                            await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
+                            await message.channel.send(f'3....')
+                            await message.channel.send(f'2....')
+                            await message.channel.send(f'1....')
+                            await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                            return
+                    elif command == commands[4]: #edit
+                        pass
+                        #await botcontroller.mark_raid_attendance(bot, mongo, inc_message_split)
     #Message coming from DM
     else:
         #handle naming characters
@@ -87,9 +115,11 @@ async def on_message(message):
             await botcontroller.update_raid_signup_message(raid,raid_msg)
             await botcontroller.update_raid_signup_message_mirrors(raid,bot)
         else:
-            print("nope")
+            dm = await sunhoof_member.create_dm()
+            message = await dm.send("https://tenor.com/view/puppet-awkward-looking-what-side-eye-gif-15476992")
             
-                    
+            
+            
 
 @bot.event
 async def on_raw_reaction_add(payload):
@@ -104,7 +134,7 @@ async def on_raw_reaction_add(payload):
     #This code handles people reacting to items in the raid closet
     if payload.channel_id == 933481167565488128:
         await botcontroller.process_bot_closet_reactions(payload,mongo,bot)
-                    
+        
     #This code handles people reacting to the raid channels specifically
     elif payload.channel_id in [933527657373663252,933472914840387644]:
         #This code is executed when someone reacts to one of the raid signups
@@ -114,10 +144,6 @@ async def on_raw_reaction_add(payload):
 async def on_raw_reaction_remove(payload):
     if payload.channel_id == 933473675062161509:
         await botcontroller.process_remove_sunhoof_role_selection(payload,mongo,bot)
-    
-
-    
-
     
 
 bot.run(os.environ['TOKEN'])
