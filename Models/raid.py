@@ -3,6 +3,8 @@ from tokenize import String
 sys.path.append('..')
 from Utility.helper import open_raid_data, open_raids
 from Controllers.mongocontroller import Mongodb
+from dateutil.parser import parse
+from dateutil.tz import gettz
 
 class newraid():
     
@@ -17,17 +19,7 @@ class newraid():
         mdb = Mongodb('raids')
         self.raid_id = f'{rd[self.raid_name]["name"]}#{(mdb.get_raid_count())+1}'
         
-        split_year = split_incoming_message[3].split('/')
-            
-        year = int(split_year[2])
-        month = int(split_year[1])
-        day = int(split_year[0])
-            
-        self.datetime = datetime.datetime(
-            year=year,
-            month=month,
-            day=day
-        )
+        self.datetime = parse(f'{split_incoming_message[3]} {split_incoming_message[4]}')
         
         self.raid_post_channel = None
         
@@ -83,7 +75,7 @@ class newraid():
         raid_dict = {
             "raid_name":str(self.raid_name),
             "raid_id":str(self.raid_id),
-            "raid_time":str(self.datetime),
+            "raid_datetime":self.datetime,
             "raid_note":self.note,
             "raid_reoccuring":self.reocurring,
             "raid_confirmed":self.confirmed,
