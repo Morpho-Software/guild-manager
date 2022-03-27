@@ -1,9 +1,18 @@
 {
     "error":[
         "https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244",
-        "https://tenor.com/view/puppet-awkward-looking-what-side-eye-gif-15476992"
+        "https://tenor.com/view/sad-r2d2-robot-beep-star-wars-gif-5812746",
+        "https://tenor.com/view/serio-no-nop-robot-robot-down-gif-12270251",
+        "https://tenor.com/view/robot-door-broken-gif-13420511"
     ],
     "happy":[
-        "lsjfs"
+        "https://tenor.com/view/boris-the-baby-bot-baby-bot-robot-red-robot-beepbeepboop-gif-17955789"
+    ],
+    "confused":[
+        "https://tenor.com/view/puppet-awkward-looking-what-side-eye-gif-15476992",
+        "https://tenor.com/view/awkward-uncomfortable-im-erm-um-gif-23275863"
+    ],
+    ["sad":
+        "https://tenor.com/view/sad-r2d2-robot-beep-star-wars-gif-5812746"
     ]
 }
