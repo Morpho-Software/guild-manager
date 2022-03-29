@@ -1,0 +1,27 @@
+{
+    "tbc":{
+        "level":{
+            "1":"Karazhan",
+            "2":"Zul'Aman",
+            "3":"Magtheridon's Lair",
+            "4":"Gruul's Lair",
+            "5":"Serpentshrine Cavern",
+            "6":"Tempest Keep",
+            "7":"Hyjal Summit",
+            "8":"Black Temple",
+            "9":"Sunwell Plateau"
+        },
+        "name":{
+            "Karazhan":"1",
+            "Zul'Aman":"2",
+            "Magtheridon's Lair":"3",
+            "Gruul's Lair":"4",
+            "Serpentshrine Cavern":"5",
+            "Tempest Keep":"6",
+            "Hyjal Summit":"7",
+            "Black Temple":"8",
+            "Sunwell Plateau":"9"
+        }
+    }
+    
+}

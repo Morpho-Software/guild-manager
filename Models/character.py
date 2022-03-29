@@ -19,7 +19,7 @@ class newcharacter():
         self.raid_points = {}
         self.registered = []
         self.attended = []
-        self.cancled = []
+        self.canceled = []
         self.noshows = []
         self.reserves = []
         self.equipment = {
@@ -118,7 +118,7 @@ class newcharacter():
             "raid_points": self.raid_points,
             "registered": self.registered,
             "attended": self.attended,
-            "cancled": self.cancled,
+            "canceled": self.canceled,
             "noshows": self.noshows,
             "reserves": self.reserves,
             "equipment": self.equipment
@@ -145,5 +145,5 @@ class newcharacter():
     
     def populate_raid_points(self) -> None:
         for raid in self.rd:
-            if raid not in ['instance_name','World Bosses']:
-                self.raid_points[raid] = {"raid_name":raid,"points":0}
+            if raid not in ['instance_name','World Bosses'] and 'tier' in self.rd[raid]:
+                self.raid_points[raid] = {"raid_name":raid,"points":0,"raid_tier":self.rd[raid]['tier']}

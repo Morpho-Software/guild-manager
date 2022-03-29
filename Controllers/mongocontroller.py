@@ -26,8 +26,39 @@ class Mongodb():
     #########
     
     def update_raid(self, raid_id, raid) -> None:
-        query = {"raidId":raid_id}
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
         self.collection.update_one(query,raid)
+        
+    def edit_raid(self,raid_id,replacement) -> None:
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
+        self.collection.find_one_and_replace(query,replacement)
+        
+    def replace_raid(self,raid_id,raid) -> None:
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
+        self.collection.replace_one(query,raid)
+        
+    def set_raid_datetime(self, raid_id, raid) -> None:
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
+        update = {
+            "$set": {
+                "raid_datetime":str(raid['raid_datetime'])
+            }
+        }
+        self.collection.replace_one(query,update)
+        
+    def set_raid_note(self, raid_id, raid) -> None:
+        self.set_collection('raids')
+        query = {"raid_id":raid_id}
+        update = {
+            "$set": {
+                "raid_note":str(raid['raid_note'])
+            }
+        }
+        self.collection.update_one(query,update)
         
     def set_raid_posting_msg(self, raid_id, raid_posting_msg) -> None:
         self.set_collection('raids')
@@ -49,6 +80,7 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
+        
     async def add_mirror_raid_post(self, raid, mirrors,bot) -> None:
         self.set_collection('raids')
         for mirror in mirrors:
@@ -65,6 +97,12 @@ class Mongodb():
             }
         }
         self.collection.update_one(query, update)
+        
+    def find_characters_by_discord_member_id(self,member_id):
+        self.set_collection('characters')
+        query = {"discord_member_id":str(member_id)}
+        characters = self.collection.find(query)
+        return characters
         
         
     def add_character_to_raid_signup(self, character, raid, member) -> None:
@@ -184,6 +222,20 @@ class Mongodb():
     ###################
     #   Characters    #
     ###################
+    
+    def get_all_registered_characters(self, raiders_list):
+        characters = []
+        self.set_collection('characters')
+        for raider in raiders_list:
+            characters.append(self.find_character_by_character_id(raider['character_id']))
+        return characters
+    
+    def replace_character(self, character):
+        self.set_collection('characters')
+        query = {
+            "character_id":character["character_id"]
+        }
+        self.collection.replace_one(query,character)
     
     def find_character_by_raider_and_class_spec(self, discord_member_id, class_specialization):
         self.set_collection('characters')

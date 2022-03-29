@@ -30,6 +30,9 @@ def open_bot_status():
 def open_wow_class_information():
     return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/wow_classes.json')
     
+def open_raid_tier_data():
+    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/raid_tier_info.json')
+
 def make_emoji_str(string):
     emoji_string = ''
     for char in string:
