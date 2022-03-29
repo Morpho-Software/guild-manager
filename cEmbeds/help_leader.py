@@ -12,7 +12,7 @@ class help_leader():
         
         self.embed = discord.Embed(
             title = "Leadership Operating Terminal",
-            description="*Please only use these commands in #bot-operating. These commands can only be done ly @Leaders.*",
+            description="`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\n*Please only type these commands in #bot-operating. These commands can only be done by Leaders.*",
             color=discord.Color.gold()
         )
         

@@ -12,7 +12,7 @@ class raid_characters():
         
         self.embed = discord.Embed(
             title = "[Mechanical Whirring]",
-            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but I do not recognize this {character.class_specialization}. \n\nIf you respecialized, or this a new character, **just type their name** so I can log their points correctly (include special ascii characters). \n\n*If this is a mistake, please go update your sign-up.*",
+            description=f"`Greetings {payload.member.nick}!` \n\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but I do not recognize this {character.class_specialization}. \n\nIf you respecialized, or this a new character, **just type their name** so I can log their points correctly (include special ascii characters). \n\n*If this is a mistake, please go update your sign-up.*",
             color=discord.Color.gold()
         )
         

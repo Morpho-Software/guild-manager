@@ -16,7 +16,7 @@ class signup_confirmation():
         
         self.embed = discord.Embed(
             title = "[Confirmation Ding]",
-            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.` \n\n`{raid id}` Is starting and here are the player's points. **Each point is 1 roll on a needed main spec item.**",
+            description=f"`Greetings {payload.member.nick}!` \n\nYour raid, `{raid id}`, is starting and here are the fighter's points. **Each point is equal to 1 roll on a needed main spec item.**",
             color=discord.Color.gold()
         )
         

@@ -21,7 +21,7 @@ class gear():
         
         self.embed.add_field(
             name="\u200b",
-            value=f"```fix\nGear Suggestions\n``` \n\n{item name}"
+            value=f"```fix\nGear Suggestions\n```"
         )
 
         self.embed.set_author(
