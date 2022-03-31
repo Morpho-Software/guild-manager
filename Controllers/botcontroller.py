@@ -1,4 +1,5 @@
 import discord
+import json
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from Models.raid import newraid
@@ -6,9 +7,10 @@ from cEmbeds.raid_newcharacter import raid_characters as new_character_embed
 from cEmbeds.raid import raid as raid_embed
 from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
 from cEmbeds.raid_ptsummary import raid_ptsummary as raid_ptsummary_embed
+from dateutil.parser import parse
+from dateutil.tz import gettz
 
-
-from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes
+from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes,open_raid_tier_data
 
 async def leadership_chat(bot, msg) -> None:
     channel_id = '930981831308894288'
@@ -121,6 +123,13 @@ async def update_raid_signup_message_mirrors(raid,bot) -> None:
         embed = raid_embed(raid, False, True)
         await mirror_msg.edit(embed=embed.embed)
 
+def remove_character_from_raid(character,raid):
+    for role in raid['raid_raiders']:
+        for index,reg_character in enumerate(raid['raid_raiders'][role]['registered']):
+            print(index,reg_character)
+            if reg_character['character_id'] == character['character_id']:
+                del raid['raid_raiders'][role]['registered'][index]
+    return raid
 async def process_raid_signup(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
@@ -139,6 +148,10 @@ async def process_raid_signup(payload,mongo,bot) -> None:
                     #Now we can register this raider and character in the raid they reacted to.
                     mongo.add_character_to_raid_signup(character, raid, payload.member)
                     
+                    #Add raid point to character and update in DB
+                    character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] + 1
+                    mongo.replace_character(character)
+                    
                     await send_raid_signup_confirmation(raid, character, payload)
                     
                     await update_raid_signup_message(raid, raid_msg)
@@ -151,13 +164,26 @@ async def process_raid_signup(payload,mongo,bot) -> None:
                 #raider does not exist so no characters exist either
                 await process_new_raider(mongo, payload, reactor_reactions, raid)
                 await process_new_character(mongo, payload, reactor_reactions, raid)
-                
-                
         else:
             #The user has failed to correctly fill out the reactions on a raid
             dm = await payload.member.create_dm()
             message = await dm.send(f"[Beeping and Whirring]\nGreetings! This is SQ-Bot 300X, programmed for your optimized battling experience by the Great Lord Gildu Soulbeam, now also an engineer.\nIn The Sun-Hoof Coalition, you have attempted to sign up for `{raid['raid_id']}`, but it is **incomplete**.\n\n*Please make sure you select: your **class** icon, your **class number** icon representing your specialization (found in #faq), and the **done** icon.\nIf you wish to cancel your sign-up, please select the cancel icon.*")
             await message.add_reaction('🤖')
+    elif payload.emoji.name == 'Cancel':
+        characters = mongo.find_characters_by_discord_member_id(payload.member.id)
+        for character in characters:
+            if raid['raid_id'] in character['registered']:
+                #Break connection in character and remove their raid point
+                character['registered'].remove(raid['raid_id'])
+                character['canceled'].append(raid['raid_id'])
+                character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
+                mongo.replace_character(character)
+                #Break the connection in the raid
+                raid = remove_character_from_raid(character,raid)
+                mongo.replace_raid(raid['raid_id'],raid)
+                
+                await update_raid_signup_message(raid,raid_msg)
+                await update_raid_signup_message_mirrors(raid, bot)
 
 async def process_bot_closet_reactions(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
@@ -194,7 +220,7 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
         elif raid['raid_game'] == 'tbc':
             channel = bot.get_channel(933472914840387644)
             embed = raid_embed(raid, False)
-            mention_raiders_msg = await channel.send('<@933478722907029584>')
+            #mention_raiders_msg = await channel.send('<@933478722907029584>')
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             mongo.set_raid_posting_channel(raid['raid_id'],raid_public_post)
@@ -208,9 +234,53 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
             
             await add_raid_emojis(raid_public_post)
 
-async def mark_raid_attendance(bot,mongo,inc_messag_split):
-    #sh/ absent {raidId} ["Gildu"]
-    pass
+
+async def find_registered_raiders_in_raid(raid):
+    roles = ['healer','damage','tank']
+    raiders = []
+    
+    for role in roles:
+        for raider in raid['raid_raiders'][role]['registered']:
+            raiders.append(raider)
+    
+    return raiders
+
+async def find_highest_attended_raid(character) -> int:
+    print(character)
+    raid_tier = open_raid_tier_data()
+    highest_tier = 0
+    if len(character['attended']) != 0:
+        for raid in character['attended']:
+            if int(raid_tier['tbc']['name'][raid.split("#")[0]]) > highest_tier:
+                highest_tier = int(raid_tier['tbc']['name'][raid.split("#")[0]])
+        return raid_tier['tbc']['level'][str(highest_tier)]
+    return raid_tier['tbc']['level'][str(1)]
+
+async def mark_raid_attendance(bot,mongo,inc_message_split):
+    raid_id = inc_message_split[2]
+    raid = mongo.find_raid_by_raid_id(raid_id)
+    
+    
+    
+    #Creates a useable list of raiders because of some weird handling earlier
+    absent_raiders = inc_message_split[3].replace("[","").replace("]","").split(",")
+    
+    registered_raiders = await find_registered_raiders_in_raid(raid)
+    registered_characters = mongo.get_all_registered_characters(registered_raiders)
+    
+    for character in registered_characters:
+        if character['character_name'] in absent_raiders:
+            highest_raid = await find_highest_attended_raid(character)
+            #character loses raidpoints
+            character['noshows'].append(raid_id)
+            #Remove Point from highest Raid Tier
+            character['raid_points'][highest_raid]['points'] = character['raid_points'][highest_raid]['points'] - 1
+            #Remove Point for raid tier they signed up for
+            character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
+            mongo.replace_character(character)
+        else:
+            character['attended'].append(raid_id)
+            mongo.replace_character(character)
 
 async def send_raid_info_dm(bot,mongo,inc_message_split,message):
     raid = mongo.find_raid_by_raid_id(inc_message_split[2])
@@ -233,3 +303,30 @@ async def process_schedule_raid(message,mongo,inc_message_split):
     newRaid.set_confirm_message_id(sent_message.id)
                             
     mongo.insert_new_raid(newRaid.to_dict())
+    
+async def edit_raid(bot, mongo, inc_message_split,message):
+    #Comeback later
+    
+    #First we find the raid being edited in the db
+    raid_id = inc_message_split[2]
+    raid = mongo.find_raid_by_raid_id(raid_id)
+    
+    #Make our modifications
+    raid['raid_datetime'] = parse(f'{inc_message_split[3]} {inc_message_split[4]}')
+    raid['raid_note'] = inc_message_split[5]
+    
+    #Update the raid in the db with our updated values
+    mongo.replace_raid(raid_id,raid)
+    
+    #Fetch the message for the raid
+    channel = bot.get_channel(raid['raid_posting_channel'])
+    signup_message = channel.fetch_message(raid['raid_posting_msg'])
+    
+    
+    #Edit messages dependant on this raid
+    # await update_raid_signup_message()
+    # await update_raid_signup_message_mirrors()
+    
+    
+    
+    

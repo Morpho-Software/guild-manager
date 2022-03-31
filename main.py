@@ -84,22 +84,32 @@ async def on_message(message):
                             await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
                             return
                     elif command == commands[3]: #info
-                        await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split,message)
-                        # try:
-                        #     if len(inc_message_split) > 3:
-                        #         raise Exception("[ZAP]")
-                        #     await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split,message)
-                        # except Exception as e:
-                        #     await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
-                        #     await message.channel.send(f'3....')
-                        #     await message.channel.send(f'2....')
-                        #     await message.channel.send(f'1....')
-                        #     await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
-                        #     await message.channel.send(f'{e}')
-                        #     return
-                    elif command == commands[4]: #edit
-                        pass
-                        #await botcontroller.mark_raid_attendance(bot, mongo, inc_message_split)
+                        try:
+                            if len(inc_message_split) > 3:
+                                raise Exception("[ZAP]")
+                            await botcontroller.send_raid_info_dm(bot,mongo,inc_message_split,message)
+                        except Exception as e:
+                            await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
+                            await message.channel.send(f'3....')
+                            await message.channel.send(f'2....')
+                            await message.channel.send(f'1....')
+                            await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                            await message.channel.send(f'{e}')
+                            return
+                    # elif command == commands[4]: #edit
+                    #     try:
+                    #         if len(inc_message_split) > 8:
+                    #             raise Exception["[BAAAAZINGA]"]
+                        
+                    #         await botcontroller.edit_raid(bot,mongo,inc_message_split,message)
+                    #     except Exception as e:
+                    #         await message.channel.send(f'[ALERT]...Self-Destruct Sequence Engaged...[ALERT]')
+                    #         await message.channel.send(f'3....')
+                    #         await message.channel.send(f'2....')
+                    #         await message.channel.send(f'1....')
+                    #         await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                    #         await message.channel.send(f'{e}')
+                            
     #Message coming from DM
     else:
         #handle naming characters
@@ -112,6 +122,9 @@ async def on_message(message):
             character = mongo.set_character_name(character['character_id'],str(message.content))
             
             mongo.add_character_to_raid_signup(character,raid,sunhoof_member)
+            #Add raid point to character and update in DB
+            character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] + 1
+            mongo.replace_character(character)
             
             await botcontroller.send_raid_signup_confirm_from_dm(raid, character,sunhoof_member)
             await botcontroller.update_raid_signup_message(raid,raid_msg)

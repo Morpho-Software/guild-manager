@@ -23,6 +23,7 @@ class newraid():
         
         self.raid_post_channel = None
         
+        
         self.message_id = None
         self.mirrors = []
             
@@ -70,6 +71,7 @@ class newraid():
     
     def set_confirm_message_id(self, message_id):
         self.confirm_message_id = message_id
+        
     
     def to_dict(self):
         raid_dict = {

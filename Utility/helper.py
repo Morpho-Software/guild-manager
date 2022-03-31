@@ -1,4 +1,8 @@
-import json,discord,random
+import json,discord,random, os
+
+script_dir = os.path.dirname(__file__)
+data_dir = script_dir.replace('/Utility','')
+print(data_dir)
 
 def write_dict_to_json(dictionary,file):
     j = json.dumps(dictionary, indent=4)
@@ -13,23 +17,26 @@ def open_json_file(file):
     return data
 
 def open_discord_emotes():
-    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/discord_emotes.json')
+    return open_json_file(rf'{data_dir}/data/static/discord_emotes.json')
     
 def open_raid_data():
-    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/raid_data.json')
+    return open_json_file(rf'{data_dir}/data/static/raid_data.json')
     
 def open_raids():
-    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/db/raids.json')
+    return open_json_file(rf'{data_dir}/data/db/raids.json')
 
 def write_raids(raids):
-    write_dict_to_json(raids,r'/home/chris/Documents/pyapps/guild-manager/data/db/raids.json')
+    write_dict_to_json(raids,rf'{data_dir}/data/db/raids.json')
     
 def open_bot_status():
-    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/bot_status.json')
+    return open_json_file(rf'{data_dir}/data/static/bot_status.json')
     
 def open_wow_class_information():
-    return open_json_file(r'/home/chris/Documents/pyapps/guild-manager/data/static/wow_classes.json')
+    return open_json_file(rf'{data_dir}/data/static/wow_classes.json')
     
+def open_raid_tier_data():
+    return open_json_file(rf'{data_dir}/data/static/raid_tier_info.json')
+
 def make_emoji_str(string):
     emoji_string = ''
     for char in string:
