@@ -73,7 +73,7 @@ async def process_add_sunhoof_role_selection(payload,mongo,bot) -> None:
 
 async def get_guild_member_id_by_guild_id_user_id(user_id, guild_id,bot) -> discord.Member:
     guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
-    member = discord.utils.find(lambda m : m.id == user_id, guild.members)
+    member = discord.utils.find(lambda m : m.id == int(user_id), guild.members)
     return member
 
 async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
@@ -99,8 +99,15 @@ async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
 
 async def send_raid_signup_confirmation(raid,character,payload) -> None:
     #Send signup confirmation
-    embed = signup_confirmation_embed(raid,character,payload)
+    embed = signup_confirmation_embed(raid,character,character['character_name'])
     dm = await payload.member.create_dm()
+    message = await dm.send(embed=embed.embed)
+    await message.add_reaction('🤖')
+    
+async def send_pulled_from_reserves_dm(raid, character,bot) -> None:
+    embed = signup_confirmation_embed(raid,character,character['character_name'])
+    member = await get_guild_member_id_by_guild_id_user_id(character['discord_member_id'],933472737874313258,bot)
+    dm = await member.create_dm()
     message = await dm.send(embed=embed.embed)
     await message.add_reaction('🤖')
 
@@ -124,12 +131,27 @@ async def update_raid_signup_message_mirrors(raid,bot) -> None:
         await mirror_msg.edit(embed=embed.embed)
 
 def remove_character_from_raid(character,raid):
+    character_role = ''
     for role in raid['raid_raiders']:
         for index,reg_character in enumerate(raid['raid_raiders'][role]['registered']):
             print(index,reg_character)
             if reg_character['character_id'] == character['character_id']:
                 del raid['raid_raiders'][role]['registered'][index]
-    return raid
+                character_role = role
+                break
+                
+    return raid, character_role
+
+def check_if_character_is_in_raid(character,raid):
+    for signup_status in ['registered','reserves']:
+        for role in raid['raid_raiders']:
+            for reg_character in raid['raid_raiders'][role][signup_status]:
+                if reg_character['character_id'] == character['character_id']:
+                    return True
+    return False
+            
+            
+
 async def process_raid_signup(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
@@ -145,18 +167,21 @@ async def process_raid_signup(payload,mongo,bot) -> None:
                 if mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions)):
                     character = mongo.find_character_by_raider_and_class_spec(payload.member.id,get_class_spec(reactor_reactions))
                     
-                    #Now we can register this raider and character in the raid they reacted to.
-                    mongo.add_character_to_raid_signup(character, raid, payload.member)
-                    
-                    #Add raid point to character and update in DB
-                    character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] + 1
-                    mongo.replace_character(character)
-                    
-                    await send_raid_signup_confirmation(raid, character, payload)
-                    
-                    await update_raid_signup_message(raid, raid_msg)
-                    
-                    await update_raid_signup_message_mirrors(raid, bot)
+                    if not check_if_character_is_in_raid(character, raid) or True:
+                        #Now we can register this raider and character in the raid they reacted to.
+                        mongo.add_character_to_raid_signup(character, raid, payload.member)
+                        
+                        #Add raid point to character and update in DB
+                        character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] + 1
+                        mongo.replace_character(character)
+                        
+                        await send_raid_signup_confirmation(raid, character, payload)
+                        
+                        await update_raid_signup_message(raid, raid_msg)
+                        
+                        await update_raid_signup_message_mirrors(raid, bot)
+                    else:
+                        print(f"{character['character_name']} is already in the raid!")
                     
                 else:
                     await process_new_character(mongo,payload,reactor_reactions,raid)
@@ -172,18 +197,37 @@ async def process_raid_signup(payload,mongo,bot) -> None:
     elif payload.emoji.name == 'Cancel':
         characters = mongo.find_characters_by_discord_member_id(payload.member.id)
         for character in characters:
-            if raid['raid_id'] in character['registered']:
-                #Break connection in character and remove their raid point
-                character['registered'].remove(raid['raid_id'])
-                character['canceled'].append(raid['raid_id'])
-                character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
-                mongo.replace_character(character)
-                #Break the connection in the raid
-                raid = remove_character_from_raid(character,raid)
-                mongo.replace_raid(raid['raid_id'],raid)
-                
-                await update_raid_signup_message(raid,raid_msg)
-                await update_raid_signup_message_mirrors(raid, bot)
+            for signup_type in ['registered','reserves']:
+                if raid['raid_id'] in character[signup_type]:
+                    #Break connection in character and remove their raid point
+                    character[signup_type].remove(raid['raid_id'])
+                    character['canceled'].append(raid['raid_id'])
+                    character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
+                    mongo.replace_character(character)
+                    #Break the connection in the raid
+                    raid,character_role = remove_character_from_raid(character,raid)
+                    
+                    #Checks to see if anyone is in the reserves for the role that just cancled and then moves the first in queue to join the raid
+                    #Then deletes the character from the reserves
+                    if len(raid['raid_raiders'][character_role]['reserves']) != 0:
+                        raid['raid_raiders'][character_role]['registered'].append(raid['raid_raiders'][character_role]['reserves'][0])
+                        
+                        #Handles pulling the characters off the reserves
+                        reserve_character = mongo.find_character_by_character_id(raid['raid_raiders'][character_role]['reserves'][0]['character_id'])
+                        reserve_character['reserves'].remove(raid['raid_id'])
+                        reserve_character['registered'].append(raid['raid_id'])
+                        
+                        await send_pulled_from_reserves_dm(raid,reserve_character,bot)
+                        
+                        mongo.replace_character(reserve_character)
+                        
+                        del raid['raid_raiders'][character_role]['reserves'][0]
+                    
+                    
+                    mongo.replace_raid(raid['raid_id'],raid)
+                    
+                    await update_raid_signup_message(raid,raid_msg)
+                    await update_raid_signup_message_mirrors(raid, bot)
 
 async def process_bot_closet_reactions(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
