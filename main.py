@@ -73,15 +73,17 @@ async def on_message(message):
                     elif command == commands[2]: #absent
                         try:
                             
-                            if len(inc_message_split) > 4:
+                            if len(inc_message_split) > 6:
                                 raise Exception("[BOOOOOOP]")
                             
                             await botcontroller.mark_raid_attendance(bot,mongo,inc_message_split)
                         except Exception as e:
-                            await message.channel.send(f'[ALERT][ALERT]Self-Destruct Sequence Engaged... 3...')
+                            await message.channel.send(f'[ALERT][ALERT]Self-Destruct Sequence Engaged...')
+                            await message.channel.send(f'3....')
                             await message.channel.send(f'2....')
                             await message.channel.send(f'1....')
                             await message.channel.send('https://tenor.com/view/robot-freak-out-head-explode-mind-blown-gif-12345244')
+                            await message.channel.send(f'{e}')
                             return
                     elif command == commands[3]: #info
                         try:

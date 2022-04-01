@@ -1,5 +1,5 @@
 import discord
-import json
+import json,datetime
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from Models.raid import newraid
@@ -150,8 +150,11 @@ def check_if_character_is_in_raid(character,raid):
                     return True
     return False
             
-            
-
+async def get_raid_signup_msg(channel_id,message_id,bot):
+    channel = bot.get_channel(int(channel_id))
+    raid_msg = await channel.fetch_message(int(message_id))
+    return raid_msg
+    
 async def process_raid_signup(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
@@ -264,7 +267,7 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
         elif raid['raid_game'] == 'tbc':
             channel = bot.get_channel(933472914840387644)
             embed = raid_embed(raid, False)
-            #mention_raiders_msg = await channel.send('<@933478722907029584>')
+            mention_raiders_msg = await channel.send(f"Hey, <@&933478722907029584>! A New {raid['raid_name']} Has Been Posted!")
             raid_public_post = await channel.send(embed=embed.embed)
             mongo.set_raid_posting_msg(raid['raid_id'],raid_public_post)
             mongo.set_raid_posting_channel(raid['raid_id'],raid_public_post)
@@ -325,6 +328,25 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
         else:
             character['attended'].append(raid_id)
             mongo.replace_character(character)
+            
+    raid['raid_bosses_killed'] = int(inc_message_split[4])
+    
+    bNextDay = bool(inc_message_split[5])
+    
+    if bNextDay:
+        next_day = {
+            "day":(len(raid['raid_days'])+1),
+            "bosses_killed":raid['raid_bosses_killed'],
+            "datetime":raid['raid_days'][len(raid['raid_days'])-1]['datetime']+datetime.timedelta(days=1)
+        }
+        
+        raid['raid_days'].append(next_day)
+    
+    mongo.replace_raid(raid['raid_id'],raid)
+    
+    await update_raid_signup_message(raid,await get_raid_signup_msg(raid['raid_posting_channel'],raid['raid_posting_msg'],bot))
+    
+    
 
 async def send_raid_info_dm(bot,mongo,inc_message_split,message):
     raid = mongo.find_raid_by_raid_id(inc_message_split[2])
