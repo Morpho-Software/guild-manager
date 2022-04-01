@@ -227,7 +227,10 @@ class Mongodb():
         characters = []
         self.set_collection('characters')
         for raider in raiders_list:
-            characters.append(self.find_character_by_character_id(raider['character_id']))
+            characters.append({
+                "character":self.find_character_by_character_id(raider['raider']['character_id']),
+                "role":raider['role']
+                })
         return characters
     
     def replace_character(self, character):

@@ -20,9 +20,19 @@ class newraid():
         self.raid_id = f'{rd[self.raid_name]["name"]}#{(mdb.get_raid_count())+1}'
         
         self.datetime = parse(f'{split_incoming_message[3]} {split_incoming_message[4]}')
+        self.days = [{
+            "day":1,
+            "bosses_killed":0,
+            "datetime":self.datetime
+        }]
         
         self.raid_post_channel = None
         
+        self.status = 'In Progress'
+        
+        self.bosses_killed = 0
+        self.raid_boss_count = 0
+        self.set_raid_boss_count(rd)
         
         self.message_id = None
         self.mirrors = []
@@ -49,6 +59,13 @@ class newraid():
             }
         }
         self.set_raid_composition(rd)
+        
+    def set_raid_boss_count(self, rd):
+        count = 0
+        for boss in rd[self.raid_name]['bosses']:
+            if boss['name'] not in ['Tokens','Trash','Recipes','Shared']:
+                count+=1
+        self.raid_boss_count = count
         
     def set_raid_composition(self, rd) -> None:
         for raid in rd:
@@ -85,6 +102,10 @@ class newraid():
             "raid_raiders":self.raiders,
             "raid_disc_confirm_message":str(self.confirm_message_id),
             "raid_game":self.game,
-            "raid_mirrors":self.mirrors
+            "raid_mirrors":self.mirrors,
+            "raid_bosses_killed":self.bosses_killed,
+            "raid_boss_count":self.raid_boss_count,
+            "raid_days":self.days,
+            "raid_status":self.status
         }
         return raid_dict
