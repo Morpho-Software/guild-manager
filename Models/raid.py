@@ -28,6 +28,8 @@ class newraid():
         
         self.raid_post_channel = None
         
+        self.status = 'In Progress'
+        
         self.bosses_killed = 0
         self.raid_boss_count = 0
         self.set_raid_boss_count(rd)
@@ -103,6 +105,7 @@ class newraid():
             "raid_mirrors":self.mirrors,
             "raid_bosses_killed":self.bosses_killed,
             "raid_boss_count":self.raid_boss_count,
-            "raid_days":self.days
+            "raid_days":self.days,
+            "raid_status":self.status
         }
         return raid_dict

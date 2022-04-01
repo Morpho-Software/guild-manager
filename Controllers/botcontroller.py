@@ -288,7 +288,9 @@ async def find_registered_raiders_in_raid(raid):
     
     for role in roles:
         for raider in raid['raid_raiders'][role]['registered']:
-            raiders.append(raider)
+            raiders.append({
+                "raider":raider,"role":role
+                })
     
     return raiders
 
@@ -303,11 +305,11 @@ async def find_highest_attended_raid(character) -> int:
         return raid_tier['tbc']['level'][str(highest_tier)]
     return raid_tier['tbc']['level'][str(1)]
 
+
+
 async def mark_raid_attendance(bot,mongo,inc_message_split):
     raid_id = inc_message_split[2]
     raid = mongo.find_raid_by_raid_id(raid_id)
-    
-    
     
     #Creates a useable list of raiders because of some weird handling earlier
     absent_raiders = inc_message_split[3].replace("[","").replace("]","").split(",")
@@ -316,31 +318,40 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
     registered_characters = mongo.get_all_registered_characters(registered_raiders)
     
     for character in registered_characters:
-        if character['character_name'] in absent_raiders:
-            highest_raid = await find_highest_attended_raid(character)
+        if character['character']['character_name'] in absent_raiders:
+            highest_raid = await find_highest_attended_raid(character['character'])
             #character loses raidpoints
-            character['noshows'].append(raid_id)
+            character['character']['noshows'].append(raid_id)
             #Remove Point from highest Raid Tier
-            character['raid_points'][highest_raid]['points'] = character['raid_points'][highest_raid]['points'] - 1
+            character['character']['raid_points'][highest_raid]['points'] = character['character']['raid_points'][highest_raid]['points'] - 1
             #Remove Point for raid tier they signed up for
-            character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
-            mongo.replace_character(character)
+            character['character']['raid_points'][raid['raid_name']]['points'] = character['character']['raid_points'][raid['raid_name']]['points'] - 1
+            
+            character['character']['registered'].remove(raid['raid_id'])
+            
+            #this deletes the character from the raid, dirty work
+            for index, char in enumerate(raid['raid_raiders'][character['role']]['registered']):
+                if char['character_id'] == character['character']['character_id']:
+                    del raid['raid_raiders'][character['role']]['registered'][index]
+            
+            mongo.replace_character(character['character'])
         else:
-            character['attended'].append(raid_id)
-            mongo.replace_character(character)
+            character['character']['attended'].append(raid_id)
+            mongo.replace_character(character['character'])
             
     raid['raid_bosses_killed'] = int(inc_message_split[4])
     
     bNextDay = bool(inc_message_split[5])
     
-    if bNextDay:
+    if bNextDay and raid['raid_bosses_killed'] != raid['raid_boss_count']:
         next_day = {
             "day":(len(raid['raid_days'])+1),
             "bosses_killed":raid['raid_bosses_killed'],
             "datetime":raid['raid_days'][len(raid['raid_days'])-1]['datetime']+datetime.timedelta(days=1)
         }
-        
         raid['raid_days'].append(next_day)
+    else:
+        raid['raid_status'] = 'Complete'
     
     mongo.replace_raid(raid['raid_id'],raid)
     

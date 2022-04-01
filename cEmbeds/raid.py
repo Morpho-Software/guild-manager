@@ -88,6 +88,7 @@ class raid():
                 name=f"\u200b",
                 value=f"```fix\nHealers ({len(raid['raid_raiders']['healer']['registered'])}/{raid['raid_raiders']['healer']['amount'][0]})\n``` `Stand-ins ({len(raid['raid_raiders']['healer']['reserves'])})`\n{self.build_slots('healer',False)}"
             )
+            
 
             if bMirrorRaid:
                 self.embed.add_field(
