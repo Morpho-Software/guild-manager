@@ -133,7 +133,7 @@ class raid():
         return emoji_name
     
     def build_raid_info_description(self,raid):
-        description=f"Raid ID: {raid['raid_id']} | Raid Hose: <@{raid['raid_scheduler'][0]}>\n"
+        description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}>\n"
         for index,day in enumerate(raid['raid_days']):
             if index != len(raid['raid_days'])-1:
                 description += f"~~Day {day['day']}: {day['datetime'].month}/{day['datetime'].day}/{day['datetime'].year} | {day['datetime'].strftime('%I:%M%p')} | Bosses: {day['bosses_killed']}/{raid['raid_boss_count']}~~\n"

@@ -329,6 +329,11 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
             
             character['character']['registered'].remove(raid['raid_id'])
             
+            #remove the character from registered_characters
+            for index, reg_char in enumerate(registered_characters):
+                if character['character']['character_id'] == reg_char['character']['character_id']:
+                    del registered_characters[index]
+            
             #this deletes the character from the raid, dirty work
             for index, char in enumerate(raid['raid_raiders'][character['role']]['registered']):
                 if char['character_id'] == character['character']['character_id']:
