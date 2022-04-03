@@ -2,18 +2,18 @@ import discord
 
 class raid_continue():
     
-    def __init__(self,raid):
+    def __init__(self):
         
         
         self.embed = discord.Embed(
-            title = raid['raid_name'],
-            description=f"",
+            title = "[Alert Beep]",
+            description=f"`Greetings, username`",
             color=discord.Color.gold()
         )
         
         self.embed.add_field(
-            name="",
-            value=""
+            name="\u200b",
+            value="Thank you for participating today! We did not manage to defeat the forces of evil today so a follow up has been scheduled for tomorrow!\nYour spot in the raid will be held for 12 hours. Please click one of the below reactions to confirm your spot or leave the raid."
         )
         
         self.embed.set_author(
