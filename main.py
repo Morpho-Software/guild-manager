@@ -149,13 +149,28 @@ async def on_raw_reaction_add(payload):
     if payload.channel_id == 933473675062161509:
         await botcontroller.process_add_sunhoof_role_selection(payload,mongo,bot)
     #This code handles people reacting to items in the raid closet
-    if payload.channel_id == 933481167565488128:
+    elif payload.channel_id == 933481167565488128:
         await botcontroller.process_bot_closet_reactions(payload,mongo,bot)
         
     #This code handles people reacting to the raid channels specifically
     elif payload.channel_id in [933527657373663252,933472914840387644]:
         #This code is executed when someone reacts to one of the raid signups
         await botcontroller.process_raid_signup(payload,mongo,bot)
+    #Reactions in DMS    
+    else:
+        raid_continue = mongo.find_raid_continue_by_message_id(payload.message_id)
+        #This code executes if a valid raid_continue is found.
+        if raid_continue:
+            #This code will need fleshed out a bit more
+            raid = mongo.find_raid_by_raid_id(raid_continue['raid_id'])
+            #Determine if they clicked the confirm or cancel emoji
+            if payload.emoji.name == 'Done':
+                #Keep the user signed up
+                pass
+            elif payload.emoji.name == 'Cancel':
+                #Remove this user from the raid
+                character = mongo.find_character_by_character_id(raid_continue['character'])
+                await botcontroller.remove_character_from_raid()
 
 @bot.event
 async def on_raw_reaction_remove(payload):

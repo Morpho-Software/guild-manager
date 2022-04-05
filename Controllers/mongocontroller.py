@@ -188,6 +188,7 @@ class Mongodb():
         return len(count)
     
     
+    
         
     
     ###########
@@ -297,6 +298,29 @@ class Mongodb():
             "raid_id":raid_id
         })
         
+    #####################
+    #   Raid Continues  #
+    #####################
+    
+    def link_raid_continues(self, raid, character, message):
+        self.set_collection('raid_continues')
+        self.collection.insert_one({
+            "confirmation_status":"no_response",
+            "character_id":character['character_id'],
+            "raid_id":raid['raid_id'],
+            "message_id":message.id,
+            "discord_member_id":character['discord_member_id']
+        })
+        
+    def find_raid_continue_by_message_id(self, message_id):
+        """
+        Returns a raid_continue if it's found
+        """
+        self.set_collection('raid_continues')
+        query = {"message_id":message_id}
+        return self.collection.find_one(query)
+
+
     ################
     #   Setters    #
     ################
