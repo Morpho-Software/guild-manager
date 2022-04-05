@@ -17,7 +17,7 @@ class donations():
         
         self.embed = discord.Embed(
             title = "[Alert Beep]",
-            description=f"```fix\nMaintenance Needed!\n``` My functioning is s-stalling. You-you can help with my repairs in two ways: \n\n{link to buy me a coffee} \n\n{link to boost server}",
+            description=f"```fix\nMaintenance Needed!\n``` My functioning is s-s-stalling. You-you can help with my repairs in two ways: \n\n{link to buy me a coffee} \n\n{link to boost server}",
             color=discord.Color.gold()
         )
         
