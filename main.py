@@ -169,7 +169,7 @@ async def on_raw_reaction_add(payload):
                 pass
             elif payload.emoji.name == 'Cancel':
                 #Remove this user from the raid
-                character = mongo.find_character_by_character_id(raid_continue['character'])
+                character = mongo.find_character_by_character_id(raid_continue['character_id'])
                 await botcontroller.remove_character_from_raid()
 
 @bot.event
