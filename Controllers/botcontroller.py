@@ -98,12 +98,14 @@ async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
         else:
             print("Role not found.")
             
-async def send_raid_continue_confirmation(raid,character,bot) -> None:
+async def send_raid_continue_confirmation(raid,character,bot,mongo) -> None:
     #Send raid continue message to raiders in a raid that has an extenstion
     embed = raid_continue_embed()
     member = await get_guild_member_id_by_guild_id_user_id(character['discord_member_id'],933472737874313258,bot)
     dm = await member.create_dm()
     message = await dm.send(embed=embed.embed)
+    mongo.link_raid_continues(raid,character,message)
+    
     await message.add_reaction("<:Done:955361992883961896>")
     await message.add_reaction("<:Cancel:955362577267949598>")
 
@@ -367,8 +369,7 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
         raid['raid_days'].append(next_day)
         
         for character in registered_characters:
-            await send_raid_continue_confirmation(raid,character['character'],bot)
-            
+            await send_raid_continue_confirmation(raid,character['character'],bot,mongo)
     else:
         raid['raid_status'] = 'Complete'
     
