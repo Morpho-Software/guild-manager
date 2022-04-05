@@ -171,8 +171,9 @@ async def process_raid_signup(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
     raid_msg = await channel.fetch_message(payload.message_id)
     raid = mongo.find_raid_by_posting_message_id(raid_msg.id)
-        
+    
     if payload.emoji.name == 'Done':
+        #this function is slowly down the signup code massively, it may be faster to log the reactions as they happen
         reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
         if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
             #Check if reactor is in the database

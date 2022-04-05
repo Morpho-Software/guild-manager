@@ -170,7 +170,15 @@ async def on_raw_reaction_add(payload):
             elif payload.emoji.name == 'Cancel':
                 #Remove this user from the raid
                 character = mongo.find_character_by_character_id(raid_continue['character_id'])
-                await botcontroller.remove_character_from_raid()
+                #dirty function that was written this way for another use, role is used when handling standins 
+                raid,role = botcontroller.remove_character_from_raid(character,raid)
+                
+                mongo.replace_character(character)
+                mongo.replace_raid(raid['raid_id'],raid)
+                
+                raid_signup_msg = await botcontroller.get_raid_signup_msg(raid['raid_posting_channel'],raid['raid_posting_msg'],bot)
+                await botcontroller.update_raid_signup_message(raid,raid_signup_msg)
+                await botcontroller.update_raid_signup_message_mirrors(raid,bot)
 
 @bot.event
 async def on_raw_reaction_remove(payload):
