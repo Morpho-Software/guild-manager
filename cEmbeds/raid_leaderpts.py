@@ -16,7 +16,7 @@ class signup_confirmation():
         
         self.embed = discord.Embed(
             title = "[Confirmation Ding]",
-            description=f"`Greetings {payload.member.nick}!` \n\nYour raid, `{raid id}`, is starting and here are the fighter's points. **Each point is equal to 1 roll on a needed main spec item.**",
+            description=f"Your raid, `{raid id}`, is starting and here are the fighter's points. \n\n**Each point is equal to 1 roll on a needed main spec item.**",
             color=discord.Color.gold()
         )
         

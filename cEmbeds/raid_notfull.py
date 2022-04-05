@@ -17,7 +17,7 @@ class raid_reminder():
         
         self.embed = discord.Embed(
             title = "[Mechanical Ticking]",
-            description=f"`{raid.raid_id}` on {raid.datetime} is **today**! \nThere is currently not enough signed up! \n\n*This message will self destruct once the raid begins. All participants have been notified.*",
+            description=f"`{raid.raid_id}` on {raid.datetime} is today! \n**There is currently not enough signed up!** \n\n*This message will self destruct once the raid begins. All participants have been notified.*",
             color=discord.Color.gold()
         )
         
