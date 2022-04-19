@@ -27,7 +27,7 @@ class raid():
             
             self.embed = discord.Embed(
                 title = raid.raid_name,
-                description=f"Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime.month}/{raid.datetime.day}/{raid.datetime.year}** | **{raid.datetime.strftime('%I:%M%p')}**\n Bosses:({raid.bosses_killed}/{raid.raid_boss_count}) \n",
+                description=f"**Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime.month}/{raid.datetime.day}/{raid.datetime.year}** | **{raid.datetime.strftime('%I:%M%p')}**\n Bosses:({raid.bosses_killed}/{raid.raid_boss_count})** \n",
                 color=discord.Color.gold()
             )
             
@@ -72,6 +72,12 @@ class raid():
             self.embed.set_author(
                 name="Soulbeam's Quartermaster Robot V.300X",
                 icon_url="https://cdn.discordapp.com/attachments/933481167565488128/947801465903267890/WoWScrnShot_090521_044754_-_Copy.jpg"
+            )
+            
+            self.embed.add_field(
+                name=f"\u200b",
+                value=f"```Raid Status: {raid['raid_status']}```",
+                inline=False
             )
             
             self.embed.add_field(
@@ -133,13 +139,14 @@ class raid():
         return emoji_name
     
     def build_raid_info_description(self,raid):
-        description=f"Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}>\n"
+        description=f"**Raid ID: {raid['raid_id']} | Raid Host: <@{raid['raid_scheduler'][0]}>**\n"
         for index,day in enumerate(raid['raid_days']):
-            if index != len(raid['raid_days'])-1:
+            #Strikethrough raid day if the day is completed
+            if index != len(raid['raid_days'])-1 or raid['raid_status'] in ['Complete','Wiped']:
                 description += f"~~Day {day['day']}: {day['datetime'].month}/{day['datetime'].day}/{day['datetime'].year} | {day['datetime'].strftime('%I:%M%p')} | Bosses: {day['bosses_killed']}/{raid['raid_boss_count']}~~\n"
             else:
                 description += f"`Day {day['day']}: {day['datetime'].month}/{day['datetime'].day}/{day['datetime'].year} | {day['datetime'].strftime('%I:%M%p')} | Bosses: {day['bosses_killed']}/{raid['raid_boss_count']}`\n"
-        description += f"*Listen up, <@&933478722907029584>! {raid['raid_note']}*"
+        description += f"\n*{raid['raid_note']}*"
         return description
                 
     def get_embed(self):

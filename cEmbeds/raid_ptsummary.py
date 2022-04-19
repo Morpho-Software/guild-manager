@@ -38,7 +38,6 @@ class raid_ptsummary():
 
         for character in characters:
             
-            
             self.embed.add_field(
                 name=f'**{character["character_name"]}**',
                 value=f"{character['class_specialization']}\n{raid['raid_name']} Points: {character['raid_points'][raid['raid_name']]['points']}"

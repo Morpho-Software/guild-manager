@@ -8,10 +8,12 @@ from cEmbeds.raid import raid as raid_embed
 from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
 from cEmbeds.raid_ptsummary import raid_ptsummary as raid_ptsummary_embed
 from cEmbeds.raid_continue import raid_continue as raid_continue_embed
+from cEmbeds.raid_cancel import raid_cancel as raid_cancel_embed
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
 from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, check_for_valid_reactions, open_discord_emotes,open_raid_tier_data
+
 
 async def leadership_chat(bot, msg) -> None:
     channel_id = '930981831308894288'
@@ -253,6 +255,13 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
         raid_confirm_msg = await channel.fetch_message(payload.message_id)
             
     if payload.emoji.name == 'Cancel':
+        #Notify all raiders that the raid has been canceled
+        raiders = await find_raiders_in_raid(raid)
+        for raider in raiders:
+            member = await get_guild_member_id_by_guild_id_user_id(int(raider['raider']['discord_member_id']),933472737874313258,bot)
+            dm = await member.create_dm()
+            embed = raid_cancel_embed(raid)
+            message = await dm.send(embed=embed.embed)
         delete = await raid_confirm_msg.delete()
     if payload.emoji.name == 'Done':
         raid['raid_confirmed'][0] == True
@@ -307,6 +316,24 @@ async def find_registered_raiders_in_raid(raid):
     
     return raiders
 
+async def find_reserves_raiders_in_raid(raid):
+    roles = ['healer','damage','tank']
+    raiders = []
+    
+    for role in roles:
+        for raider in raid['raid_raiders'][role]['reserves']:
+            raiders.append({
+                "raider":raider,"role":role
+            })
+    
+    return raiders
+
+async def find_raiders_in_raid(raid):
+    raiders = []
+    raiders.extend(await find_registered_raiders_in_raid(raid))
+    raiders.extend(await find_reserves_raiders_in_raid(raid))
+    return raiders
+    
 async def find_highest_attended_raid(character) -> int:
     print(character)
     raid_tier = open_raid_tier_data()
@@ -371,7 +398,10 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
         
         for character in registered_characters:
             await send_raid_continue_confirmation(raid,character['character'],bot,mongo)
+    elif not bNextDay and raid['raid_bosses_killed'] != raid['raid_boss_count']:
+        raid['raid_status'] = 'Wiped'
     else:
+        #Raid Status is set to complete which causes the raid message to be build differently in call to update_raid_signup_message
         raid['raid_status'] = 'Complete'
     
     mongo.replace_raid(raid['raid_id'],raid)
