@@ -19,16 +19,16 @@
     "hunter":{
         "name":"hunter",
         "specs":{
-            "beast-mastery":{
-                "name":"beast-mastery",
+            "beast master":{
+                "name":"beast master",
                 "roles":"damage"
             },
             "marksmanship":{
                 "name":"marksmanship",
                 "roles":"damage"
             },
-            "survival":{
-                "name":"survival",
+            "survivalist":{
+                "name":"survivalist",
                 "roles":"damage"
             }
         }
@@ -143,6 +143,19 @@
             },
             "restoration":{
                 "name":"restoration",
+                "roles":"healer"
+            }
+        }
+    },
+    "priest":{
+        "name":"priest",
+        "specs":{
+            "shadow":{
+                "name":"shadow",
+                "roles":"damage"
+            },
+            "holy":{
+                "name":"holy",
                 "roles":"healer"
             }
         }

@@ -1,5 +1,5 @@
 import discord
-import json,datetime
+import json,datetime,distutils.util
 from Models.raider import newraider as new_raider
 from Models.character import newcharacter as new_character
 from Models.raid import newraid
@@ -16,6 +16,9 @@ from Utility.helper import add_raid_emojis, get_message_reactions_by_member_id, 
 
 
 async def leadership_chat(bot, msg) -> None:
+    """
+    This function sends a given message to the leadership chat in the Sunwell Society discord
+    """
     channel_id = '930981831308894288'
     #channel_id = '955234475661480006'
     channel = await bot.fetch_channel(channel_id)
@@ -38,6 +41,13 @@ def get_class_spec(reactions) -> str:
         return f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
 
 async def process_new_character(mongo,payload,reactor_reactions,raid) -> None:
+    """
+    This method runs if it is determined that the user is signing up with a new class/spec combination
+    This method does not actually sign up the character, it sends a message, and puts a temp signup object into the mongodb
+    
+    Using the temp signup object we can do a check on the messages we get to see if we're expecting to name a character from that
+    user
+    """
     newcharacter = new_character(payload, reactor_reactions)
     mongo.insert_new_character(newcharacter.to_dictionary())
     mongo.add_character_to_raider(payload.user_id,newcharacter.character_id)
@@ -47,11 +57,18 @@ async def process_new_character(mongo,payload,reactor_reactions,raid) -> None:
     message = await dm.send(embed=embed.embed)
 
 async def process_new_raider(mongo,payload,reactor_reactions,raid) -> None:
-    #This code runs if no account have ever been created with the raider
+    """
+    This code runs if no account has ever been created with the raider
+    """
     newraider = new_raider(payload)
     mongo.insert_new_raider(newraider.to_dictionary())
 
 async def process_add_sunhoof_role_selection(payload,mongo,bot) -> None:
+    """
+    This function handles giving out roles to users inside of the Coalition Discord
+    
+    #TODO - Will need to look at this when we look at who will be raiding with us
+    """
     message_id = payload.message_id
     if message_id == 946989019236040714:
         guild_id = payload.guild_id
@@ -75,11 +92,17 @@ async def process_add_sunhoof_role_selection(payload,mongo,bot) -> None:
         pass
 
 async def get_guild_member_id_by_guild_id_user_id(user_id, guild_id,bot) -> discord.Member:
+    """
+    This return a discord member based off a user_id and a guild_id(discord server id)
+    """
     guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
     member = discord.utils.find(lambda m : m.id == int(user_id), guild.members)
     return member
 
 async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
+    """
+    Function handles removing roles from users when they deselect things in the Coalition server landing channel.
+    """
     message_id = payload.message_id
     if message_id == 946989019236040714:
         guild_id = payload.guild_id
@@ -101,7 +124,9 @@ async def process_remove_sunhoof_role_selection(payload,mongo,bot) -> None:
             print("Role not found.")
             
 async def send_raid_continue_confirmation(raid,character,bot,mongo) -> None:
-    #Send raid continue message to raiders in a raid that has an extenstion
+    """
+    Send raid continue message to raiders in a raid that has an extenstion
+    """
     embed = raid_continue_embed()
     member = await get_guild_member_id_by_guild_id_user_id(character['discord_member_id'],933472737874313258,bot)
     dm = await member.create_dm()
@@ -112,13 +137,18 @@ async def send_raid_continue_confirmation(raid,character,bot,mongo) -> None:
     await message.add_reaction("<:Cancel:955362577267949598>")
 
 async def send_raid_signup_confirmation(raid,character,payload) -> None:
-    #Send signup confirmation
+    """
+    Send signup confirmation to the discord user
+    """
     embed = signup_confirmation_embed(raid,character,character['character_name'])
     dm = await payload.member.create_dm()
     message = await dm.send(embed=embed.embed)
     await message.add_reaction('🤖')
     
 async def send_pulled_from_reserves_dm(raid, character,bot) -> None:
+    """
+    Function handles sending out a message to a raider when they have been brought up from the reserves
+    """
     embed = signup_confirmation_embed(raid,character,character['character_name'])
     member = await get_guild_member_id_by_guild_id_user_id(character['discord_member_id'],933472737874313258,bot)
     dm = await member.create_dm()
@@ -176,8 +206,9 @@ async def process_raid_signup(payload,mongo,bot) -> None:
     
     if payload.emoji.name == 'Done':
         #this function is slowly down the signup code massively, it may be faster to log the reactions as they happen
+        #TODO FIX THIS FUNCTION!!!
         reactor_reactions = await get_message_reactions_by_member_id(raid_msg,payload.member.id)
-        if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions):
+        if len(reactor_reactions) == 3 and check_for_valid_reactions(reactor_reactions) and raid['raid_status'] not in ['Complete','Canceled']:
             #Check if reactor is in the database
             if mongo.find_raider_by_discord_member_id(payload.member.id):
                 #raider exist
@@ -207,6 +238,8 @@ async def process_raid_signup(payload,mongo,bot) -> None:
                 #raider does not exist so no characters exist either
                 await process_new_raider(mongo, payload, reactor_reactions, raid)
                 await process_new_character(mongo, payload, reactor_reactions, raid)
+        elif raid['raid_status'] in ['Complete','Canceled']:
+            print("Attempted to signup for a finished raid.")
         else:
             #The user has failed to correctly fill out the reactions on a raid
             dm = await payload.member.create_dm()
@@ -247,6 +280,19 @@ async def process_raid_signup(payload,mongo,bot) -> None:
                     await update_raid_signup_message(raid,raid_msg)
                     await update_raid_signup_message_mirrors(raid, bot)
 
+def remove_points_from_all_raid_raiders(raid,mongo) -> None:
+    """
+    This function takes in a raid and removes a raid point from each character on the roster.
+    It also moves where the referenced raid_id is being stored.
+    """
+    for role in raid['raid_raiders']:
+        for character_data in raid['raid_raiders'][role]['registered']:
+            character = mongo.find_character_by_character_id(character_data['character_id'])
+            character['raid_points'][raid['raid_name']]['points'] = character['raid_points'][raid['raid_name']]['points'] - 1
+            character['registered'].remove(raid['raid_id'])
+            character['guild_canceled'].extend(raid['raid_id'])
+            mongo.replace_character(character)
+
 async def process_bot_closet_reactions(payload,mongo,bot) -> None:
     channel = bot.get_channel(payload.channel_id)
         
@@ -262,7 +308,19 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
             dm = await member.create_dm()
             embed = raid_cancel_embed(raid)
             message = await dm.send(embed=embed.embed)
-        delete = await raid_confirm_msg.delete()
+        #Remove the raid points from the characters on the roster.
+        remove_points_from_all_raid_raiders(raid,mongo)
+        #Delete the raid example in the bot closet
+        delete_raid_confirm = await raid_confirm_msg.delete()
+        #Set the status of the raid to canceled
+        raid['raid_status'] = 'Canceled'
+        #Fetch required objects and then update the raid and mirrors
+        raid_post_channel = bot.get_channel(int(raid['raid_posting_channel']))
+        raid_post_message = await raid_post_channel.fetch_message(int(raid['raid_posting_msg']))
+        await update_raid_signup_message(raid, raid_post_message)
+        await update_raid_signup_message_mirrors(raid,bot)
+        #Update the raid in the DB
+        mongo.replace_raid(raid['raid_id'],raid)
     if payload.emoji.name == 'Done':
         raid['raid_confirmed'][0] == True
         mongo.confirm_raid(raid['raid_id'])
@@ -329,6 +387,11 @@ async def find_reserves_raiders_in_raid(raid):
     return raiders
 
 async def find_raiders_in_raid(raid):
+    """
+    This function creates a list of all raiders regardless of if they were on the roster or in the reserves
+    
+    This is mostly used when needing to alert everyone of a cancelation but could have uses elsewhere
+    """
     raiders = []
     raiders.extend(await find_registered_raiders_in_raid(raid))
     raiders.extend(await find_reserves_raiders_in_raid(raid))
@@ -386,9 +449,10 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
             
     raid['raid_bosses_killed'] = int(inc_message_split[4])
     
-    bNextDay = bool(inc_message_split[5])
+    bNextDay = distutils.util.strtobool(inc_message_split[5])
     
     if bNextDay and raid['raid_bosses_killed'] != raid['raid_boss_count']:
+        raid['raid_status'] = 'In Progress'
         next_day = {
             "day":(len(raid['raid_days'])+1),
             "bosses_killed":raid['raid_bosses_killed'],

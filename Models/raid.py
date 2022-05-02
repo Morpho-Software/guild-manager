@@ -17,7 +17,12 @@ class newraid():
         self.raid_name = self.validate_raid_name(rd,split_incoming_message[2])
         self.game = rd[self.raid_name]['game']
         mdb = Mongodb('raids')
-        self.raid_id = f'{rd[self.raid_name]["name"]}#{(mdb.get_raid_count())+1}'
+        
+        raid_id_banned_characters = [" ","'"]
+        raid_id_name = rd[self.raid_name]["name"]
+        for char in raid_id_banned_characters:
+            raid_id_name = raid_id_name.replace(char,"")
+        self.raid_id = f'{raid_id_name}#{(mdb.get_raid_count())+1}'
         
         self.datetime = parse(f'{split_incoming_message[3]} {split_incoming_message[4]}')
         self.days = [{
@@ -28,7 +33,7 @@ class newraid():
         
         self.raid_post_channel = None
         
-        self.status = 'In Progress'
+        self.status = 'New'
         
         self.bosses_killed = 0
         self.raid_boss_count = 0
@@ -72,7 +77,7 @@ class newraid():
             if raid == self.raid_name:
                 self.raiders['tank']['amount'] = rd[raid]['composition']['tank']['amount']
                 self.raiders['damage']['amount'] = rd[raid]['composition']['damage']['amount']
-                self.raiders['healer']['amount'] = rd[raid]['composition']['damage']['amount']
+                self.raiders['healer']['amount'] = rd[raid]['composition']['healer']['amount']
                 break
         
     def validate_raid_name(self, rd, raid_name) -> String:

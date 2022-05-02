@@ -64,14 +64,20 @@ class raid():
             self.raid = raid
             
             self.embed = discord.Embed(
-                title = raid['raid_name'],
-                description=self.build_raid_info_description(raid),
+                title = f"\u200b",
+                description=self.build_emoji_name(raid['raid_name']),
                 color=discord.Color.gold()
             )
             
             self.embed.set_author(
                 name="Soulbeam's Quartermaster Robot V.300X",
                 icon_url="https://cdn.discordapp.com/attachments/933481167565488128/947801465903267890/WoWScrnShot_090521_044754_-_Copy.jpg"
+            )
+            
+            self.embed.add_field(
+                name=f"\u200b",
+                value=self.build_raid_info_description(raid),
+                inline=False
             )
             
             self.embed.add_field(
@@ -133,9 +139,9 @@ class raid():
         emoji_name = ""
         for char in raid_name:
             if char.upper() in self.emotes['emotes']['alphabet_id']:
-                emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]} "
+                emoji_name += f"{self.emotes['emotes']['alphabet_id'][char.upper()]}"
             else:
-                emoji_name += f" "
+                emoji_name += f"\s\s\s"
         return emoji_name
     
     def build_raid_info_description(self,raid):

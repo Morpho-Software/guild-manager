@@ -569,6 +569,20 @@
         "tier": 9,
         "alt_names": ["Sunwell"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/9/97/Sunwell_Plateau_loading_screen.jpg",
+        "composition":{
+            "healer":{
+                "amount":[6,8],
+                "suggestions":[]
+            },
+            "tank":{
+                "amount":[3,3],
+                "suggestions":[]
+            },
+            "damage":{
+                "amount":[16,18],
+                "suggestions":[]
+            }
+        },
         "bosses": [
             {
                 "name": "Trash",
@@ -1446,6 +1460,20 @@
         "alt_names": ["Zul Aman"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/9/9a/Zul%27Aman_old_loading_screen.jpg",
         "tier": 2,
+        "composition":{
+            "healer":{
+                "amount":[3,4],
+                "suggestions":[]
+            },
+            "tank":{
+                "amount":[2,2],
+                "suggestions":[]
+            },
+            "damage":{
+                "amount":[5,4],
+                "suggestions":[]
+            }
+    },
         "bosses": [
             {
                 "name": "Recipes",
@@ -2891,11 +2919,11 @@
                 "suggestions":[]
             },
             "tank":{
-                "amount":[3,4],
+                "amount":[4,4],
                 "suggestions":[]
             },
             "damage":{
-                "amount":[12,16],
+                "amount":[15,16],
                 "suggestions":[
                     {
                         "type":"melee",
@@ -3479,7 +3507,7 @@
                 "suggestions":[]
             },
             "damage":{
-                "amount":[11,15],
+                "amount":[15,15],
                 "suggestions":[
                     {
                         "type":"melee",
@@ -4702,7 +4730,7 @@
                 "suggestions":[]
             },
             "damage":{
-                "amount":[10,13],
+                "amount":[13,13],
                 "suggestions":[
                     {
                         "class":"warlock",
@@ -7262,7 +7290,7 @@
                 "suggestions":[]
             },
             "damage":{
-                "amount":[28,28],
+                "amount":[27,27],
                 "suggestions":[
                     {
                         "type":"class",
@@ -8214,7 +8242,7 @@
                 "suggestions":[]
             },
             "damage":{
-                "amount":[11,13],
+                "amount":[13,13],
                 "suggestions":[
                     {
                         "type":"class",
@@ -8731,7 +8759,7 @@
                 "suggestions":[]
             },
             "damage":{
-                "amount":[10,11],
+                "amount":[11,11],
                 "suggestions":[
                     {
                         "type":"note",
@@ -10388,7 +10416,7 @@
     },
     "Onyxia's Lair": {
         "name": "Onyxia's Lair",
-        "classic": "classic",
+        "game": "classic",
         "alt_names": ["Ony","Onyxia","Onyxias Lair"],
         "image": "https://static.wikia.nocookie.net/wowpedia/images/4/46/Onyxia%27s_Lair_loading_screen.jpg",
         "size":40,
