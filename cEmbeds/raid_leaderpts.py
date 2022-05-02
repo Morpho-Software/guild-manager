@@ -15,8 +15,8 @@ class signup_confirmation():
     def __init__(self, raid, character,payload):
         
         self.embed = discord.Embed(
-            title = "[Confirmation Ding]",
-            description=f"Your raid, `{raid id}`, is starting and here are the fighter's points. \n\n**Each point is equal to 1 roll on a needed main spec item.**",
+            title = "\u200b",
+            description=f"```fix\nPlayer Points\n```",
             color=discord.Color.gold()
         )
         
@@ -28,7 +28,7 @@ class signup_confirmation():
         #repeats for every character
         self.embed.add_field(
             name="\u200b",
-            value=f"```fix\nPlayer Points\n```"
+            value=f"Your raid, {raid['raid_id']}, is starting and here are the fighter's points. Reminder: Each point is equal to 1 roll on any **needed main spec item**."
         )    
 
         self.embed.add_field(

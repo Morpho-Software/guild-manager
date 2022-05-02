@@ -4,10 +4,9 @@ class raid_continue():
     
     def __init__(self):
         
-        
         self.embed = discord.Embed(
-            title = "[Alert Beep]",
-            description=f"Thank you for participating today! We did not manage to defeat the forces of evil today so a follow up has been scheduled for tomorrow! \n\n**Your spot in the raid will be held for 12 hours.** \nPlease click one of the below reactions to confirm your spot or leave the raid.",
+            title = "`[Alert Beep]`",
+            description=f"Thank you for fighting today! We did not manage to defeat the forces of evil today so a follow up has been scheduled for tomorrow. \n\n**Your spot in the raid will be held for 12 hours.** Please click one of the below reactions to confirm your spot or leave the raid.",
             color=discord.Color.gold()
         )
         

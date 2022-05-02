@@ -14,8 +14,8 @@ class raid_ptsummary():
     def __init__(self, raid, characters, message):
         
         self.embed = discord.Embed(
-            title = "[Soft Beeping]",
-            description=f"`Greetings {message.author}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
+            title = "\u200b",
+            description=f"```fix\nYour Character Raid Points\n```",
             color=discord.Color.gold()
         )
         
@@ -24,10 +24,6 @@ class raid_ptsummary():
             icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
         )
         
-        self.embed.add_field(
-            name="\u200b",
-            value=f"```fix\nCharacter Raid Points\n```"
-        )
         self.embed.add_field(
             name="\u200b",
             value=f"\u200b",

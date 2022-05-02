@@ -11,8 +11,8 @@ class raid_characters():
     def __init__(self, raid, character, payload):
         
         self.embed = discord.Embed(
-            title = "[Mechanical Whirring]",
-            description=f"In The Coalition, you have attempted to sign up for `{raid['raid_id']}`, but I do not recognize this {character.class_specialization}. \n\nIf you respecialized, or this a new character, **just type their name** so I can log their points correctly (include special ascii characters). \n\n*If this is a mistake, please go update your sign-up.*",
+            title = "`[Mechanical Whirring]`",
+            description=f"You have attempted to sign up for {raid['raid_id']}, but I do not recognize this {character.class_specialization}. If you respecialized, or this a new character, just **type their name** so I can log their points correctly (include special ascii characters). \n\n*If this is a mistake, please go update your sign-up.*",
             color=discord.Color.gold()
         )
         

@@ -1,6 +1,6 @@
 import discord
 
-class gearvault_reminder():
+class reminder_mark_absent():
     """
     Function:
     To remind raid creator to mark absences.
@@ -14,8 +14,8 @@ class gearvault_reminder():
     def __init__(self):
         
         self.embed = discord.Embed(
-            title = "[Loud Beep]",
-            description=f"```fix\nReminder!\n```You were the creator of '{raid.raid_id}'. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank.*",
+            title = "\u200b",
+            description=f"```fix\nReminder!\n``` \nYou were the creator of {raid.raid_id}. **Please mark absences or no one will get their points!** \n\n*If there were no absences, you still must log that and leave the name list blank.*",
             color=discord.Color.gold()
         )
         

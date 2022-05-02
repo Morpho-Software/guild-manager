@@ -14,19 +14,14 @@ class raid_join():
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Printing Squeaks]",
-            description=f"`Greetings {payload.member.nick}! This is SQ-Bot 300X, programmed for your optimized battling experience by The Great Lord Gildu Soulbeam, now also an engineer.`",
+            title = "\u200b",
+            description=f"```fix\nHow To Join a Raid\n``` \nReact to each raid with your class icon and specialization number icon, for that raid. \nMark <:Done:948280499049201744> when done. Mark <:Cancel:948777741094895687> to cancel your sign up. \n\nIf you sign up to a full raid, you will become a stand in. If someone cancels, you will fill their role automatically and be notified. If there are enough stand-ins, a duplicate raid will be created.",
             color=discord.Color.gold()
         )
         
         self.embed.set_author(
             name="Soulbeam's Quartermaster Robot V.300X",
             icon_url="https://cdn.discordapp.com/attachments/845526554963476491/954476489879986246/SQ-Bot_300X-removebg-preview.png"
-        )
-        
-        self.embed.add_field(
-            name="\u200b",
-            value=f"```fix\nHow To Join a Raid\n``` \nReact to each raid with your class icon and specialization number icon, for that raid. **Mark <:Done:948280499049201744> when done.** Mark <:Cancel:948777741094895687> to cancel your sign up. \n\nIf you sign up to a full raid, you will become a stand in. If someone cancels, you will fill their role automatically and be notified. *If there are enough stand-ins, a duplicate raid will be created.*"
         )
         
         self.embed.add_field(

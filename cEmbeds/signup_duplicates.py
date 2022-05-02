@@ -14,8 +14,8 @@ class signup_overflow():
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Repeated Boops]",
-            description=f"In The Coalition, a duplicate `{raid.raid_name}` has been created if you are still interested. \n\n*Be sure to remove yourself as any stand-ins if you sign-up.*",
+            title = "`[Repeated Boops]`",
+            description=f"A duplicate {raid.raid_name} has been created if you are still interested! \n\n*Be sure to remove yourself from stand-ins if you sign-up.*",
             color=discord.Color.gold()
         )
         

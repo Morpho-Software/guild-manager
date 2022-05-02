@@ -16,8 +16,8 @@ class gearvault_reminder():
     def __init__(self):
         
         self.embed = discord.Embed(
-            title = "[Squeaking Gears]",
-            description=f"```fix\nReminder!\n``` Raids need consumables and gold for repairs. Please donate what you can to `guild vaults`. \n\n*For The Horde!*",
+            title = "\u200b",
+            description=f"```fix\nSupport The Vaults!\n``` \nRaids need consumables and gold for repairs. Please donate what you can to guild vaults. \n\n*For The Horde!*",
             color=discord.Color.gold()
         )
         

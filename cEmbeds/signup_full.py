@@ -14,8 +14,8 @@ class signup_full():
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Loud Beep]",
-            description=f"In The Coalition, you have attempted to sign up for `{raid.raid_id}`, but it is **full**. \n\nYou will be put on the **stand-in** list in case someone cancels.",
+            title = "`[Loud Beep]`",
+            description=f"You have attempted to sign up for {raid.raid_id}, but it is **full**. You will be put on the *stand-in list*.",
             color=discord.Color.gold()
         )
         

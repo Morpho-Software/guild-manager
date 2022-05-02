@@ -14,8 +14,8 @@ class signup_error():
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Beeping and Whirring]",
-            description=f"In The Coalition, you have attempted to sign up for `{raid.raid_id}`, but it is **incomplete**. \n\n*Make sure to select: one **class** icon, one **specialization number** icon (found in #faq), and the **done** icon.*",
+            title = "`[Beeping and Whirring]`",
+            description=f"You have attempted to sign up for {raid.raid_id}, but it is **incomplete**. \nMake sure to select: one *class* icon, one *specialization number* icon (found in #faq), and the *done* icon.",
             color=discord.Color.gold()
         )
         

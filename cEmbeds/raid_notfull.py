@@ -10,14 +10,13 @@ class raid_reminder():
     Sent in private messages to those who signed up for raids.
     
     Output:
-    Deletes the message after the raid start time.
     
     """
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Mechanical Ticking]",
-            description=f"`{raid.raid_id}` on {raid.datetime} is today! \n**There is currently not enough signed up!** \n\n*This message will self destruct once the raid begins. All participants have been notified.*",
+            title = "`[Mechanical Ticking]`",
+            description=f"{raid.raid_id} on {raid.datetime} is today, but there is currently not enough signed up! \n\n*All participants have been notified.*",
             color=discord.Color.gold()
         )
         

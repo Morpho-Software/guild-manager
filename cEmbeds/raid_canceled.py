@@ -1,6 +1,6 @@
 import discord
 
-class raid_cancel():
+class raid_canceled():
     """
     Function:
     To notify when a raid is canceled.
@@ -10,14 +10,13 @@ class raid_cancel():
     Sent in private messages to those who signed up for raids.
     
     Output:
-    Deletes the message after 12 hours.
     
     """
     def __init__(self, raid):
         
         self.embed = discord.Embed(
-            title = "[Mechanical Ticking]",
-            description=f"`{raid['raid_id']}` on {raid['raid_datetime']} has been **canceled**. \n\n*This message will self destruct in 12 hours. All participants have been notified.*",
+            title = "`[Mechanical Tick]`",
+            description=f"{raid['raid_id']} on {raid['raid_datetime']} has been **canceled**. \n\n*All participants have been notified.*",
             color=discord.Color.gold()
         )
         
