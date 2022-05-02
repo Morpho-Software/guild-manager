@@ -15,7 +15,7 @@ class signup_confirmation():
         
         self.embed = discord.Embed(
             title = "`[Confirmation Ding]`",
-            description=f"You have successfully signed up for {raid['raid_id']} on {raid['raid_datetime'].month}/{raid['raid_datetime'].day}/{raid['raid_datetime'].year} at {raid['raid_datetime'].strftime('%I:%M%p')} as the {character['class_specialization']}, {character['character_name']}! You have {character['raid_points'][raid['raid_name']]['points']} Raid Points to use, each as an extra needed MS roll in this raid! \n\n*Please cancel up to 3 hours before to not recieve a point penalty. If you meant to sign up as a different character of the same class and spec, type their name.*",
+            description=f"You have successfully signed up for {raid['raid_id']} on {raid['raid_datetime'].month}/{raid['raid_datetime'].day}/{raid['raid_datetime'].year} at {raid['raid_datetime'].strftime('%I:%M%p')} as the {character['class_specialization']}, {character['character_name']}! \n**You have {character['raid_points'][raid['raid_name']]['points']} Raid Points to use, each as an extra needed MS roll in this raid!** \n\n*Please cancel up to 3 hours before to not recieve a point penalty. If you meant to sign up as a different character of the same class and spec, type their name.*",
             color=discord.Color.gold()
         )
         
