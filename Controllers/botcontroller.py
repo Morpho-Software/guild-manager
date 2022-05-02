@@ -8,7 +8,8 @@ from cEmbeds.raid import raid as raid_embed
 from cEmbeds.signup_confirmation import signup_confirmation as signup_confirmation_embed
 from cEmbeds.raid_ptsummary import raid_ptsummary as raid_ptsummary_embed
 from cEmbeds.raid_continue import raid_continue as raid_continue_embed
-from cEmbeds.raid_cancel import raid_cancel as raid_cancel_embed
+from cEmbeds.raid_canceled import raid_canceled as raid_cancel_embed
+from cEmbeds.raid_ptpenalty import raid_ptpenalty as raid_absent_penalty_embed
 from dateutil.parser import parse
 from dateutil.tz import gettz
 
@@ -135,6 +136,16 @@ async def send_raid_continue_confirmation(raid,character,bot,mongo) -> None:
     
     await message.add_reaction("<:Done:955361992883961896>")
     await message.add_reaction("<:Cancel:955362577267949598>")
+
+async def send_raid_absent_message(raid,character,bot,mongo) -> None:
+    """
+    Send a message to anyone who was signed up for the raid but did not show up.
+    """
+    embed = raid_absent_penalty_embed(raid)
+    member = await get_guild_member_id_by_guild_id_user_id(character['character']['discord_member_id'],933472737874313258,bot)
+    dm = await member.create_dm()
+    message = await dm.send(embed=embed.embed)
+    await message.add_reaction(':eyes:')
 
 async def send_raid_signup_confirmation(raid,character,payload) -> None:
     """
@@ -431,6 +442,8 @@ async def mark_raid_attendance(bot,mongo,inc_message_split):
             character['character']['raid_points'][raid['raid_name']]['points'] = character['character']['raid_points'][raid['raid_name']]['points'] - 1
             
             character['character']['registered'].remove(raid['raid_id'])
+            
+            await send_raid_absent_message(raid,character,bot,mongo)
             
             #remove the character from registered_characters
             for index, reg_char in enumerate(registered_characters):

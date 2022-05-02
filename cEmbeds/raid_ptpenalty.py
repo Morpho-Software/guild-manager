@@ -15,7 +15,7 @@ class raid_ptpenalty():
         
         self.embed = discord.Embed(
             title = "`[Alert Siren]`",
-            description=f"You were marked absent for {raid.raid_id} on {raid.datetime}. **You have lost one point from your highest tier raid.** \n\n*Please make sure to notify a raid leader 3 hours before of your future cancelations.*",
+            description=f"You were marked absent for {raid['raid_id']} on {raid['raid_datetime'].month}/{raid['raid_datetime'].day}/{raid['raid_datetime'].year}. **You have lost one point from your highest tier raid.** \n\n*Please make sure to notify a raid leader 3 hours before of your future cancelations.*",
             color=discord.Color.gold()
         )
         
