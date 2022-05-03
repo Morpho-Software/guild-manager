@@ -19,7 +19,7 @@ class operating_terminal():
         
         self.embed = discord.Embed(
             title = "\u200b",
-            description="```fix \nOperating Terminal\n``` \n`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by Lord Gildu Soulbeam.` \n\n<:1_:967637986105761792> **Press** to recieve raid sign-up instructions. \n\n<:2_:955975423605473340> **Press** to view your raid point summaries.",
+            description="```fix \nOperating Terminal\n``` \n`Greetings! This is SQ-Bot 300X, programmed for your optimized battling experience by Lord Gildu Soulbeam.` \n\n<:1_:967637986105761792> **Press** to recieve raid sign-up instructions. \n\n<:2_:955975423605473340> **Press** to view your character summaries.",
             color=discord.Color.gold()
         )
         

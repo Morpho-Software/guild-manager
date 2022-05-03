@@ -1,12 +1,12 @@
 import discord
 
-class raid_ptsummary():
+class character_summary():
     """
     Function:
-    To show leaders the players in the raids.
+    To show players their summaries for each character.
     
     Displayed:
-    In private messages from the op_term_lead.py reactions.
+    In private messages from the help.py reactions.
     
     Output:
     
@@ -14,9 +14,9 @@ class raid_ptsummary():
     def __init__(self, raid, characters, message):
         
         self.embed = discord.Embed(
-                title = raid.raid_name,
-                description=f"**Raid ID: {raid.raid_id} | Raid Host: <@{raid.scheduler[0]}> \n**{raid.datetime.month}/{raid.datetime.day}/{raid.datetime.year}** | **{raid.datetime.strftime('%I:%M%p')}**\n Bosses:({raid.bosses_killed}/{raid.raid_boss_count})** \n",
-                color=discord.Color.gold()
+            title = "\u200b",
+            description=f"```fix\nYour Character Raid Points\n```",
+            color=discord.Color.gold()
         )
         
         self.embed.set_author(
