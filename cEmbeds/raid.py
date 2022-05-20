@@ -1,6 +1,7 @@
 import discord
 
 from Utility.helper import open_discord_emotes, open_raid_data
+from Controllers.mongocontroller import Mongodb as Mongo
 
 class raid():
     """
@@ -121,18 +122,23 @@ class raid():
     def build_slots(self,role, bConfirmationVersion=True):
         if bConfirmationVersion:
             if len(self.raid.raiders[role]['registered']) == 0:
-                return"1."
+                return"\u200b"
             else:
                 slots = ""
                 for count, raider in enumerate(self.raid.raiders[role]['registered']):
                     slots += f'{count}. {raider}\n'
         else:
             if len(self.raid['raid_raiders'][role]['registered']) == 0:
-                return"1."
+                return"\u200b"
             else:
                 slots= ""
+                mongo = Mongo('characters')
                 for count, raider in enumerate(self.raid['raid_raiders'][role]['registered']):
-                    slots += f'{count+1}. <@{raider["discord_member_id"]}>\n'
+                    character = mongo.find_character_by_character_id(raider['character_id'])
+                    if int(character['raid_points'][self.raid['raid_name']]['points']) == 1:
+                        slots += f"{self.emotes['emotes']['class_emoji_ids'][raider['class_emoji']]}  **{raider['character_name']}** ({character['raid_points'][self.raid['raid_name']]['points']} point)\n"
+                    else:
+                        slots += f"{self.emotes['emotes']['class_emoji_ids'][raider['class_emoji']]}  **{raider['character_name']}** ({character['raid_points'][self.raid['raid_name']]['points']} points)\n"
                 return slots
             
     def build_emoji_name(self,raid_name):

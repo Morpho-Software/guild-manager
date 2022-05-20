@@ -21,6 +21,17 @@
             "Hyjal Summit":"7",
             "Black Temple":"8",
             "Sunwell Plateau":"9"
+        },
+        "id_name":{
+            "Karazhan":"Karazhan",
+            "ZulAman":"Zul'Aman",
+            "MagtheridonsLair":"Magtheridon's Lair",
+            "GruulsLair":"Gruul's Lair",
+            "SerpentshrineCavern":"Serpentshrine Cavern",
+            "TempestKeep":"Tempest Keep",
+            "HyjalSummit":"Hyjal Summit",
+            "BlackTemple":"Black Temple",
+            "SunwellPlateau":"Sunwell Plateau"
         }
     }
     

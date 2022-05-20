@@ -145,7 +145,7 @@ async def send_raid_absent_message(raid,character,bot,mongo) -> None:
     member = await get_guild_member_id_by_guild_id_user_id(character['character']['discord_member_id'],933472737874313258,bot)
     dm = await member.create_dm()
     message = await dm.send(embed=embed.embed)
-    await message.add_reaction(':eyes:')
+    await message.add_reaction('👀')
 
 async def send_raid_signup_confirmation(raid,character,payload) -> None:
     """
@@ -349,7 +349,9 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
                 "channel_id":"955234475661480006",
                 "message_id":""
             }]
-            await mongo.add_mirror_raid_post(raid,mirrors,bot)
+            raid = await send_mirror_messages(mirrors,raid,bot)
+            
+            await mongo.replace_raid(raid['raid_id'],raid)
             
             await add_raid_emojis(raid_public_post)
                         
@@ -368,10 +370,21 @@ async def process_bot_closet_reactions(payload,mongo,bot) -> None:
                 "channel_id":"955234475661480006",
                 "message_id":""
             }]
-            await mongo.add_mirror_raid_post(raid,mirrors,bot)
+            raid = await send_mirror_messages(mirrors,raid,bot)
+            
+            await mongo.replace_raid(raid['raid_id'],raid)
             
             await add_raid_emojis(raid_public_post)
 
+async def send_mirror_messages(mirrors, raid, bot) -> dict:
+    #this code sends out message to mirror channels and associates those mirror channels with the raid going forward.
+    for mirror in mirrors:
+        raid['raid_mirrors'].append(mirror)
+        channel = await bot.fetch_channel(mirror['channel_id'])
+        embed = raid_embed(raid, False)
+        mirror_message = await channel.send(embed=embed.embed)
+        raid['raid_mirrors'][len(raid['raid_mirrors'])-1]['message_id'] = mirror_message.id
+    return raid
 
 async def find_registered_raiders_in_raid(raid):
     roles = ['healer','damage','tank']
@@ -414,8 +427,9 @@ async def find_highest_attended_raid(character) -> int:
     highest_tier = 0
     if len(character['attended']) != 0:
         for raid in character['attended']:
-            if int(raid_tier['tbc']['name'][raid.split("#")[0]]) > highest_tier:
-                highest_tier = int(raid_tier['tbc']['name'][raid.split("#")[0]])
+            raid_name = raid_tier['tbc']['id_name'][raid.split("#")[0]]
+            if int(raid_tier['tbc']['name'][raid_name]) > highest_tier:
+                highest_tier = int(raid_tier['tbc']['name'][raid_name])
         return raid_tier['tbc']['level'][str(highest_tier)]
     return raid_tier['tbc']['level'][str(1)]
 

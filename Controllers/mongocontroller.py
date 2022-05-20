@@ -2,7 +2,7 @@ import pymongo, sys
 from pymongo import MongoClient
 sys.path.append('..')
 from Utility.helper import open_wow_class_information
-from cEmbeds.raid import raid as raid_embed
+
 
 class Mongodb():
     
@@ -80,24 +80,6 @@ class Mongodb():
         }
         self.collection.update_one(query,update)
         
-        
-    async def add_mirror_raid_post(self, raid, mirrors,bot) -> None:
-        self.set_collection('raids')
-        for mirror in mirrors:
-            raid['raid_mirrors'].append(mirror)
-            channel = await bot.fetch_channel(mirror['channel_id'])
-            embed = raid_embed(raid, False)
-            mirror_message = await channel.send(embed=embed.embed)
-            raid['raid_mirrors'][len(raid['raid_mirrors'])-1]['message_id'] = mirror_message.id
-        
-        query = {"raid_id":raid['raid_id']}
-        update = {
-            "$set":{
-                "raid_mirrors":raid['raid_mirrors']
-            }
-        }
-        self.collection.update_one(query, update)
-        
     def find_characters_by_discord_member_id(self,member_id):
         self.set_collection('characters')
         query = {"discord_member_id":str(member_id)}
@@ -117,6 +99,8 @@ class Mongodb():
         raid['raid_raiders'][role][ticket].append(
             {
                 'character_id':character['character_id'],
+                'spec_emoji':character['spec_emoji'],
+                'class_emoji':character['class_emoji'],
                 'character_name':character['character_name'],
                 'discord_member_id':character['discord_member_id'],
                 'discord_member_display_name':f'@{member.display_name}#{member.discriminator}'

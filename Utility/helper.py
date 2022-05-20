@@ -37,6 +37,10 @@ def open_wow_class_information():
 def open_raid_tier_data():
     return open_json_file(rf'{data_dir}/data/static/raid_tier_info.json')
 
+def split_list(a_list):
+    half = len(a_list)//2
+    return a_list[:half],a_list[half:]
+
 def make_emoji_str(string):
     emoji_string = ''
     for char in string:

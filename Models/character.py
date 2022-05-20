@@ -14,6 +14,8 @@ class newcharacter():
         self.class_name = ''
         self.class_specialization = ''
         self.specialization = ''
+        self.class_emoji = ''
+        self.spec_emoji = ''
         self.character_name = None
         self.character_race = None
         self.raid_points = {}
@@ -113,6 +115,8 @@ class newcharacter():
             "confirmed": self.confirmed,
             "class_name": self.class_name,
             "class_specialization": self.class_specialization,
+            "class_emoji":self.class_emoji,
+            "spec_emoji":self.spec_emoji,
             "specialization": self.specialization,
             "character_name": self.character_name,
             "character_race": self.character_race,
@@ -126,26 +130,29 @@ class newcharacter():
             "equipment": self.equipment
         }
         
-    def set_class_spec(self,reactions) -> str:
+    def set_class_spec(self,reactions) -> None:
         dismoji = open_discord_emotes()
         validDone = False
-        className =''
-        specNum =''
+        class_name = ''
+        spec_num = ''
+        spec_emoji = ''
+        class_emoji = ''
         for reaction in reactions:
             if str(reaction) in dismoji['emotes']['class_emoji_ids']:
-                className = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+                class_name = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+                class_emoji = str(reaction)
             if str(reaction) in dismoji['emotes']['spec_emoji_ids']:
-                specNum = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+                spec_num = dismoji['emotes']['class_spec_emoji_ids'][str(reaction)]
+                spec_emoji = str(reaction)
             if str(reaction) in dismoji['emotes']['done_emoji']:
                 validDone = True
         
-        if specNum in dismoji['emotes']['class_spec'][className] and validDone:
-            self.class_name = className
-            self.specialization = f"{dismoji['emotes']['class_spec'][className][specNum]}"
-            self.class_specialization = f"{dismoji['emotes']['class_spec'][className][specNum]} {className}"
-        return
-
-
+        if spec_num in dismoji['emotes']['class_spec'][class_name] and validDone:
+            self.class_name = class_name
+            self.class_emoji = class_emoji
+            self.spec_emoji = spec_emoji
+            self.specialization = f"{dismoji['emotes']['class_spec'][class_name][spec_num]}"
+            self.class_specialization = f"{dismoji['emotes']['class_spec'][class_name][spec_num]} {class_name}"
     
     def populate_raid_points(self) -> None:
         for raid in self.rd:
